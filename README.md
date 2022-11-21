@@ -1,30 +1,39 @@
 # cpds-dashboard
 
 ### 介绍
-cpds-dashboard是为CPDS(Container Problem Detect System)容器故障检测系统提供web页面的用户交互组件。
 
-本组件从cpds-analyzer(故障/亚健康诊断)组件中获取诊断结果数据，并以实时查看、离线查看的形式进行可视化诊断结果展示，便于容器集群运维人员进行分析与策略制定下发。
+cpds-dashboard 是为 CPDS(Container Problem Detect System)容器故障检测系统提供 web 页面的用户交互组件。
+
+本组件从 cpds-analyzer(故障/亚健康诊断)组件中获取诊断结果数据，并以实时查看、离线查看的形式进行可视化诊断结果展示，便于容器集群运维人员进行分析与策略制定下发。
 
 ### 技术栈
+
 - Vite
 - Vue3
 - Es6
 - Element-plus
+
 ### 安装和使用
 
 1.  获取代码
+
 ```
 git clone https://gitee.com/openeuler/cpds-dashboard.git
 ```
+
 2.  安装依赖
+
 ```
 cd cpds-dashboard
 npm install
 ```
+
 3. 运行
+
 ```
 npm run dev
 ```
+
 ### 浏览器支持
 
 本项目理论支持以下版本及更高版本的浏览器使用

@@ -1,30 +1,39 @@
 # cpds-dashboard
 
 ### Description
+
 The cpds-dashboard is a user interaction component that provides web pages for the ContainerProblemDetectSystem (CPDS).
 
 This component obtains the diagnosis result from the cpds-analyzer component(the Fault/Sub-Health Diagnosis component of CPDS) and displays the visual diagnosis results in real-time or offline. This helps the cluster O&M analyze the data, formulate and deliver policies.
 
 ### Technology stack
+
 - Vite
 - Vue3
 - Es6
 - Element-plus
+
 ### Installation and use
 
 1.  Get the project code
+
 ```
 git clone https://gitee.com/openeuler/cpds-dashboard.git
 ```
+
 2.  Installation dependencies
+
 ```
 cd cpds-dashboard
 npm install
 ```
+
 3. run
+
 ```
 npm run dev
 ```
+
 ### Browser support
 
 This project theory supports the use of the following versions and later versions of the browser
