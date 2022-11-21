@@ -2,7 +2,7 @@ import { createApp } from 'vue'
 
 import './style.css'
 import App from './App.vue'
-import router from "./router";
+import router from './router'
 import pinia from './store'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
@@ -12,7 +12,7 @@ const app = createApp(App)
 
 //import element-plus-icon
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-    app.component(key, component)
+  app.component(key, component)
 }
 
-app.use(router).use(pinia).use(ElementPlus).mount("#app");
+app.use(router).use(pinia).use(ElementPlus).mount('#app')
