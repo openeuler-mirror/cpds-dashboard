@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { Session } from './storage'
+import { Session } from '/@/utils/storage'
 
 // Configure a new axios instance
 const service = axios.create({
