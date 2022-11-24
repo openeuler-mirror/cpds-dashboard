@@ -5,7 +5,7 @@ const msg = ref('CPDS Darshboard')
 </script>
 
 <template>
-  <h1>{{ msg }}</h1>
+  <h1>{{ $t('home.CPDS Darshboard') }}</h1>
 </template>
 
 <style scoped></style>
