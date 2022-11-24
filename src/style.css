@@ -4,13 +4,13 @@
   font-weight: 400;
   color: rgb(255 255 255 / 87%);
   background-color: #242424;
-  line-height: 24px;
-  color-scheme: light dark;
-  font-synthesis: none;
   text-rendering: optimizelegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-size-adjust: 100%;
+  line-height: 24px;
+  color-scheme: light dark;
+  font-synthesis: none;
 }
 
 a {
