@@ -31,7 +31,34 @@ npm install
 3. run
 
 ```
+<!-- run with development configuration -->
 npm run dev
+<!-- run with production configuration -->
+npm run pro
+```
+
+4.build
+
+```
+<!-- build with development configuration -->
+npm run build:dev
+<!-- build with production configuration -->
+npm run build:pro
+```
+
+5.Code review
+
+This project incorporates code review tools that automatically reviews code when you are committing
+
+you can also excute following command for code review:
+
+```
+<!-- use eslint to check code -->
+npm run lint
+<!-- use prettier to format the code -->
+npm run format
+<!-- use stylelint to format the style -->
+npm run lint:style
 ```
 
 ### Browser support

@@ -31,7 +31,34 @@ npm install
 3. 运行
 
 ```
+<!-- 使用开发环境配置运行 -->
 npm run dev
+<!-- 使用生产环境配置运行 -->
+npm run pro
+```
+
+4.编译
+
+```
+<!-- 使用开发环境配置编译 -->
+npm run build:dev
+<!-- 使用生产环境配置编译 -->
+npm run build:pro
+```
+
+5.代码审查
+
+本项目集成了代码审查工具，在提交代码时会自动进行代码审查
+
+若需要单独进行代码审查，请执行以下命令：
+
+```
+<!-- 使用eslint审查代码 -->
+npm run lint
+<!-- 使用prettier格式化代码 -->
+npm run format
+<!-- 使用stylelint格式化样式 -->
+npm run lint:style
 ```
 
 ### 浏览器支持
