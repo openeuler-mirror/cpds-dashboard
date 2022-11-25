@@ -2,6 +2,7 @@ import { createI18n } from 'vue-i18n'
 
 import CN from '/@/i18n/lang/zh-cn'
 import EN from '/@/i18n/lang/en'
+import TW from '/@/i18n/lang/zh-tw'
 
 const messages = {
   zh: {
@@ -9,6 +10,9 @@ const messages = {
   },
   en: {
     ...EN
+  },
+  tw: {
+    ...TW
   }
 }
 
@@ -18,6 +22,8 @@ const getDefaultLang = () => {
     return 'en'
   } else if (navigator.language == 'zh-CN') {
     return 'zh'
+  } else if (navigator.language == 'zh-TW') {
+    return 'tw'
   } else {
     return 'en'
   }

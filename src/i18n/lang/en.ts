@@ -1,5 +1,5 @@
 export default {
   home: {
-    'CPDS Darshboard': 'CPDS Darshboard'
+    'CPDS Dashboard': 'CPDS Dashboard'
   }
 }

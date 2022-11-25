@@ -1,5 +1,5 @@
 export default {
   home: {
-    'CPDS Darshboard': 'CPDS 项目首页'
+    'CPDS Dashboard': 'CPDS 项目首页'
   }
 }
