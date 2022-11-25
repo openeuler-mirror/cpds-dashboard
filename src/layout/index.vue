@@ -14,7 +14,7 @@
             </el-col>
           </el-row>
         </el-header>
-        <el-main class="main">main</el-main>
+        <el-main class="main"><router-view /></el-main>
       </el-container>
     </el-container>
   </div>

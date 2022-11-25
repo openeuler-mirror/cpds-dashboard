@@ -12,43 +12,31 @@
     class="menu"
     router
   >
-    <el-sub-menu index="1">
-      <template #title>
-        <el-icon><location /></el-icon>
-        <span>Navigator One</span>
-      </template>
-      <el-menu-item-group>
-        <template #title><span>Group One</span></template>
-        <el-menu-item index="1-1">item one</el-menu-item>
-        <el-menu-item index="1-2">item two</el-menu-item>
-      </el-menu-item-group>
-      <el-menu-item-group title="Group Two">
-        <el-menu-item index="1-3">item three</el-menu-item>
-      </el-menu-item-group>
-      <el-sub-menu index="1-4">
-        <template #title><span>item four</span></template>
-        <el-menu-item index="1-4-1">item one</el-menu-item>
+    <template v-for="(first, index) in Routes.children">
+      <el-sub-menu :index="first.path" v-if="first.children" :key="index">
+        <template v-if="first.children">
+          <el-menu-item-group v-for="(second, sec_index) in first.children" :key="sec_index">
+            <el-menu-item :index="first.path + '/' + second.path"
+              ><i class="el-icon-odometer"></i>
+              {{ second.name }}
+            </el-menu-item>
+          </el-menu-item-group>
+        </template>
+        <template #title>
+          <span>{{ first.name }}</span>
+        </template>
       </el-sub-menu>
-    </el-sub-menu>
-    <el-menu-item index="2">
-      <el-icon><icon-menu /></el-icon>
-      <template #title>Navigator Two</template>
-    </el-menu-item>
-    <el-menu-item index="3" disabled>
-      <el-icon><document /></el-icon>
-      <template #title>Navigator Three</template>
-    </el-menu-item>
-    <el-menu-item index="4">
-      <el-icon><setting /></el-icon>
-      <template #title>Navigator Four</template>
-    </el-menu-item>
+      <el-menu-item v-else :index="first.path" :key="'item' + index">
+        <span>{{ first.name }}</span>
+      </el-menu-item>
+    </template>
   </el-menu>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { Document, Menu as IconMenu, Location, Setting } from '@element-plus/icons-vue'
-
+import { Routes } from '/@/router/route'
 const props = defineProps(['isCollapse'])
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
