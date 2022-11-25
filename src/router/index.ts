@@ -1,21 +1,8 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { Routes } from '/@/router/route'
 
 const history = createWebHistory()
-const routes: Array<RouteRecordRaw> = [
-  {
-    path: '/',
-    name: '/',
-    redirect: '/home',
-    component: () => import('/@/layout/index.vue'),
-    children: [
-      {
-        path: '/home',
-        name: 'home',
-        component: () => import('/@/views/home/index.vue')
-      }
-    ]
-  }
-]
+const routes: Array<RouteRecordRaw> = [Routes]
 const router = createRouter({
   history,
   routes
