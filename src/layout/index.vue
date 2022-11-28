@@ -8,7 +8,7 @@
         <el-header class="header">
           <el-row>
             <el-col :span="1">
-              <el-button type="text" @click="toggle">
+              <el-button link type="primary" @click="toggle">
                 <el-icon :size="25"><fold /></el-icon>
               </el-button>
             </el-col>
