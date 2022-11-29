@@ -28,6 +28,7 @@ module.exports = {
   ],
   rules: {
     'no-empty-source': null,
+    'custom-property-pattern': null,
     'no-descending-specificity': null,
     'selector-pseudo-element-no-unknown': [
       true,
