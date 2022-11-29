@@ -8,7 +8,7 @@
         <el-header class="header">
           <el-row>
             <el-col :span="1">
-              <el-button link type="primary" @click="toggle">
+              <el-button link type="default" @click="toggle">
                 <el-icon :size="25"><fold /></el-icon>
               </el-button>
             </el-col>
@@ -39,7 +39,7 @@ const toggle = (): void => {
 
   .header {
     height: 80px;
-    background: #ebf1f5;
+    background: var(--header-bg-color);
   }
 }
 </style>

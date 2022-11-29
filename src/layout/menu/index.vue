@@ -6,9 +6,9 @@
     :collapse-transition="false"
     @open="handleOpen"
     @close="handleClose"
-    background-color="#ebf1f5"
-    text-color="#606266"
-    active-text-color="#2F74FF"
+    background-color="var(--nav--bg-color)"
+    text-color="var(--menu-text-color)"
+    active-text-color="var(--menu-text-active-color)"
     class="menu"
     router
   >
@@ -47,10 +47,12 @@ const handleClose = (key: string, keyPath: string[]) => {
 }
 </script>
 
-<style>
+<style lang="scss">
+@import url('/@/style/navmenu');
+
 .logo {
   height: 80px;
-  background: #e1eaf4;
+  background: var(--nav--bg-color);
 }
 
 .menu {
