@@ -16,18 +16,20 @@
       <el-sub-menu :index="first.path" v-if="first.children" :key="index">
         <template v-if="first.children">
           <el-menu-item-group v-for="(second, sec_index) in first.children" :key="sec_index">
-            <el-menu-item :index="first.path + '/' + second.path"
-              ><i class="el-icon-odometer"></i>
-              {{ second.name }}
+            <el-menu-item :index="first.path + '/' + second.path">
+              <el-icon><component :is="second.meta.icon" /></el-icon>
+              <span>{{ $t(second.meta.title) }}</span>
             </el-menu-item>
           </el-menu-item-group>
         </template>
         <template #title>
-          <span>{{ first.name }}</span>
+          <el-icon><component :is="first.meta.icon" /></el-icon>
+          <span>{{ $t(first.meta.title) }}</span>
         </template>
       </el-sub-menu>
       <el-menu-item v-else :index="first.path" :key="'item' + index">
-        <span>{{ first.name }}</span>
+        <el-icon><component :is="first.meta.icon" /></el-icon>
+        <span>{{ $t(first.meta.title) }}</span>
       </el-menu-item>
     </template>
   </el-menu>
@@ -35,7 +37,6 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { Document, Menu as IconMenu, Location, Setting } from '@element-plus/icons-vue'
 import { Routes } from '/@/router/route'
 const props = defineProps(['isCollapse'])
 const handleOpen = (key: string, keyPath: string[]) => {

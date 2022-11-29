@@ -7,23 +7,27 @@ export const Routes = {
     {
       path: '/home',
       name: 'home',
-      component: () => import('/@/views/home/index.vue')
+      component: () => import('/@/views/home/index.vue'),
+      meta: { title: 'navmenu.home', icon: 'House' }
     },
     {
       path: '/detection',
       name: 'detection',
+      meta: { title: 'navmenu.detection', icon: 'DataAnalysis' },
       children: [
         {
           path: 'basicService',
           name: 'basicService',
-          component: () => import('/@/views/detection/basicService/index.vue')
+          component: () => import('/@/views/detection/basicService/index.vue'),
+          meta: { title: 'navmenu.basicService', icon: 'Operation' }
         }
       ]
     },
     {
       path: '/strategy',
       name: 'strategy',
-      component: () => import('/@/views/strategy/index.vue')
+      component: () => import('/@/views/strategy/index.vue'),
+      meta: { title: 'navmenu.strategy', icon: 'Paperclip' }
     }
   ]
 }
