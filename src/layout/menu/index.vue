@@ -48,7 +48,7 @@ const handleClose = (key: string, keyPath: string[]) => {
 </script>
 
 <style lang="scss">
-@import url('/@/style/navmenu');
+@import url('/@/style/navmenu.scss');
 
 .logo {
   height: 80px;
