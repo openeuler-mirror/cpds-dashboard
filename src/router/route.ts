@@ -1,3 +1,5 @@
+import { RouteRecordRaw } from 'vue-router'
+
 export const Routes = {
   path: '/',
   name: '/',
@@ -31,3 +33,13 @@ export const Routes = {
     }
   ]
 }
+
+// Define static routes
+export const staticRoutes: Array<RouteRecordRaw> = [
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('/@/views/login/index.vue'),
+    meta: { title: 'login' }
+  }
+]
