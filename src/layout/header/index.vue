@@ -23,11 +23,13 @@
 import { useRouter } from 'vue-router'
 import { Session } from '/@/utils/storage'
 import Cookies from 'js-cookie'
+import { useUserStore } from '/@/store/userInfo'
 
 export default {
   setup() {
     const router = useRouter()
-    const username = Cookies.get('userName')
+    const user = useUserStore()
+    const username = user.userInfos.userName
     const handleCommand = (command: string) => {
       if (command == 'loginout') {
         Session.clear()

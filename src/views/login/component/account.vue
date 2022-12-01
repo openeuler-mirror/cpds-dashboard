@@ -42,11 +42,12 @@
 <script lang="ts" setup>
 import { reactive } from 'vue'
 import { Session } from '/@/utils/storage'
-import Cookies from 'js-cookie'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { i18n } from '/@/i18n'
+import { useUserStore } from '/@/store/userInfo'
 
+const user = useUserStore()
 const form = reactive({
   userName: 'admin',
   password: '1234'
@@ -56,7 +57,7 @@ const form = reactive({
 const onSignIn = async () => {
   // Store token to browser cache
   Session.set('token', Math.random().toString(36).substr(0))
-  Cookies.set('userName', form.userName)
+  user.updateUserInfo({ userName: form.userName, roles: ['admin'] })
   signInSuccess()
 }
 
