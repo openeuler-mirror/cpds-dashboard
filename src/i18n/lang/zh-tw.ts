@@ -1,6 +1,8 @@
 export default {
   common: {
-    'Container Problem Detect System': '容器故障檢測系統'
+    'Container Problem Detect System': '容器故障檢測系統',
+    home: '首頁',
+    logout: '註銷'
   },
   home: {
     'CPDS Dashboard': 'CPDS 項目首頁'
