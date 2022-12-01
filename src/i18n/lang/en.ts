@@ -1,6 +1,8 @@
 export default {
   common: {
-    'Container Problem Detect System': 'Container Problem Detect System'
+    'Container Problem Detect System': 'Container Problem Detect System',
+    home: 'home',
+    logout: 'logout'
   },
   home: {
     'CPDS Dashboard': 'CPDS Dashboard'
