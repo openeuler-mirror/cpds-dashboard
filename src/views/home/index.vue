@@ -1,11 +1,8 @@
-<script setup lang="ts">
-import { ref } from 'vue'
-
-const msg = ref('CPDS Darshboard')
-</script>
-
 <template>
-  <h1>{{ $t('home.CPDS Dashboard') }}</h1>
+  <nodeChart />
 </template>
+<script setup lang="ts">
+import nodeChart from './component/nodeChart.vue'
+</script>
 
 <style scoped></style>
