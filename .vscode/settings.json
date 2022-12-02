@@ -1,0 +1,14 @@
+{
+  // open auto fix
+  "editor.codeActionsOnSave": {
+    "source.fixAll": false,
+    "source.fixAll.eslint": true,
+    "source.fixAll.stylelint": true
+  },
+  "editor.formatOnSave": true,
+  // change default formatter to prettier
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.tabSize": 2,
+  // the kind of files witch stylelint should validate
+  "stylelint.validate": ["css", "scss", "vue", "html"]
+}
