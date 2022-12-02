@@ -33,6 +33,7 @@ router.beforeEach(async (to, from, next) => {
       NProgress.done()
     } else {
       next()
+      NProgress.done()
     }
   }
 })
