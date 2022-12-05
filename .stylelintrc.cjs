@@ -27,6 +27,7 @@ module.exports = {
     '**/*.yaml'
   ],
   rules: {
+    'string-quotes': 'single',
     'no-empty-source': null,
     'custom-property-pattern': null,
     'no-descending-specificity': null,
