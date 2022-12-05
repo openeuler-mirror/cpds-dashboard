@@ -1,5 +1,7 @@
 <template>
-  <div class="logo"></div>
+  <div class="logo">
+    <layoutLogo :isCollapse="props.isCollapse" />
+  </div>
   <el-menu
     default-active="2"
     :collapse="props.isCollapse"
@@ -38,6 +40,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { Routes } from '/@/router/route'
+import layoutLogo from '/@/layout/logo/logo.vue'
 const props = defineProps(['isCollapse'])
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
