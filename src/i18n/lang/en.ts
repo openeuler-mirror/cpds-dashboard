@@ -5,7 +5,14 @@ export default {
     logout: 'logout'
   },
   home: {
-    'CPDS Dashboard': 'CPDS Dashboard'
+    'CPDS Dashboard': 'CPDS Dashboard',
+    nodeTable: {
+      Name: 'Name',
+      IpAddress: 'IpAddress',
+      Status: 'Status',
+      Malfunction: 'Malfunction',
+      SubHealth: 'Subhelth'
+    }
   },
   login: {
     SignIn: 'SignIn',

@@ -5,7 +5,14 @@ export default {
     logout: '注销'
   },
   home: {
-    'CPDS Dashboard': 'CPDS 项目首页'
+    'CPDS Dashboard': 'CPDS 项目首页',
+    nodeTable: {
+      Name: '节点名',
+      IpAddress: 'IP地址',
+      Status: '节点状态',
+      Malfunction: '故障数',
+      SubHealth: '亚健康数'
+    }
   },
   login: {
     SignIn: '登录',

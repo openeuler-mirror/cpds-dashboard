@@ -5,7 +5,14 @@ export default {
     logout: '註銷'
   },
   home: {
-    'CPDS Dashboard': 'CPDS 項目首頁'
+    'CPDS Dashboard': 'CPDS 項目首頁',
+    nodeTable: {
+      Name: '節點名',
+      IpAddress: 'IP地址',
+      Status: '節點狀態',
+      Malfunction: '故障數',
+      SubHealth: '亞健康數'
+    }
   },
   login: {
     SignIn: '登錄',
