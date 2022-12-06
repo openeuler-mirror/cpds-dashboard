@@ -1,5 +1,7 @@
 <template>
-  <img :class="{ 'collapse-logo': isCollapse, 'uncollapse-logo': !isCollapse }" />
+  <div
+    :class="{ 'logo-style': true, 'collapse-logo': isCollapse, 'uncollapse-logo': !isCollapse }"
+  ></div>
 </template>
 
 <script lang="ts">
@@ -12,8 +14,12 @@ export default {
 </script>
 
 <style lang="scss">
-.collapse-logo {
+.logo-style {
+  display: inline-block;
   margin: 15px;
+}
+
+.collapse-logo {
   width: 50%;
   height: 50%;
   background: url('/@/assets/cpds-mini-icon.png');
@@ -22,7 +28,6 @@ export default {
 }
 
 .uncollapse-logo {
-  margin: 15px;
   width: 80%;
   height: 80%;
   background: url('/@/assets/cpds-icon.png');
