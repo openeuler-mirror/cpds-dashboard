@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="tableData" border class="node-table">
+  <el-table :data="tableData" border class="node-table" size="large">
     <el-table-column prop="name" :label="$t('home.nodeTable.Name')" width="180" />
     <el-table-column prop="ipaddress" :label="$t('home.nodeTable.IpAddress')" />
     <el-table-column prop="status" :label="$t('home.nodeTable.Status')" />
@@ -43,6 +43,8 @@ const tableData = [
 </script>
 <style>
 .node-table {
-  width: 80%;
+  margin: 0 auto;
+  width: 90%;
+  height: auto;
 }
 </style>
