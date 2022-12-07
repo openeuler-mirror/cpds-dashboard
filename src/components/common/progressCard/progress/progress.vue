@@ -1,6 +1,6 @@
 <template>
-  <div class="progress">
-    <el-progress :percentage="progressNumber" :type="type">
+  <div class="progress-box">
+    <el-progress width="180" class="progress" :percentage="progressNumber" :type="type">
       <span class="percentage-value">{{ showText }}</span>
     </el-progress>
   </div>
@@ -70,7 +70,7 @@ const showText = computed(() => {
 </script>
 
 <style lang="scss">
-.progress {
+.progress-box {
   position: relative;
 }
 </style>
