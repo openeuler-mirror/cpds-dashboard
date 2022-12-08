@@ -27,10 +27,18 @@ module.exports = {
     '**/*.yaml'
   ],
   rules: {
+    'declaration-block-trailing-semicolon': null,
+    'selector-class-pattern': null,
     'string-quotes': 'single',
     'no-empty-source': null,
     'custom-property-pattern': null,
     'no-descending-specificity': null,
+    'rule-empty-line-before': [
+      'always',
+      {
+        ignore: ['after-comment', 'first-nested']
+      }
+    ],
     'selector-pseudo-element-no-unknown': [
       true,
       {
