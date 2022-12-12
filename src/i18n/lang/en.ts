@@ -7,6 +7,7 @@ export default {
   home: {
     'CPDS Dashboard': 'CPDS Dashboard',
     nodeTable: {
+      Title: 'Node message',
       Name: 'Name',
       IpAddress: 'IpAddress',
       Status: 'Status',
