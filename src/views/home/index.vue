@@ -39,7 +39,7 @@
           <el-card class="box-card">
             <template #header>
               <div class="card-header">
-                <span>节点信息</span>
+                <span>{{ $t('home.nodeTable.Title') }}</span>
               </div>
             </template>
             <div class="node-table-box">

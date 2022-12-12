@@ -7,6 +7,7 @@ export default {
   home: {
     'CPDS Dashboard': 'CPDS 项目首页',
     nodeTable: {
+      Title: '节点信息',
       Name: '节点名',
       IpAddress: 'IP地址',
       Status: '节点状态',
