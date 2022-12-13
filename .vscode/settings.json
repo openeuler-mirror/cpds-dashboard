@@ -5,7 +5,7 @@
     "source.fixAll.eslint": true,
     "source.fixAll.stylelint": true
   },
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": false,
   // change default formatter to prettier
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.tabSize": 2,
