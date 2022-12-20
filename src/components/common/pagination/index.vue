@@ -1,34 +1,74 @@
 <template>
-  <div class="block">
-    <span class="demonstration">调整每页显示条数</span>
+  <div class="pagination-container fr">
     <el-pagination
+      :background="background"
+      v-model:current-page="currentPage"
+      v-model:page-size="pageSize"
+      layout="total, sizes, prev, pager, next, jumper"
+      :page-sizes="[10, 20, 30, 40]"
+      :total="total"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-      v-model:current-page="currentPage2"
-      :page-sizes="[100, 200, 300, 400]"
-      :page-size="100"
-      layout="sizes, prev, pager, next"
-      :total="1000"
     />
   </div>
 </template>
 <script lang="ts">
 export default {
-  methods: {
-    handleSizeChange(val: number) {
-      console.log(`每页 ${val} 条`)
+  name: 'Pagination',
+  props: {
+    total: {
+      default: 0,
+      type: Number
     },
-    handleCurrentChange(val: number) {
-      console.log(`当前页: ${val}`)
+    page: {
+      // current page
+      type: Number,
+      default: 1
+    },
+    limit: {
+      type: Number,
+      default: 10
+    },
+    pageSizes: {
+      type: Number,
+      default: 10
+    },
+    background: {
+      type: Boolean,
+      default: true
     }
   },
-  data() {
-    return {
-      currentPage1: 5,
-      currentPage2: 5,
-      currentPage3: 5,
-      currentPage4: 4
+  computed: {
+    currentPage: {
+      get() {
+        return this.page
+      },
+      set(val: number) {
+        this.$emit('update:page', val)
+      }
+    },
+    pageSize: {
+      get() {
+        return this.limit
+      },
+      set(val: number) {
+        this.$emit('update:limit', val)
+      }
+    }
+  },
+  methods: {
+    handleSizeChange(val: number) {
+      this.$emit('pagination', { page: this.currentPage, limit: val })
+    },
+    handleCurrentChange(val: number) {
+      this.$emit('pagination', { page: val, limit: this.pageSize })
     }
   }
 }
 </script>
+<style scoped>
+.pagination-container {
+  padding: 32px 16px;
+  background: #fff;
+}
+</style>
