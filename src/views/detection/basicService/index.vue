@@ -1,7 +1,7 @@
 <template>
   basicService
   <Table />
-  <Pagination />
+  <Pagination :total="20" :page="5" :limit="10" />
 </template>
 <script lang="ts" setup>
 import Table from '/@/components/common/table/index.vue'
