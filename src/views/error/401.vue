@@ -4,6 +4,9 @@
   <div>
     <el-button type="primary" round @click="onSetAuth">重新授权</el-button>
   </div>
+  <div class="err-image">
+    <img src="/@/assets/401.png" />
+  </div>
 </template>
 
 <script lang="ts">
