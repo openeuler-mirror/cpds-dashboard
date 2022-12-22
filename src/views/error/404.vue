@@ -4,6 +4,9 @@
   <div>
     <el-button type="primary" round @click="onGoHome">返回首页</el-button>
   </div>
+  <div class="err-image">
+    <img src="/@/assets/404.png" />
+  </div>
 </template>
 
 <script lang="ts">
