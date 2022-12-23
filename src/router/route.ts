@@ -22,6 +22,12 @@ export const Routes = {
           name: 'basicService',
           component: () => import('/@/views/detection/basicService/index.vue'),
           meta: { title: 'navmenu.basicService', icon: 'Operation' }
+        },
+        {
+          path: 'node',
+          name: 'node',
+          component: () => import('/@/views/detection/node/index.vue'),
+          meta: { title: 'navmenu.node', icon: 'Operation' }
         }
       ]
     },
