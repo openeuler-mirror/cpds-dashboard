@@ -28,6 +28,12 @@ export const Routes = {
           name: 'node',
           component: () => import('/@/views/detection/node/index.vue'),
           meta: { title: 'navmenu.node', icon: 'Operation' }
+        },
+        {
+          path: 'application',
+          name: 'application',
+          component: () => import('/@/views/detection/application/index.vue'),
+          meta: { title: 'navmenu.application', icon: 'Operation' }
         }
       ]
     },
