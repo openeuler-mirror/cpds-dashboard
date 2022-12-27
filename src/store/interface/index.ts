@@ -5,3 +5,9 @@ export interface UserInfosState {
 export interface UserInfosStates {
   userInfos: UserInfosState
 }
+// routing List
+export interface RoutesListState {
+  routesList: string[]
+  isColumnsMenuHover: Boolean
+  isColumnsNavHover: Boolean
+}
