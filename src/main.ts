@@ -16,3 +16,6 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 }
 
 app.use(router).use(pinia).use(ElementPlus, { i18n: i18n.global.t }).use(i18n).mount('#app')
+
+// Turn off console warning messages
+app.config.warnHandler = () => null
