@@ -12,5 +12,7 @@ module.exports = {
   // Unified does not use the trailing comma
   trailingComma: 'none',
   // Unified the bracket use Spaces
-  bracketSpacing: true
+  bracketSpacing: true,
+  // Unified the end line of file
+  endOfLine: 'lf'
 }
