@@ -12,6 +12,26 @@ export function judementSameArr(newArr: unknown[] | string[], oldArr: string[]):
   return count === leng
 }
 
+// Judge whether two objects are the same
+export function isObjectValueEqual(a: { [key: string]: any }, b: { [key: string]: any }) {
+  if (!a || !b) return false
+  const aProps = Object.getOwnPropertyNames(a)
+  const bProps = Object.getOwnPropertyNames(b)
+  if (aProps.length != bProps.length) return false
+  for (let i = 0; i < aProps.length; i++) {
+    const propName = aProps[i]
+    const propA = a[propName]
+    const propB = b[propName]
+    if (!Object.prototype.hasOwnProperty.call(b, propName)) return false
+    if (propA instanceof Object) {
+      if (!isObjectValueEqual(propA, propB)) return false
+    } else if (propA !== propB) {
+      return false
+    }
+  }
+  return true
+}
+
 // Array and array object de duplication
 export function removeDuplicate(arr: any, attr?: string) {
   if (!arr && !arr.length) {
