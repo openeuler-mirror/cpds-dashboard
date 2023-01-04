@@ -27,6 +27,8 @@ module.exports = {
     '**/*.yaml'
   ],
   rules: {
+    'keyframes-name-pattern': null,
+    'scss/at-extend-no-missing-placeholder': null,
     'declaration-block-trailing-semicolon': null,
     'selector-class-pattern': null,
     'string-quotes': 'single',
