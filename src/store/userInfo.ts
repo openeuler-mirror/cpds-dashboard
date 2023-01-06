@@ -6,7 +6,8 @@ export const useUserStore = defineStore({
   state: (): UserInfosStates => ({
     userInfos: {
       userName: '',
-      roles: []
+      roles: [],
+      authBtnList: []
     }
   }),
   actions: {

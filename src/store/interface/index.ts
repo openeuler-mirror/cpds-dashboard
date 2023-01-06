@@ -1,6 +1,7 @@
 export interface UserInfosState {
   roles: string[]
   userName: string
+  authBtnList: string[]
 }
 export interface UserInfosStates {
   userInfos: UserInfosState
