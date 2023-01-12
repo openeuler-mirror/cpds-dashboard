@@ -1,4 +1,5 @@
 import { useUserStore } from '/@/store/userInfo'
+import { judementSameArr } from '/@/utils/arrayOperation'
 
 export function auth(value: string): boolean {
   const stores = useUserStore()
@@ -15,4 +16,10 @@ export function auths(value: Array<string>): boolean {
     })
   })
   return flag
+}
+
+// Multiple permission verifications, true if all is satisfied
+export function authAll(value: Array<string>): boolean {
+  const stores = useUserStore()
+  return judementSameArr(value, stores.userInfos.authBtnList)
 }
