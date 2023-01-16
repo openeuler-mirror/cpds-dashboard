@@ -12,3 +12,9 @@ export interface RoutesListState {
   isColumnsMenuHover: Boolean
   isColumnsNavHover: Boolean
 }
+
+// TagsView routing List
+export interface TagsViewRoutesState {
+  tagsViewRoutes: string[]
+  isTagsViewCurrenFull: Boolean
+}
