@@ -13,6 +13,12 @@ export interface RoutesListState {
   isColumnsNavHover: Boolean
 }
 
+// Route cache list
+export interface KeepAliveNamesState {
+	keepAliveNames: string[];
+	cachedViews: string[];
+}
+
 // TagsView routing List
 export interface TagsViewRoutesState {
   tagsViewRoutes: string[]
