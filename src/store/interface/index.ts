@@ -1,3 +1,8 @@
+/**
+ * Define interfaces to define object types
+ * `stores` All types are defined here
+ */
+
 export interface UserInfosState {
   roles: string[]
   userName: string
