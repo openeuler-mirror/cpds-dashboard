@@ -20,8 +20,8 @@ export interface RoutesListState {
 
 // Route cache list
 export interface KeepAliveNamesState {
-	keepAliveNames: string[];
-	cachedViews: string[];
+  keepAliveNames: string[]
+  cachedViews: string[]
 }
 
 // TagsView routing List
