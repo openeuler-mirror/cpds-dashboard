@@ -20,3 +20,9 @@ export function verifyEnAndSpace(val: string) {
   v = v.replace(/(^\s*)|(\s*$)/g, '')
   return v
 }
+
+// No spaces
+export function verifyAndSpace(val: string) {
+  const v = val.replace(/(^\s*)|(\s*$)/g, '')
+  return v
+}
