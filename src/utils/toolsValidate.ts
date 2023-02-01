@@ -13,3 +13,10 @@ export function verifyCnAndSpace(val: string) {
   v = v.replace(/(^\s*)|(\s*$)/g, '')
   return v
 }
+
+// Remove English and space
+export function verifyEnAndSpace(val: string) {
+  let v = val.replace(/[a-zA-Z]+/g, '')
+  v = v.replace(/(^\s*)|(\s*$)/g, '')
+  return v
+}
