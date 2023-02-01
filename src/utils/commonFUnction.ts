@@ -9,8 +9,14 @@ export default function () {
     if (!cellValue) return '-'
     return formatDate(new Date(cellValue), 'YYYY-mm-dd')
   }
+  // List Date Time Format
+  const dateFormatYMDHMS = (row: any, column: number, cellValue: any) => {
+    if (!cellValue) return '-'
+    return formatDate(new Date(cellValue), 'YYYY-mm-dd HH:MM:SS')
+  }
   return {
     percentFormat,
-    dateFormatYMD
+    dateFormatYMD,
+    dateFormatYMDHMS
   }
 }
