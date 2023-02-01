@@ -1,0 +1,48 @@
+@import url('./index');
+
+/* The page width is less than 768px
+------------------------------- */
+@media screen and (max-width: $sm) {
+  .error {
+    .error-flex {
+      width: 100% !important;
+      height: auto !important;
+      flex-direction: column-reverse !important;
+    }
+
+    .right,
+    .left {
+      flex: unset !important;
+      display: flex !important;
+    }
+
+    .left-item {
+      margin: auto !important;
+    }
+
+    .right img {
+      max-width: 450px !important;
+      @extend .left-item;
+    }
+  }
+}
+
+/* The page width is greater than 768px but less than 992px
+------------------------------- */
+@media screen and (min-width: $sm) and (max-width: $md) {
+  .error {
+    .error-flex {
+      padding-left: 30px !important;
+    }
+  }
+}
+
+/* The page width is less than 1200px
+------------------------------- */
+@media screen and (max-width: $lg) {
+  .error {
+    .error-flex {
+      padding: 0 30px;
+    }
+  }
+}
