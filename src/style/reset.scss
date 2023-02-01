@@ -1,0 +1,13 @@
+.el-button {
+  &.is-disabled {
+    color: var(--el-color-info-light-5);
+    background-color: var(--el-color-info-light-9);
+    border-color: var(--el-color-info-light-8);
+
+    &:hover {
+      color: var(--el-color-info-light-5);
+      background-color: var(--el-color-info-light-9);
+      border-color: var(--el-color-info-light-8);
+    }
+  }
+}
