@@ -33,3 +33,14 @@ export function verifyPhone(val: string) {
     return false
   else return true
 }
+
+// IP address
+export function verifyIPAddress(val: string) {
+  if (
+    !/^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/.test(
+      val
+    )
+  )
+    return false
+  else return true
+}
