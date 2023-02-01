@@ -1,6 +1,7 @@
 import { useUserStore } from '/@/store/userInfo'
 import { judementSameArr } from '/@/utils/arrayOperation'
 
+// Single permission verification
 export function auth(value: string): boolean {
   const stores = useUserStore()
   return stores.userInfos.authBtnList.some((v: string) => v === value)
