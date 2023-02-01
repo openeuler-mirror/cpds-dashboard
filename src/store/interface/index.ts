@@ -68,3 +68,7 @@ export interface ThemeConfigState {
   globalViceTitle: string
   globalComponentSize: string
 }
+
+export interface ThemeConfigStates {
+  themeConfig: ThemeConfigState
+}
