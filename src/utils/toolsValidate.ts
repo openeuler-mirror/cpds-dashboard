@@ -6,3 +6,10 @@ export function verifyNumberPercentage(val: string): string {
   v = v.replace(/^[1-9]\d\d{1,3}$/, '100')
   return v
 }
+
+// Remove Chinese and space
+export function verifyCnAndSpace(val: string) {
+  let v = val.replace(/[\u4e00-\u9fa5\s]+/g, '')
+  v = v.replace(/(^\s*)|(\s*$)/g, '')
+  return v
+}
