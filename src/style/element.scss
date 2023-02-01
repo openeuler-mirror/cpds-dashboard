@@ -1,0 +1,31 @@
+/* Button
+------------------------------- */
+// Third party font icon size
+.el-button i.el-icon,
+.el-button i.iconfont,
+.el-button i.fa,
+.el-button--default i.iconfont,
+.el-button--default i.fa {
+  margin-right: 5px;
+  font-size: 14px !important;
+}
+
+.el-button--small i.iconfont,
+.el-button--small i.fa {
+  margin-right: 5px;
+  font-size: 12px !important;
+}
+
+/* Input
+------------------------------- */
+.el-input {
+  height: 100%;
+}
+
+/* Form
+------------------------------- */
+.el-form {
+  .el-form-item:last-of-type {
+    margin-bottom: 0 !important;
+  }
+}
