@@ -33,38 +33,38 @@
 /* Alert
 ------------------------------- */
 .el-alert {
-	border: 1px solid;
+  border: 1px solid;
 }
 
 .el-alert__title {
-	word-break: break-all;
+  word-break: break-all;
 }
 
 /* Message
 ------------------------------- */
 .el-message {
-	padding: 15px !important;
-	min-width: unset !important;
-	box-shadow: 0 2px 12px 0 rgb(0 0 0 / 2%);
+  padding: 15px !important;
+  min-width: unset !important;
+  box-shadow: 0 2px 12px 0 rgb(0 0 0 / 2%);
 }
 
 /* Tabs
 ------------------------------- */
 .el-tabs__nav-wrap::after {
-	height: 1px !important;
+  height: 1px !important;
 }
 
 /* Dropdown
 ------------------------------- */
 .el-dropdown-menu {
-	list-style: none !important; 
+  list-style: none !important;
 }
 
 .el-dropdown-menu .el-dropdown-menu__item {
-	white-space: nowrap;
+  white-space: nowrap;
 
-	&:not(.is-disabled):hover {
-		color: var(--el-dropdown-menuItem-hover-color);
-		background-color: var(--el-dropdown-menuItem-hover-fill);
-	}
+  &:not(.is-disabled):hover {
+    color: var(--el-dropdown-menuItem-hover-color);
+    background-color: var(--el-dropdown-menuItem-hover-fill);
+  }
 }
