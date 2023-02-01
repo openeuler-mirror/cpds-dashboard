@@ -11,7 +11,7 @@ export function useLoginApi() {
       })
     },
     // Logout
-    signOut: (params: object) => {
+    signOut: (params?: object) => {
       return request({
         url: '/api/logout',
         method: 'post',
