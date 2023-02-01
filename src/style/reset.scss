@@ -11,3 +11,22 @@
     }
   }
 }
+
+.el-dialog {
+  .el-dialog__header {
+      display: flex;
+      align-items: center;
+      margin-right: 0;
+      border-bottom: 1px solid #e0e0e0;
+
+      .title {
+          font-weight: 700;
+      }
+  }
+
+  .el-dialog__body {}
+
+  .el-dialog__footer {
+      border-top: 1px solid #e0e0e0;
+  }
+}
