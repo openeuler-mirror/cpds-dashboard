@@ -13,6 +13,12 @@ cpds-dashboard 是为 CPDS(Container Problem Detect System)容器故障检测系
 - Es6
 - Element-plus
 
+### 环境说明
+
+node v16.18.0
+npm v6.14.6
+可以用其它版本 node，但是建议使用 node 高版本的，确保能正常下载依赖
+
 ### 安装和使用
 
 1.  获取代码
