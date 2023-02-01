@@ -34,6 +34,12 @@ cd cpds-dashboard
 npm install
 ```
 
+注：如果下载依赖慢，可以使用以下命令更换为淘宝源
+
+```
+npm config set registry https://registry.npmmirror.com
+```
+
 3. 运行
 
 ```
