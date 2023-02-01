@@ -13,6 +13,12 @@ This component obtains the diagnosis result from the cpds-analyzer component(the
 - Es6
 - Element-plus
 
+### Environment description
+
+node v16.18.0
+npm v6.14.6
+Other versions of node can be used, but it is recommended to use a higher version of node to ensure that dependencies can be downloaded properly
+
 ### Installation and use
 
 1.  Get the project code
