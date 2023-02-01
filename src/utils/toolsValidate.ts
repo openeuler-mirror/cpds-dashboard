@@ -26,3 +26,10 @@ export function verifyAndSpace(val: string) {
   const v = val.replace(/(^\s*)|(\s*$)/g, '')
   return v
 }
+
+// phone number
+export function verifyPhone(val: string) {
+  if (!/^((12[0-9])|(13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0|1,5-9]))\d{8}$/.test(val))
+    return false
+  else return true
+}
