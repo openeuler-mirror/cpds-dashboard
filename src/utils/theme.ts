@@ -20,3 +20,13 @@ export function rgbToHex(r: any, g: any, b: any) {
   for (let i = 0; i < 3; i++) if (hexs[i].length == 1) hexs[i] = `0${hexs[i]}`
   return `#${hexs.join('')}`
 }
+
+// Deepen Color Value
+export function getDarkColor(color: string, level: number) {
+  // eslint-disable-next-line no-useless-escape
+  const reg = /^\#?[0-9A-Fa-f]{6}$/
+  if (!reg.test(color)) return ElMessage.warning('输入错误的hex颜色值')
+  const rgb = hexToRgb(color)
+  for (let i = 0; i < 3; i++) rgb[i] = Math.floor(rgb[i] * (1 - level))
+  return rgbToHex(rgb[0], rgb[1], rgb[2])
+}
