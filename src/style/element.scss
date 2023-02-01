@@ -39,3 +39,11 @@
 .el-alert__title {
 	word-break: break-all;
 }
+
+/* Message
+------------------------------- */
+.el-message {
+	padding: 15px !important;
+	min-width: unset !important;
+	box-shadow: 0 2px 12px 0 rgb(0 0 0 / 2%);
+}
