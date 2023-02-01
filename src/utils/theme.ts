@@ -30,3 +30,12 @@ export function getDarkColor(color: string, level: number) {
   for (let i = 0; i < 3; i++) rgb[i] = Math.floor(rgb[i] * (1 - level))
   return rgbToHex(rgb[0], rgb[1], rgb[2])
 }
+// Lighten Color Value
+export function getLightColor(color: string, level: number) {
+  // eslint-disable-next-line no-useless-escape
+  const reg = /^\#?[0-9A-Fa-f]{6}$/
+  if (!reg.test(color)) return ElMessage.warning('输入错误的hex颜色值')
+  const rgb = hexToRgb(color)
+  for (let i = 0; i < 3; i++) rgb[i] = Math.floor((255 - rgb[i]) * level + rgb[i])
+  return rgbToHex(rgb[0], rgb[1], rgb[2])
+}
