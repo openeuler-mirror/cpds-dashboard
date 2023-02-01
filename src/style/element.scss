@@ -47,3 +47,9 @@
 	min-width: unset !important;
 	box-shadow: 0 2px 12px 0 rgb(0 0 0 / 2%);
 }
+
+/* Tabs
+------------------------------- */
+.el-tabs__nav-wrap::after {
+	height: 1px !important;
+}
