@@ -34,6 +34,12 @@ cd cpds-dashboard
 npm install
 ```
 
+note: If the dependency download is slow, run the following command to switch to the Taobao source
+
+```
+npm config set registry https://registry.npmmirror.com
+```
+
 3. run
 
 ```
