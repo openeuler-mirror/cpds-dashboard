@@ -14,9 +14,14 @@ export default function () {
     if (!cellValue) return '-'
     return formatDate(new Date(cellValue), 'YYYY-mm-dd HH:MM:SS')
   }
+  // Decimal Formatting
+  const scaleFormat = (value: any = 0, scale = 4) => {
+    return Number.parseFloat(value).toFixed(scale)
+  }
   return {
     percentFormat,
     dateFormatYMD,
-    dateFormatYMDHMS
+    dateFormatYMDHMS,
+    scaleFormat
   }
 }
