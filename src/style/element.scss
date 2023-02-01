@@ -53,3 +53,18 @@
 .el-tabs__nav-wrap::after {
 	height: 1px !important;
 }
+
+/* Dropdown
+------------------------------- */
+.el-dropdown-menu {
+	list-style: none !important; 
+}
+
+.el-dropdown-menu .el-dropdown-menu__item {
+	white-space: nowrap;
+
+	&:not(.is-disabled):hover {
+		color: var(--el-dropdown-menuItem-hover-color);
+		background-color: var(--el-dropdown-menuItem-hover-fill);
+	}
+}
