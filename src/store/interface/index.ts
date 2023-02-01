@@ -29,3 +29,42 @@ export interface TagsViewRoutesState {
   tagsViewRoutes: string[]
   isTagsViewCurrenFull: Boolean
 }
+// Layout Configuration
+export interface ThemeConfigState {
+  isDrawer: boolean
+  primary: string
+  topBar: string
+  topBarColor: string
+  menuBar: string
+  menuBarColor: string
+  columnsMenuBar: string
+  columnsMenuBarColor: string
+  isCollapse: boolean
+  isUniqueOpened: boolean
+  isFixedHeader: boolean
+  isFixedHeaderChange: boolean
+  isClassicSplitMenu: boolean
+  isShowLogo: boolean
+  isShowLogoChange: boolean
+  isBreadcrumb: boolean
+  isTagsview: boolean
+  isBreadcrumbIcon: boolean
+  isTagsviewIcon: boolean
+  isCacheTagsView: boolean
+  isSortableTagsView: boolean
+  isShareTagsView: boolean
+  isFooter: boolean
+  isInvert: boolean
+  isIsDark: boolean
+  isWartermark: boolean
+  wartermarkText: string
+  tagsStyle: string
+  animation: string
+  columnsAsideStyle: string
+  columnsAsideLayout: string
+  layout: string
+  isRequestRoutes: boolean
+  globalTitle: string
+  globalViceTitle: string
+  globalComponentSize: string
+}
