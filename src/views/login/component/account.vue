@@ -57,7 +57,7 @@ const form = reactive({
 const onSignIn = async () => {
   // Store token to browser cache
   Session.set('token', Math.random().toString(36).substr(0))
-  user.updateUserInfo({ userName: form.userName, roles: ['admin'] })
+  user.updateUserInfo({ userName: form.userName, roles: ['admin'], authBtnList: [] })
   signInSuccess()
 }
 
