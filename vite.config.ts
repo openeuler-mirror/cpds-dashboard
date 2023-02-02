@@ -39,6 +39,7 @@ const viteConfig = defineConfig((mode: ConfigEnv) => {
     build: {
       outDir: 'cpds',
       sourcemap: false,
+      chunkSizeWarningLimit: 1500,
       //rollup configuration
       rollupOptions: {
         output: {
