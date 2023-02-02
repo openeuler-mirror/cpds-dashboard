@@ -23,12 +23,14 @@ class CreateSocket {
     this.websocket = new WebSocket(this.param.url)
     this.websocket.onclose = () => {
       console.log(this.param.url + '--websocket已关闭！')
+      // If it is manually shut down, the reconnection is not performed
       if (!this.isActivelyClose) {
         this.reconnectSocket()
       }
     }
     this.websocket.onerror = (e) => {
       console.log(this.param.url + '--websocket发生异常！')
+      // If the shutdown is manually performed, no abnormal reconnection is performed
       if (!this.isActivelyClose) {
         this.reconnectSocket()
       }
@@ -67,6 +69,7 @@ class CreateSocket {
       }, this.timeout)
     }, this.timeout)
   }
+  // Manually close websocket
   close() {
     this.isActivelyClose = true
     this.websocket && this.websocket.close()
