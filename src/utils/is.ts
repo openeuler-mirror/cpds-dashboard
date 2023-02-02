@@ -13,3 +13,19 @@ export const isString = (val: unknown): val is string => {
 export const isObject = (val: any): val is Record<any, any> => {
   return val !== null && is(val, 'Object')
 }
+
+export const isEmpty = <T = unknown>(val: T): val is T => {
+  if (isArray(val) || isString(val)) {
+    return val.length === 0
+  }
+
+  if (val instanceof Map || val instanceof Set) {
+    return val.size === 0
+  }
+
+  if (isObject(val)) {
+    return Object.keys(val).length === 0
+  }
+
+  return false
+}
