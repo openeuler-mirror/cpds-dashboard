@@ -27,6 +27,7 @@ const viteConfig = defineConfig((mode: ConfigEnv) => {
     server: {
       host: env.VITE_HOST,
       port: env.VITE_PORT as unknown as number,
+      open: env.VITE_OPEN,
       proxy: {
         '/api': {
           target: env.VITE_API_URL,
