@@ -3,6 +3,7 @@
  * `stores` All types are defined here
  */
 
+// User information
 export interface UserInfosState {
   roles: string[]
   userName: string
