@@ -10,10 +10,10 @@ cpds-dashboard 是为 CPDS(Container Problem Detect System)容器故障检测系
 
 ## 技术栈
 
-- Vite
-- Vue3
-- Es6
-- Element-plus
+- **Vite**
+- **Vue3**
+- **Es6**
+- **Element-plus**
 
 ## 环境说明
 
