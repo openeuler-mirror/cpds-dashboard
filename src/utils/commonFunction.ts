@@ -18,10 +18,15 @@ export default function () {
   const scaleFormat = (value: any = 0, scale = 4) => {
     return Number.parseFloat(value).toFixed(scale)
   }
+  // Decimal Formatting
+  const scale2Format = (value: any = 0) => {
+    return Number.parseFloat(value).toFixed(2)
+  }
   return {
     percentFormat,
     dateFormatYMD,
     dateFormatYMDHMS,
-    scaleFormat
+    scaleFormat,
+    scale2Format
   }
 }
