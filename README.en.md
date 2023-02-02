@@ -2,34 +2,34 @@
 
 **English** | [中文](./README.md)
 
-### Description
+## Description
 
 The cpds-dashboard is a user interaction component that provides web pages for the ContainerProblemDetectSystem (CPDS).
 
 This component obtains the diagnosis result from the cpds-analyzer component(the Fault/Sub-Health Diagnosis component of CPDS) and displays the visual diagnosis results in real-time or offline. This helps the cluster O&M analyze the data, formulate and deliver policies.
 
-### Technology stack
+## Technology stack
 
 - Vite
 - Vue3
 - Es6
 - Element-plus
 
-### Environment description
+## Environment description
 
 node v16.18.0
 npm v6.14.6
 Other versions of node can be used, but it is recommended to use a higher version of node to ensure that dependencies can be downloaded properly
 
-### Installation and use
+## Installation and use
 
-1.  Get the project code
+- Get the project code
 
 ```
 git clone https://gitee.com/openeuler/cpds-dashboard.git
 ```
 
-2.  Installation dependencies
+- Installation dependencies
 
 ```
 cd cpds-dashboard
@@ -42,7 +42,7 @@ note: If the dependency download is slow, run the following command to switch to
 npm config set registry https://registry.npmmirror.com
 ```
 
-3. run
+- run
 
 ```
 <!-- run with development configuration -->
@@ -51,7 +51,7 @@ npm run dev
 npm run pro
 ```
 
-4.build
+- build
 
 ```
 <!-- build with development configuration -->
@@ -60,7 +60,7 @@ npm run build:dev
 npm run build:pro
 ```
 
-5.Code review
+- Code review
 
 This project incorporates code review tools that automatically reviews code when you are committing
 
@@ -75,7 +75,7 @@ npm run format
 npm run lint:style
 ```
 
-### Browser support
+## Browser support
 
 This project theory supports the use of the following versions and later versions of the browser
 
@@ -85,7 +85,7 @@ This project theory supports the use of the following versions and later version
 
 > Since Vue 3 no longer supports IE11, this project will no longer support IE either. Tested Browser: Chrome 107.0.5304.110
 
-### Contribution
+## Contribution
 
 You can [Raise an issue](https://gitee.com/openeuler/cpds-dashboard/issues/new) Or submit a Pull Request.
 
