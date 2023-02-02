@@ -1,5 +1,7 @@
 # cpds-dashboard
 
+[English](./README.en.md) | **中文**
+
 ### 介绍
 
 cpds-dashboard 是为 CPDS(Container Problem Detect System)容器故障检测系统提供 web 页面的用户交互组件。
