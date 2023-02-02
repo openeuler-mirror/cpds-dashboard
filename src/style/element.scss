@@ -123,3 +123,25 @@
     padding: 0;
   }
 }
+
+/* scrollbar
+------------------------------- */
+.el-scrollbar__bar {
+  z-index: 4;
+}
+
+.el-scrollbar__wrap {
+  max-height: 100%;
+}
+
+.el-select-dropdown .el-scrollbar__wrap {
+  overflow-x: scroll !important;
+}
+
+.el-select-dropdown__wrap {
+  max-height: 274px !important;
+}
+
+.el-cascader-menu__wrap.el-scrollbar__wrap {
+  height: 204px !important;
+}
