@@ -68,3 +68,14 @@
     background-color: var(--el-dropdown-menuItem-hover-fill);
   }
 }
+
+/* Steps
+------------------------------- */
+.el-step__icon-inner {
+  font-size: 30px !important;
+  font-weight: 400 !important;
+}
+
+.el-step__title {
+  font-size: 14px;
+}
