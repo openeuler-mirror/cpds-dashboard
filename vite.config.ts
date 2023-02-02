@@ -1,12 +1,23 @@
 import { defineConfig, loadEnv, ConfigEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
+import legacy from '@vitejs/plugin-legacy';
 
 // https://vitejs.dev/config/
 const viteConfig = defineConfig((mode: ConfigEnv) => {
   const env = loadEnv(mode.mode, process.cwd())
   return {
-    plugins: [vue()],
+    plugins: [vue(),
+      legacy({
+				targets: ['firefox 68'],
+				additionalLegacyPolyfills: ['regenerator-runtime/runtime'],
+				renderLegacyChunks: true,
+				polyfills: [
+				],
+				modernPolyfills: [
+					'es.promise.finally'
+				]
+			})],
     resolve: {
       alias: {
         '/@': resolve(__dirname, '.', './src/'),
