@@ -1,5 +1,6 @@
 *.sh
 /dist/
+/cpds
 /*.js
 /node_modules/*
 /dist*
