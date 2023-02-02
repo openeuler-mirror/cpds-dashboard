@@ -6,3 +6,7 @@ declare module '*.vue' {
   const component: DefineComponent<{}, {}, any>
   export default component
 }
+// Declaration file, defining global variables
+interface Window {
+  nextLoading: boolean
+}
