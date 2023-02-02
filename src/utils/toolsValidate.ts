@@ -44,3 +44,15 @@ export function verifyIPAddress(val: string) {
     return false
   else return true
 }
+
+// email
+export function verifyEmail(val: string) {
+  if (
+    // eslint-disable-next-line no-useless-escape
+    !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+      val
+    )
+  )
+    return false
+  else return true
+}
