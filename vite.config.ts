@@ -49,7 +49,8 @@ const viteConfig = defineConfig((mode: ConfigEnv) => {
           compact: true,
           //code spliiting
           manualChunks: {
-            vue: ['vue', 'vue-router', 'pinia']
+            vue: ['vue', 'vue-router', 'pinia'],
+            echarts: ['echarts'],
           }
         }
       }
