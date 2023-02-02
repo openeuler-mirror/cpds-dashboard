@@ -10,3 +10,5 @@ declare module '*.vue' {
 interface Window {
   nextLoading: boolean
 }
+
+declare module 'vue-grid-layout'
