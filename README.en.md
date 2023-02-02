@@ -1,5 +1,7 @@
 # cpds-dashboard
 
+**English** | [中文](./README.md)
+
 ### Description
 
 The cpds-dashboard is a user interaction component that provides web pages for the ContainerProblemDetectSystem (CPDS).
