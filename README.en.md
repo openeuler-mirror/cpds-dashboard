@@ -10,10 +10,10 @@ This component obtains the diagnosis result from the cpds-analyzer component(the
 
 ## Technology stack
 
-- Vite
-- Vue3
-- Es6
-- Element-plus
+- **Vite**
+- **Vue3**
+- **Es6**
+- **Element-plus**
 
 ## Environment description
 
