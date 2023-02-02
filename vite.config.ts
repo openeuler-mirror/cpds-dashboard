@@ -52,7 +52,8 @@ const viteConfig = defineConfig((mode: ConfigEnv) => {
           }
         }
       }
-    }
+    },
+    css: { preprocessorOptions: { css: { charset: false }}}
   }
 })
 
