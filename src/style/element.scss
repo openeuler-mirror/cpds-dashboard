@@ -79,3 +79,33 @@
 .el-step__title {
   font-size: 14px;
 }
+
+/* Dialog
+------------------------------- */
+.el-overlay {
+  overflow: hidden;
+
+  .el-overlay-dialog {
+    position: unset !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+
+    .el-dialog {
+      position: absolute;
+      margin: 0 auto !important;
+
+      .el-dialog__body {
+        padding: 20px !important;
+      }
+    }
+  }
+}
+
+.el-dialog__body {
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: calc(90vh - 111px) !important;
+}
