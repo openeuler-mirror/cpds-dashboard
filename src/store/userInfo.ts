@@ -14,6 +14,7 @@ export const useUserStore = defineStore({
     updateUserInfo(user: UserInfosState) {
       this.userInfos.userName = user.userName
       this.userInfos.roles = user.roles
+      this.userInfos.authBtnList = user.authBtnList
     }
   },
   //use persistent storage
