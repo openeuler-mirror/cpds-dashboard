@@ -109,3 +109,9 @@
   overflow-y: auto;
   max-height: calc(90vh - 111px) !important;
 }
+
+/* Card
+------------------------------- */
+.el-card__header {
+  padding: 15px 20px;
+}
