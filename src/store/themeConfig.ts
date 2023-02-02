@@ -102,9 +102,9 @@ export const useThemeConfig = defineStore('themeConfig', {
        * Global Site Title
        */
       // Site main title (menu navigation, browser current page title)
-      globalTitle: '',
+      globalTitle: '容器故障检测系统',
       // Site subtitle (top text of landing page)
-      globalViceTitle: '',
+      globalViceTitle: '容器故障检测系统',
       // Default global component size: <large|default|small>，default: large
       globalComponentSize: 'default'
     }
