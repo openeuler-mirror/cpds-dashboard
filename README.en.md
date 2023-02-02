@@ -25,38 +25,38 @@ Other versions of node can be used, but it is recommended to use a higher versio
 
 - Get the project code
 
-```
+```bash
 git clone https://gitee.com/openeuler/cpds-dashboard.git
 ```
 
 - Installation dependencies
 
-```
+```bash
 cd cpds-dashboard
 npm install
 ```
 
 note: If the dependency download is slow, run the following command to switch to the Taobao source
 
-```
+```bash
 npm config set registry https://registry.npmmirror.com
 ```
 
 - run
 
-```
-<!-- run with development configuration -->
+```bash
+# run with development configuration
 npm run dev
-<!-- run with production configuration -->
+# run with production configuration
 npm run pro
 ```
 
 - build
 
-```
-<!-- build with development configuration -->
+```bash
+# build with development configuration
 npm run build:dev
-<!-- build with production configuration -->
+# build with production configuration
 npm run build:pro
 ```
 
@@ -66,12 +66,12 @@ This project incorporates code review tools that automatically reviews code when
 
 you can also excute following command for code review:
 
-```
-<!-- use eslint to check code -->
+```bash
+# use eslint to check code
 npm run lint
-<!-- use prettier to format the code -->
+# use prettier to format the code
 npm run format
-<!-- use stylelint to format the style -->
+# use stylelint to format the style
 npm run lint:style
 ```
 
