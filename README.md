@@ -25,38 +25,38 @@ npm v6.14.6
 
 - 获取代码
 
-```
+```bash
 git clone https://gitee.com/openeuler/cpds-dashboard.git
 ```
 
 - 安装依赖
 
-```
+```bash
 cd cpds-dashboard
 npm install
 ```
 
 注：如果下载依赖慢，可以使用以下命令更换为淘宝源
 
-```
+```bash
 npm config set registry https://registry.npmmirror.com
 ```
 
 - 运行
 
-```
-<!-- 使用开发环境配置运行 -->
+```bash
+# 使用开发环境配置运行
 npm run dev
-<!-- 使用生产环境配置运行 -->
+# 使用生产环境配置运行
 npm run pro
 ```
 
 - 编译
 
-```
-<!-- 使用开发环境配置编译 -->
+```bash
+# 使用开发环境配置编译
 npm run build:dev
-<!-- 使用生产环境配置编译 -->
+# 使用生产环境配置编译
 npm run build:pro
 ```
 
@@ -66,12 +66,12 @@ npm run build:pro
 
 若需要单独进行代码审查，请执行以下命令：
 
-```
-<!-- 使用eslint审查代码 -->
+```bash
+# 使用eslint审查代码
 npm run lint
-<!-- 使用prettier格式化代码 -->
+# 使用prettier格式化代码
 npm run format
-<!-- 使用stylelint格式化样式 -->
+# 使用stylelint格式化样式
 npm run lint:style
 ```
 
