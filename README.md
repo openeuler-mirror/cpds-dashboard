@@ -1,4 +1,4 @@
-# cpds-dashboard
+# cpds-dashboard <a href="https://gitee.com/openeuler/Cpds"><img align="right" width="100" src="src/assets/cpds-icon.png"> </a>
 
 [English](./README.en.md) | **中文**
 
