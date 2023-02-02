@@ -37,7 +37,7 @@ const viteConfig = defineConfig((mode: ConfigEnv) => {
       }
     },
     build: {
-      outDir: 'dist',
+      outDir: 'cpds',
       sourcemap: false,
       //rollup configuration
       rollupOptions: {
