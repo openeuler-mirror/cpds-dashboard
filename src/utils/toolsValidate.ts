@@ -7,6 +7,16 @@ export function verifyNumberPercentage(val: string): string {
   return v
 }
 
+// Positive Integer Validation
+export function verifiyNumberInteger(val: string) {
+  let v = val.replace(/(^\s*)|(\s*$)/g, '')
+  // eslint-disable-next-line no-useless-escape
+  v = v.replace(/[\.]*/g, '')
+  v = v.replace(/(^0[\d]*)$/g, '0')
+  v = v.replace(/^0\d$/g, '0')
+  v = v.replace(/[^\d]/g, '')
+  return v
+}
 // Remove Chinese and space
 export function verifyCnAndSpace(val: string) {
   let v = val.replace(/[\u4e00-\u9fa5\s]+/g, '')
