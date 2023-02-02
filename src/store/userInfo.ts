@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { UserInfosState, UserInfosStates } from './interface'
 
+// User information
 export const useUserStore = defineStore({
   id: 'user',
   state: (): UserInfosStates => ({
@@ -11,6 +12,7 @@ export const useUserStore = defineStore({
     }
   }),
   actions: {
+    // Update user information
     updateUserInfo(user: UserInfosState) {
       this.userInfos.userName = user.userName
       this.userInfos.roles = user.roles
