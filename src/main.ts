@@ -1,30 +1,21 @@
-import { createApp } from 'vue'
+import { createApp } from 'vue';
+import pinia from '/@/stores/index';
+import App from './App.vue';
+import router from './router';
+import { directive } from '/@/utils/directive';
+import other from '/@/utils/other';
+import ElementPlus from 'element-plus';
+import mitt from 'mitt';
+import VueGridLayout from 'vue-grid-layout';
+import 'element-plus/dist/index.css';
+import '/@/theme/index.scss';
+const app = createApp(App);
 
-import App from '/@/App.vue'
-import router from '/@/router'
-import pinia from '/@/store'
-import ElementPlus from 'element-plus'
-import 'element-plus/dist/index.css'
-import { i18n } from '/@/i18n/index'
-import mitt from 'mitt'
-import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-import VueGridLayout from 'vue-grid-layout'
+directive(app);
+other.elSvg(app);
 
-const app = createApp(App)
+app.use(pinia).use(router).use(ElementPlus).use(VueGridLayout).mount('#app');
 
-//import element-plus-icon
-for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-  app.component(key, component)
-}
-
-app
-  .use(router)
-  .use(pinia)
-  .use(ElementPlus, { i18n: i18n.global.t })
-  .use(i18n)
-  .use(VueGridLayout)
-  .mount('#app')
-app.config.globalProperties.mittBus = mitt()
-
+app.config.globalProperties.mittBus = mitt();
 // Turn off console warning messages
-app.config.warnHandler = () => null
+app.config.warnHandler = () => null;

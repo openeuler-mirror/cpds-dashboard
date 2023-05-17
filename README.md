@@ -1,97 +1,24 @@
-# cpds-dashboard <a href="https://gitee.com/openeuler/Cpds"><img align="right" width="100" src="src/assets/cpds-icon.png"> </a>
-
-[English](./README.en.md) | **中文**
-
 ## 介绍
 
 cpds-dashboard 是为 CPDS(Container Problem Detect System)容器故障检测系统提供 web 页面的用户交互组件。
-
 本组件从 cpds-analyzer(故障/亚健康诊断)组件中获取诊断结果数据，并以实时查看、离线查看的形式进行可视化诊断结果展示，便于容器集群运维人员进行分析与策略制定下发。
 
 ## 技术栈
 
-- **Vite**
-- **Vue3**
-- **Es6**
-- **Element-plus**
+Vite + Vue3 + Es6 + Element-plus + typescript + Pinia
 
-## 环境说明
+### 环境说明
 
-node v16.18.0
-npm v6.14.6
-可以用其它版本 node，但是建议使用 node 高版本的，确保能正常下载依赖
+    node v16.18.0
+    npm v6.14.6
+    可以用其它版本node，但是建议使用node高版本的，确保能正常下载依赖
 
-## 安装和使用
+### 运行说明
 
-- 获取代码
-
-```bash
-git clone https://gitee.com/openeuler/cpds-dashboard.git
-```
-
-- 安装依赖
-
-```bash
-cd cpds-dashboard
-npm install
-```
-
-注：如果下载依赖慢，可以使用以下命令更换为淘宝源
-
-```bash
-npm config set registry https://registry.npmmirror.com
-```
-
-- 运行
-
-```bash
-# 使用开发环境配置运行
-npm run dev
-# 使用生产环境配置运行
-npm run pro
-```
-
-- 编译
-
-```bash
-# 使用开发环境配置编译
-npm run build:dev
-# 使用生产环境配置编译
-npm run build:pro
-```
-
-- 代码审查
-
-本项目集成了代码审查工具，在提交代码时会自动进行代码审查
-
-若需要单独进行代码审查，请执行以下命令：
-
-```bash
-# 使用eslint审查代码
-npm run lint
-# 使用prettier格式化代码
-npm run format
-# 使用stylelint格式化样式
-npm run lint:style
-```
-
-## 浏览器支持
-
-本项目理论支持以下版本及更高版本的浏览器使用
-
-| Edge      | Firefox      | Chrome      | Safari      |
-| --------- | ------------ | ----------- | ----------- |
-| Edge ≥ 79 | Firefox ≥ 78 | Chrome ≥ 64 | Safari ≥ 12 |
-
-> 由于 Vue 3 不再支持 IE11，本项目也不再支持 IE 浏览器。测试浏览器：Chrome 107.0.5304.110
-
-## 参与贡献
-
-你可以[提一个 issue](https://gitee.com/openeuler/cpds-dashboard/issues/new) 或者提交一个 Pull Request。
-
-**Pull Request:**
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+    1. npm install
+        下载相关依赖包的源
+        注：下载过慢通过命令 'npm config set registry https://registry.npmmirror.com'设置淘宝源，或者通过yarn包管理器
+    2. npm run dev
+        在本地服务运行项目
+    3. npm run build
+        进行静态资源构建，构建目录名通过vite.config.ts文件build对象中的outDir字段进行修改

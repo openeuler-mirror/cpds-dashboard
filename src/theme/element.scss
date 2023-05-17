@@ -1,0 +1,290 @@
+@import 'mixins/index.scss';
+
+/* Button
+------------------------------- */
+// Third party font icon size
+.el-button i.el-icon,
+.el-button i.iconfont,
+.el-button i.fa,
+.el-button--default i.iconfont,
+.el-button--default i.fa {
+	font-size: 14px !important;
+	margin-right: 5px;
+}
+.el-button--small i.iconfont,
+.el-button--small i.fa {
+	font-size: 12px !important;
+	margin-right: 5px;
+}
+
+/* Input
+------------------------------- */
+// .el-input {
+// 	height: 100%;
+// }
+// Menu search
+.el-autocomplete-suggestion__wrap {
+	max-height: 280px !important;
+}
+
+/* Form
+------------------------------- */
+.el-form {
+	.el-form-item:last-of-type {
+		// inline el-form-item can't justify
+		// margin-bottom: 0 !important;
+	}
+}
+
+/* Alert
+------------------------------- */
+.el-alert {
+	border: 1px solid;
+}
+.el-alert__title {
+	word-break: break-all;
+}
+
+/* Message
+------------------------------- */
+.el-message {
+	min-width: unset !important;
+	padding: 15px !important;
+	box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.02);
+}
+
+/* NavMenu
+------------------------------- */
+// hover
+.el-menu-hover-bg-color {
+	background-color: var(--next-color-menu-hover) !important;
+}
+.el-menu {
+	border-right: none !important;
+	width: 220px;
+}
+.el-menu-item {
+	height: 56px !important;
+	line-height: 56px !important;
+}
+.el-menu-item,
+.el-sub-menu__title {
+	color: var(--next-bg-menuBarColor);
+}
+.el-menu--collapse {
+	width: 64px !important;
+}
+.el-menu-item a,
+.el-menu-item a:hover,
+.el-menu-item i,
+.el-sub-menu__title i {
+	color: inherit;
+	text-decoration: none;
+}
+.el-menu-item .iconfont,
+.el-sub-menu .iconfont,
+.el-menu-item .fa,
+.el-sub-menu .fa {
+	@include generalIcon;
+}
+.el-menu-item.is-active,
+.el-sub-menu.is-active .el-sub-menu__title,
+.el-sub-menu:not(.is-opened):hover .el-sub-menu__title {
+	@extend .el-menu-hover-bg-color;
+}
+.el-sub-menu.is-active.is-opened .el-sub-menu__title {
+	background-color: unset !important;
+}
+.el-popper.is-dark a {
+	color: var(--el-color-white) !important;
+	text-decoration: none;
+}
+.el-popper.is-pure.is-light {
+	// Horizontal Menu
+	.el-menu--vertical {
+		background: var(--next-bg-menuBar);
+		.el-sub-menu.is-active .el-sub-menu__title {
+			color: var(--el-menu-active-color);
+		}
+		.el-popper.is-pure.is-light {
+			.el-menu--vertical {
+				.el-sub-menu .el-sub-menu__title {
+					background-color: unset !important;
+					color: var(--next-bg-menuBarColor);
+				}
+				.el-sub-menu.is-active .el-sub-menu__title {
+					color: var(--el-menu-active-color);
+				}
+			}
+		}
+	}
+	// Landscape Menu
+	.el-menu--horizontal {
+		background: var(--next-bg-topBar);
+		.el-menu-item,
+		.el-sub-menu {
+			height: 50px !important;
+			line-height: 50px !important;
+			color: var(--next-bg-topBarColor);
+			.el-sub-menu__title {
+				height: 50px !important;
+				line-height: 50px !important;
+				color: var(--next-bg-topBarColor);
+			}
+			.el-popper.is-pure.is-light {
+				.el-menu--horizontal {
+					.el-sub-menu .el-sub-menu__title {
+						background-color: unset !important;
+						color: var(--next-bg-topBarColor);
+					}
+					.el-sub-menu.is-active .el-sub-menu__title {
+						color: var(--el-menu-active-color);
+					}
+				}
+			}
+		}
+		.el-menu-item.is-active,
+		.el-sub-menu.is-active .el-sub-menu__title {
+			color: var(--el-menu-active-color);
+		}
+	}
+}
+// Horizontal menu (classic, horizontal) layout
+.el-menu.el-menu--horizontal {
+	border-bottom: none !important;
+	width: 100% !important;
+	.el-menu-item,
+	.el-sub-menu__title {
+		height: 50px !important;
+		color: var(--next-bg-topBarColor);
+	}
+	.el-menu-item:not(.is-active):hover,
+	.el-sub-menu:not(.is-active):hover .el-sub-menu__title {
+		color: var(--next-bg-topBarColor);
+	}
+}
+
+/* Tabs
+------------------------------- */
+.el-tabs__nav-wrap::after {
+	height: 1px !important;
+}
+
+/* Dropdown
+------------------------------- */
+.el-dropdown-menu {
+	list-style: none !important; 
+}
+.el-dropdown-menu .el-dropdown-menu__item {
+	white-space: nowrap;
+	&:not(.is-disabled):hover {
+		background-color: var(--el-dropdown-menuItem-hover-fill);
+		color: var(--el-dropdown-menuItem-hover-color);
+	}
+}
+
+/* Steps
+------------------------------- */
+.el-step__icon-inner {
+	font-size: 30px !important;
+	font-weight: 400 !important;
+}
+.el-step__title {
+	font-size: 14px;
+}
+
+/* Dialog
+------------------------------- */
+.el-overlay {
+	overflow: hidden;
+	.el-overlay-dialog {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: unset !important;
+		width: 100%;
+		height: 100%;
+		.el-dialog {
+			margin: 0 auto !important;
+			position: absolute;
+			.el-dialog__body {
+				padding: 20px !important;
+			}
+		}
+	}
+}
+.el-dialog__body {
+	max-height: calc(90vh - 111px) !important;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+/* Card
+------------------------------- */
+.el-card__header {
+	padding: 15px 20px;
+}
+
+/* Table 
+------------------------------- */
+.el-table {
+	.el-button.is-text {
+		padding: 0;
+	}
+}
+
+/* scrollbar
+------------------------------- */
+.el-scrollbar__bar {
+	z-index: 4;
+}
+.el-scrollbar__wrap {
+	max-height: 100%; 
+}
+.el-select-dropdown .el-scrollbar__wrap {
+	overflow-x: scroll !important;
+}
+.el-select-dropdown__wrap {
+	max-height: 274px !important; 
+}
+.el-cascader-menu__wrap.el-scrollbar__wrap {
+	height: 204px !important; 
+}
+/*用于界面高度自适应（main.vue），区分 scrollbar__view，防止其它使用 scrollbar 的地方出现滚动条消失*/
+// .layout-container{
+// 	.el-scrollbar__view,
+// 	.layout-main {
+// 		height: 100%;
+// 	}
+// } 
+
+/* Drawer 
+------------------------------- */
+.el-drawer {
+	--el-drawer-padding-primary: unset !important;
+	.el-drawer__header {
+		padding: 0 15px !important;
+		height: 50px;
+		display: flex;
+		align-items: center;
+		margin-bottom: 0 !important;
+		border-bottom: 1px solid var(--el-border-color);
+		color: var(--el-text-color-primary);
+	}
+	.el-drawer__body {
+		width: 100%;
+		height: 100%;
+		overflow: auto;
+	}
+}
+
+/* Notification 
+------------------------------- */
+.el-notification{
+	.el-notification__content{
+		p{
+			text-align: left;
+			word-break: break-all;
+		}
+	}
+}
