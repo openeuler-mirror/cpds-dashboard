@@ -1,0 +1,40 @@
+.el-button {
+    &.el-button--primary{
+        &:focus{
+            background: var(--el-color-primary);
+        }
+    }
+    &.el-button--danger{
+        &:focus{
+            background: var(--el-color-danger);
+        }
+    }
+    &.is-disabled {
+        color: var(--el-color-info-light-5);
+        background-color: var(--el-color-info-light-9);
+        border-color: var(--el-color-info-light-8);
+
+        &:hover {
+            color: var(--el-color-info-light-5);
+            background-color: var(--el-color-info-light-9);
+            border-color: var(--el-color-info-light-8);
+        }
+    }
+}
+
+.el-dialog {
+    .el-dialog__header {
+        border-bottom: 1px solid #e0e0e0;
+        margin-right: 0px;
+        display: flex;
+        align-items: center;
+
+        .title {
+            font-weight: 700;
+        }
+    }
+
+    .el-dialog__footer {
+        border-top: 1px solid #e0e0e0;
+    }
+}

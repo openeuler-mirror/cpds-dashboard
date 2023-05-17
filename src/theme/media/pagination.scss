@@ -1,0 +1,16 @@
+@import './index.scss';
+
+/* The page width is less than 576px
+------------------------------- */
+@media screen and (max-width: $xs) {
+
+	.el-pager,
+	.el-pagination__jump {
+		display: none !important;
+	}
+}
+
+.el-pagination {
+	text-align: center !important;
+	justify-content: flex-end;
+}

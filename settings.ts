@@ -1,0 +1,1 @@
+export const uiVersion = 'v1.0.0';

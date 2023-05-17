@@ -1,0 +1,170 @@
+{
+  "id": "3836756",
+  "name": "分布式文件系统",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "28830402",
+      "name": "数据存储",
+      "font_class": "cunchujuan",
+      "unicode": "e74d",
+      "unicode_decimal": 59213
+    },
+    {
+      "icon_id": "2321951",
+      "name": "存储",
+      "font_class": "mulu",
+      "unicode": "e726",
+      "unicode_decimal": 59174
+    },
+    {
+      "icon_id": "9833336",
+      "name": "高性能",
+      "font_class": "xinneng",
+      "unicode": "e91b",
+      "unicode_decimal": 59675
+    },
+    {
+      "icon_id": "18321644",
+      "name": "饼状统计",
+      "font_class": "zhuangtai",
+      "unicode": "e645",
+      "unicode_decimal": 58949
+    },
+    {
+      "icon_id": "12314782",
+      "name": "监控中心",
+      "font_class": "jiankongzhongxin",
+      "unicode": "e616",
+      "unicode_decimal": 58902
+    },
+    {
+      "icon_id": "6921347",
+      "name": "alidfs 分布式文件系统",
+      "font_class": "alidfs",
+      "unicode": "e8eb",
+      "unicode_decimal": 59627
+    },
+    {
+      "icon_id": "9701301",
+      "name": "告警信息",
+      "font_class": "gaojingxinxi",
+      "unicode": "e67b",
+      "unicode_decimal": 59003
+    },
+    {
+      "icon_id": "11799120",
+      "name": "告警设置",
+      "font_class": "gaojingshezhi",
+      "unicode": "e668",
+      "unicode_decimal": 58984
+    },
+    {
+      "icon_id": "27584646",
+      "name": "存储池",
+      "font_class": "cunchuchi",
+      "unicode": "e674",
+      "unicode_decimal": 58996
+    },
+    {
+      "icon_id": "609557",
+      "name": "调整大小",
+      "font_class": "resize",
+      "unicode": "e720",
+      "unicode_decimal": 59168
+    },
+    {
+      "icon_id": "20009262",
+      "name": "key钥匙",
+      "font_class": "key",
+      "unicode": "e6de",
+      "unicode_decimal": 59102
+    },
+    {
+      "icon_id": "21489554",
+      "name": "line-uninstall（卸载）",
+      "font_class": "line-uninstall",
+      "unicode": "e721",
+      "unicode_decimal": 59169
+    },
+    {
+      "icon_id": "588120",
+      "name": "弹性块存储",
+      "font_class": "block-storage",
+      "unicode": "e6a2",
+      "unicode_decimal": 59042
+    },
+    {
+      "icon_id": "4016507",
+      "name": "文件",
+      "font_class": "file-storage",
+      "unicode": "e6ac",
+      "unicode_decimal": 59052
+    },
+    {
+      "icon_id": "4800130",
+      "name": "字体",
+      "font_class": "ziti",
+      "unicode": "e7b1",
+      "unicode_decimal": 59313
+    },
+    {
+      "icon_id": "18211625",
+      "name": "未关联",
+      "font_class": "weiguanlian",
+      "unicode": "e7d1",
+      "unicode_decimal": 59345
+    },
+    {
+      "icon_id": "6357938",
+      "name": "概述",
+      "font_class": "gaishu",
+      "unicode": "e638",
+      "unicode_decimal": 58936
+    },
+    {
+      "icon_id": "629343",
+      "name": "首页",
+      "font_class": "shouye",
+      "unicode": "e64f",
+      "unicode_decimal": 58959
+    },
+    {
+      "icon_id": "2486596",
+      "name": "任务列表",
+      "font_class": "renwuliebiao",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    },
+    {
+      "icon_id": "4657668",
+      "name": "存储",
+      "font_class": "cunchu",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "5638794",
+      "name": "节点",
+      "font_class": "jiedian",
+      "unicode": "e614",
+      "unicode_decimal": 58900
+    },
+    {
+      "icon_id": "6429421",
+      "name": "事件",
+      "font_class": "shijian",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
+      "icon_id": "8229528",
+      "name": "集群",
+      "font_class": "jiqun",
+      "unicode": "e605",
+      "unicode_decimal": 58885
+    }
+  ]
+}
