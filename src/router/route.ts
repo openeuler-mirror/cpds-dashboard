@@ -38,7 +38,7 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 					isIframe: false,
 					roles: ['admin', 'common'],
 					icon: `iconfont icon-${nameToTitle.noCluster.icon}`,
-				}
+				},
 			},
 			{
 				path: '/home',
@@ -66,7 +66,7 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 					isKeepAlive: false,
 					isAffix: false,
 					isIframe: false,
-					roles: ['admin','common'],
+					roles: ['admin', 'common'],
 					icon: `iconfont icon-${nameToTitle.monitorWarn.icon}`,
 				},
 				children: [
@@ -83,7 +83,7 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isIframe: false,
 							roles: ['admin'],
 							icon: `iconfont icon-${nameToTitle.clusterStatus.icon}`,
-						}
+						},
 					},
 					{
 						path: '/monitor-warn/node-health',
@@ -98,7 +98,7 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isIframe: false,
 							roles: ['admin'],
 							icon: `iconfont icon-${nameToTitle.nodeHealth.icon}`,
-						}
+						},
 					},
 					{
 						path: '/monitor-warn/awrn-management',
@@ -113,9 +113,9 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isIframe: false,
 							roles: ['admin'],
 							icon: `iconfont icon-${nameToTitle.awrnManagement.icon}`,
-						}
-					}
-				]
+						},
+					},
+				],
 			},
 			{
 				path: '/health-diagnosis',
@@ -161,21 +161,55 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							roles: ['admin'],
 							icon: `iconfont icon-${nameToTitle.dataRetrieval.icon}`,
 						},
-					}
-				]
+					},
+				],
 			},
-			
+			{
+				path: '/rule-management',
+				name: 'rule-management',
+				component: () => import('/@/layout/index.vue'),
+				meta: {
+					title: nameToTitle.rlueManagement.title,
+					isLink: '',
+					isHide: false,
+					isKeepAlive: false,
+					isAffix: false,
+					isIframe: false,
+					roles: ['admin'],
+					icon: `iconfont icon-${nameToTitle.rlueManagement.icon}`,
+				},
+				children: [
+					{
+						path: '/rule-management/rule-view',
+						name: 'rule-view',
+						component: () => import('/@/views/rule-management/rule-view/index.vue'),
+						meta: {
+							title: nameToTitle.ruleView.title,
+							isLink: '',
+							isHide: false,
+							isKeepAlive: false,
+							isAffix: false,
+							isIframe: false,
+							roles: ['admin'],
+							icon: `iconfont icon-${nameToTitle.ruleView.icon}`,
+						},
+					},
+				],
+			},
 		],
 	},
 ];
 // Load closed source function route
 for (let eRoute of eeRoutes) {
 	const pChildren = dynamicRoutes[0].children as RouteRecordRaw[];
-	const index = pChildren.findIndex((route:any) => route.name === eRoute.name);
+	const index = pChildren.findIndex((route: any) => route.name === eRoute.name);
 	if (index === -1) {
 		dynamicRoutes[0].children = [...pChildren, eRoute];
 	} else {
-		((dynamicRoutes[0].children as RouteRecordRaw[])[index].children = [...(pChildren[index].children as RouteRecordRaw[]), ...(eRoute.children as RouteRecordRaw[])]);
+		(dynamicRoutes[0].children as RouteRecordRaw[])[index].children = [
+			...(pChildren[index].children as RouteRecordRaw[]),
+			...(eRoute.children as RouteRecordRaw[]),
+		];
 	}
 }
 
@@ -209,9 +243,7 @@ export const staticRoutes: Array<RouteRecordRaw> = [
 		meta: {
 			title: '布局界面',
 		},
-		children: [
-			...notFoundAndNoPower,
-		],
+		children: [...notFoundAndNoPower],
 	},
 	{
 		path: '/login',

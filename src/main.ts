@@ -15,7 +15,6 @@ directive(app);
 other.elSvg(app);
 
 app.use(pinia).use(router).use(ElementPlus).use(VueGridLayout).mount('#app');
-
 app.config.globalProperties.mittBus = mitt();
 // Turn off console warning messages
 app.config.warnHandler = () => null;
