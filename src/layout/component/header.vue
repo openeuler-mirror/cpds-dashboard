@@ -24,7 +24,7 @@ export default defineComponent({
 		// Set the height of the header
 		const setHeaderHeight = computed(() => {
 			let { isTagsview, layout } = themeConfig.value;
-			if (isTagsview && layout !== 'classic') return '150px';
+			if (isTagsview && layout !== 'classic') return '50px';
 			else return '50px';
 		});
 		return {

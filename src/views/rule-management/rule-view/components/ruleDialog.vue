@@ -25,7 +25,8 @@
 		<div class="condition">
 			<el-form-item label="亚健康比较条件" style="width: 80%" prop="subhealth_condition_type">
 				<el-select v-model="newFrom.subhealth_condition_type" clearable placeholder="">
-					<el-option v-for="item in faultConditionTypeOptions" :label="item.label" :value="item.value" :key="item.value" />
+					<el-option v-for="item in faultConditionTypeOptions" :label="item.label" :value="item.value"
+						:key="item.value" />
 				</el-select>
 			</el-form-item>
 			<el-form-item label="亚健康阈值" prop="subhealth_thresholds">
@@ -35,7 +36,8 @@
 		<div class="condition">
 			<el-form-item label="故障比较条件" style="width: 80%" prop="fault_condition_type">
 				<el-select v-model="newFrom.fault_condition_type" clearable placeholder="">
-					<el-option v-for="item in faultConditionTypeOptions" :label="item.label" :value="item.value" :key="item.value" />
+					<el-option v-for="item in faultConditionTypeOptions" :label="item.label" :value="item.value"
+						:key="item.value" />
 				</el-select>
 			</el-form-item>
 			<el-form-item label="故障阈值" prop="fault_thresholds">
@@ -46,7 +48,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ComponentInternalInstance, reactive, defineEmits, watch, ref, computed, getCurrentInstance } from 'vue';
+import { reactive, defineEmits, watch, ref, computed } from 'vue';
 import { ElMessage } from 'element-plus';
 import { editRuleDataInterface } from '../../interface/index';
 import type { FormInstance } from 'element-plus';
@@ -98,10 +100,14 @@ const emits = defineEmits(['update:value', 'RefreshList']);
 //Submit Edit Form
 const editRule = () => {
 	if (!ruleDataRuleRef.value) return;
-	newFrom.value.fault_thresholds = parseFloat(newFrom.value.fault_thresholds as any);
-	newFrom.value.subhealth_thresholds = parseFloat(newFrom.value.subhealth_thresholds as any);
 	ruleDataRuleRef.value.validate((valid: any) => {
 		if (!valid) return;
+		if (newFrom.value.fault_thresholds) {
+			newFrom.value.fault_thresholds = parseFloat(newFrom.value.fault_thresholds as any);
+		}
+		if (newFrom.value.subhealth_thresholds) {
+			newFrom.value.subhealth_thresholds = parseFloat(newFrom.value.subhealth_thresholds as any);
+		}
 		useRuleApi()
 			.updateRule(newFrom.value)
 			.then(() => {
@@ -228,6 +234,14 @@ const faultConditionTypeOptions = [
 	{ label: '<=', value: '<=' },
 	{ label: '>=', value: '>=' },
 ];
+watch(() => [newFrom.value.subhealth_condition_type, newFrom.value.fault_condition_type], () => {
+	if (!newFrom.value.subhealth_condition_type) {
+		ruleDataRuleRef.value?.clearValidate(['subhealth_thresholds']);
+	}
+	if (!newFrom.value.fault_condition_type) {
+		ruleDataRuleRef.value?.clearValidate(['fault_thresholds']);
+	}
+})
 </script>
 
 <style scoped>

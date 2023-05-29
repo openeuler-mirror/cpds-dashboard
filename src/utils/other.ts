@@ -108,7 +108,7 @@ export function handleEmpty(list: any) {
  * use spark-md5 create MD5
  * @resolve {string} md5
  */
-export async function MD5(file:any) {
+export async function MD5(file: any) {
 	return new Promise((resolve, reject) => {
 		const blobSlice = File.prototype.slice;
 		// Read in chunks of 2MB
@@ -117,7 +117,7 @@ export async function MD5(file:any) {
 		const spark = new SparkMD5.ArrayBuffer();
 		const fileReader = new FileReader();
 		let currentChunk = 0;
-		fileReader.onload = function(e) {
+		fileReader.onload = function (e) {
 			// Append array buffer
 			spark.append(e.target?.result);
 			currentChunk++;
@@ -127,7 +127,7 @@ export async function MD5(file:any) {
 				resolve(spark.end());
 			}
 		};
-		fileReader.onerror = function(e) {
+		fileReader.onerror = function (e) {
 			reject(e);
 		};
 		function loadNext() {
@@ -143,10 +143,10 @@ export async function MD5(file:any) {
 const chartColors = ['#91CC75', '#FAC858', '#EE6666', '#73C0DE', '#5470C6', '#FC8452', '#9A60B4', '#9A60B4', '#EA7CCC'];
 
 // line chart data handle
-export const lineTimeHandle = (data?:any, dataMap?:mapData, callback?:(data:number)=>number) => {
-	const chartData:LineChartData = {
+export const lineTimeHandle = (data?: any, dataMap?: mapData, callback?: (data: number) => number) => {
+	const chartData: LineChartData = {
 		seriesNames: [],
-		seriesData: []
+		seriesData: [],
 	};
 	if (data) {
 		try {
@@ -158,14 +158,14 @@ export const lineTimeHandle = (data?:any, dataMap?:mapData, callback?:(data:numb
 					chartData.seriesData.push({
 						name: name,
 						type: 'line',
-						data: data[key].map((item:[number, number|string]) => [
+						data: data[key].map((item: [number, number | string]) => [
 							item[0] * 1000,
-							callback ? callback(typeof item[1] === 'string' ? 0 : item[1]) : typeof item[1] === 'string' ? 0 : item[1]
+							callback ? callback(typeof item[1] === 'string' ? 0 : item[1]) : typeof item[1] === 'string' ? 0 : item[1],
 						]),
 						showSymbol: false,
 						itemStyle: {
-							color: chartColors[i++]
-						}
+							color: chartColors[i++],
+						},
 					});
 				}
 			}
@@ -177,7 +177,7 @@ export const lineTimeHandle = (data?:any, dataMap?:mapData, callback?:(data:numb
 };
 
 // format units
-export const formatUnits = (size:string|number|null|undefined) => {
+export const formatUnits = (size: string | number | null | undefined) => {
 	let units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
 	let i = 0;
 	let num = Number(size);
@@ -193,7 +193,7 @@ export const formatUnits = (size:string|number|null|undefined) => {
 		i++;
 	}
 
-	if (typeof (num) === 'number') {
+	if (typeof num === 'number') {
 		return num.toFixed(2) + units[i];
 	} else {
 		return num;
@@ -201,19 +201,19 @@ export const formatUnits = (size:string|number|null|undefined) => {
 };
 
 // fill dates
-export const fillDates = (start:string, range:any) => {
+export const fillDates = (start: string, range: any) => {
 	const begin = new Date(start).valueOf() / 1000;
 	for (const key in range) {
 		if (Object.prototype.hasOwnProperty.call(range, key)) {
 			if (range[key] !== null) {
-				const gap:number = range[key][0][0] - begin;
-				let interval:number = range[key][1][0] - range[key][0][0];
+				const gap: number = range[key][0][0] - begin;
+				let interval: number = range[key][1][0] - range[key][0][0];
 				if (range[key].lengh === 1) {
 					interval = 1;
 				}
-				const	frequency:number = gap / interval;
-				const timeArray:any = range[key];
-				const originalBegin:any = range[key][0][0];
+				const frequency: number = gap / interval;
+				const timeArray: any = range[key];
+				const originalBegin: any = range[key][0][0];
 				// console.log(interval);
 				if (frequency > 0 && interval > 0) {
 					for (let x = 1; x <= frequency; x++) {
@@ -225,6 +225,14 @@ export const fillDates = (start:string, range:any) => {
 	}
 	return range;
 };
+export const strMapToObj = (strMap: any) => {
+	let obj = Object.create(null);
+	for (let [k, v] of strMap) {
+		obj[k] = v;
+	}
+	return obj;
+};
+
 const other = {
 	elSvg: (app: App) => {
 		elSvg(app);

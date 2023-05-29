@@ -2,7 +2,7 @@ import request from '/@/utils/request';
 
 export function useRuleApi() {
 	return {
-		getRuleList: (data: { filter?: string; sort_field?: string; sort_order?: string; page_no: number; page_size: number }) => {
+		getRuleList: (data: { filter?: string; sort_field?: string; sort_order?: string; page_no?: number; page_size?: number }) => {
 			return request({
 				url: '/api/v1/rules',
 				method: 'get',

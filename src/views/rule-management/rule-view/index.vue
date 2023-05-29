@@ -1,9 +1,11 @@
 <template>
 	<div>
+		<Description :title="desctitle" :desc="desc"></Description>
 		<el-card>
 			<div class="header">
 				<div class="search">
-					<el-input v-model="rulesionfo.params.filter" class="width-150 mr10" placeholder="输入名称" :prefix-icon="Search" />
+					<el-input v-model="rulesionfo.params.filter" class="width-150 mr10" placeholder="输入名称"
+						:prefix-icon="Search" />
 					<el-button @click="search" type="primary">搜索</el-button>
 				</div>
 				<div>
@@ -13,17 +15,8 @@
 					</span>
 				</div>
 			</div>
-			<el-table
-				element-loading-text="数据加载中..."
-				highlight-current-row
-				height="calc(100vh - 455px)"
-				ref="tableRef"
-				v-loading="tableLoading"
-				@sort-change="ruleSort"
-				:data="rulesionfo.data"
-				border
-				style="width: 100%"
-			>
+			<el-table element-loading-text="数据加载中..." highlight-current-row height="calc(100vh - 455px)" ref="tableRef"
+				v-loading="tableLoading" @sort-change="ruleSort" :data="rulesionfo.data" border style="width: 100%">
 				<el-table-column prop="name" label="检测名" sortable="custom" width="100%" />
 				<el-table-column prop="expression" label="表达式" min-width="100%" />
 				<el-table-column prop="severity" label="警告级别" width="100%">
@@ -32,44 +25,34 @@
 					</template>
 				</el-table-column>
 				<el-table-column prop="duration" label="阈值时间" width="100%" />
-				<el-table-column prop="" label="亚健康条件" width="100%"
-					><template #default="{ row }">
+				<el-table-column prop="" label="亚健康条件" width="100%"><template #default="{ row }">
 						{{ row.subhealth_condition_type ? row.subhealth_condition_type + row.subhealth_thresholds : '—' }}
-					</template></el-table-column
-				>
-				<el-table-column prop="fault_fullvalue" label="故障条件" width="100%"
-					><template #default="{ row }">
+					</template></el-table-column>
+				<el-table-column prop="fault_fullvalue" label="故障条件" width="100%"><template #default="{ row }">
 						{{ row.fault_condition_type ? row.fault_condition_type + row.fault_thresholds : '—' }}
-					</template></el-table-column
-				>
+					</template></el-table-column>
 				<el-table-column prop="create_time" label="创建时间" sortable="custom" width="180%">
-					<template #default="{ row }">{{ formatDate(new Date(row.create_time * 1000), 'YYYY-mm-dd HH:MM:SS') }} </template>
+					<template #default="{ row }">{{ formatDate(new Date(row.create_time * 1000), 'YYYY-mm-dd HH:MM:SS') }}
+					</template>
 				</el-table-column>
-				<el-table-column prop="update_time" label="更新时间" sortable="custom" width="180%"
-					><template #default="{ row }">{{ formatDate(new Date(row.update_time * 1000), 'YYYY-mm-dd HH:MM:SS') }} </template></el-table-column
-				>
-				<el-table-column prop="fault_fullvalue" label="操作" style="text-align: center" width="180%"
-					><template #default="{ row }"
-						><el-button @click="editRule(row)" size="small" type="primary">编辑</el-button>
-						<el-button size="small" type="danger" @click="deleteRule(row)">删除 </el-button></template
-					></el-table-column
-				>
+				<el-table-column prop="update_time" label="更新时间" sortable="custom" width="180%"><template
+						#default="{ row }">{{ formatDate(new Date(row.update_time * 1000), 'YYYY-mm-dd HH:MM:SS') }}
+					</template></el-table-column>
+				<el-table-column prop="fault_fullvalue" label="操作" style="text-align: center" width="180%"><template
+						#default="{ row }"><el-button @click="editRule(row)" size="small" type="primary">编辑</el-button>
+						<el-button size="small" type="danger" @click="deleteRule(row)">删除
+						</el-button></template></el-table-column>
 			</el-table>
 			<div class="pagination">
-				<el-pagination
-					v-model:current-page="rulesionfo.params.pageNum"
-					v-model:page-size="rulesionfo.params.pageSize"
-					@current-change="onHandleCurrentChange"
-					@size-change="onHandleSizeChange"
-					:page-sizes="[5, 10, 30, 50]"
-					background
-					layout="total, sizes, prev, pager, next, jumper"
-					:total="rulesionfo.total"
-				/>
+				<el-pagination v-model:current-page="rulesionfo.params.pageNum"
+					v-model:page-size="rulesionfo.params.pageSize" @current-change="onHandleCurrentChange"
+					@size-change="onHandleSizeChange" :page-sizes="[5, 10, 30, 50]" background
+					layout="total, sizes, prev, pager, next, jumper" :total="rulesionfo.total" />
 			</div>
 		</el-card>
 		<el-dialog :title="title" v-model="dialogVisible" :destroy-on-close="true" width="600px">
-			<RuleDialog ref="dialogRuleRef" v-model:value="dialogVisible" :ruleFromdata="editRuleData" @RefreshList="getruleList(true)"></RuleDialog>
+			<RuleDialog ref="dialogRuleRef" v-model:value="dialogVisible" :ruleFromdata="editRuleData"
+				@RefreshList="getruleList(true)"></RuleDialog>
 			<template #footer>
 				<el-button @click="dialogVisible = false">取消</el-button>
 				<el-button type="primary" @click="handleDialogRule">确定</el-button>
@@ -84,8 +67,10 @@ import { Search } from '@element-plus/icons-vue';
 import { useRuleApi } from '/@/api/rule-management/index';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import { RulesStateInterface, editRuleDataInterface, RulesInterface } from '../interface/index';
+import Description from '/@/components/description/index.vue'
 const RuleDialog = defineAsyncComponent(() => import('./components/ruleDialog.vue'));
-
+const desctitle = '查看规则'
+const desc = '支持故障/亚健康检测规则列表查看、创建、编辑、删除功能，列表包括规则名、表达式、告警级别和亚健康、故障比较规则值信息'
 const state = reactive<RulesStateInterface>({
 	rulesionfo: {
 		data: [],
@@ -153,7 +138,7 @@ const handleDialogRule = () => {
 
 //Delete rule
 const deleteRule = (row: RulesInterface) => {
-	alert(row.id);
+
 	ElMessageBox.confirm(`是否删除检查名为 ${row.name} 的这条规则`, {
 		confirmButtonText: '确定',
 		cancelButtonText: '取消',
@@ -169,7 +154,7 @@ const deleteRule = (row: RulesInterface) => {
 					getruleList(true);
 				});
 		})
-		.catch(() => {});
+		.catch(() => { });
 };
 //Get ruleList
 const getruleList = (loading: boolean = false, order: boolean = false) => {
