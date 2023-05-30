@@ -1,7 +1,6 @@
 <template>
 	<div class="layout-navbars-container">
 		<BreadcrumbIndex />
-		<TagsView />
 	</div>
 </template>
 
@@ -10,11 +9,11 @@ import { computed, defineComponent } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useThemeConfig } from '/@/stores/themeConfig';
 import BreadcrumbIndex from '/@/layout/navBars/breadcrumb/index.vue';
-import TagsView from '/@/layout/navBars/tagsView/tagsView.vue';
+
 
 export default defineComponent({
 	name: 'layoutNavBars',
-	components: { BreadcrumbIndex, TagsView },
+	components: { BreadcrumbIndex },
 	setup() {
 		const storesThemeConfig = useThemeConfig();
 		const { themeConfig } = storeToRefs(storesThemeConfig);

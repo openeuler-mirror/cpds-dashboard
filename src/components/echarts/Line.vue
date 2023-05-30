@@ -1,67 +1,67 @@
+<template>
+	<div class="chart" ref="chartRef"></div>
+</template>
 <script setup lang="ts">
-import { onMounted, Ref, ref } from 'vue';
-import { ECharts, EChartsOption, init } from 'echarts';
+import { onMounted, ref, shallowRef, watch, onUnmounted } from 'vue';
+import * as echarts from 'echarts';
+import { formatDate } from '/@/utils/formatTime';
 
-let chart: ECharts;
-const chartRef: Ref<HTMLElement | null> = ref(null);
+const props = defineProps<{
+	data: {
+		xData: any[],
+		seriesData: any[],
+		yData: any[],
+		subhealth_thresholds: number,
+		fault_thresholds: number
+	}
+}>()
 
+const myChart = shallowRef();
+const chartRef = ref<HTMLDivElement>();
 const initChart = () => {
+	myChart.value = echarts.init(chartRef.value as HTMLDivElement)
 	const option = {
+		tooltip: {
+			trigger: 'axis',
+			axisPointer: {
+				type: 'cross',
+				label: {
+					backgroundColor: '#6a7985'
+				}
+			},
+		},
+		legend: {
+			show: true,
+			top: 'bottom'
+		},
 		xAxis: {
 			type: 'category',
-			data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+			data: props.data.xData.map(time => formatDate(new Date(time * 1000), 'HH:MM:SS')),
+
 		},
 		yAxis: {
 			type: 'value',
 		},
-		series: [
-			{
-				data: [820, 932, 901, 934, 1290, 1330, 1320],
-				type: 'line',
-				smooth: true,
-			},
-		],
+		series: props.data.seriesData
+
+
 	};
-	chart.setOption(option);
-};
-const updateChart = () => {
-	const option: EChartsOption = {
-		series: [
-			{
-				type: 'line',
-				data: [
-					{
-						value: 5,
-						name: '故障',
-					},
-					{
-						value: 35,
-						name: '健康',
-					},
-					{
-						value: 10,
-						name: '亚健康',
-					},
-				],
-			},
-		],
-	};
-	chart.setOption(option);
+	myChart.value.setOption(option);
 };
 
 onMounted(() => {
-	chart = init(chartRef.value as HTMLElement);
 	initChart();
 });
+watch(props.data, () => {
+	initChart();
+},)
 </script>
 
-<template>
-	<div class="chart" ref="chartRef"></div>
-</template>
+
 
 <style scoped>
 .chart {
-	width: 400px;
-	height: 200px;
+	width: 100%;
+	height: 400px;
 }
 </style>

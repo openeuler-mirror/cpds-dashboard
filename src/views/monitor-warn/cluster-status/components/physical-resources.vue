@@ -2,6 +2,7 @@
 	<div class="node">
 		集群物理资源监控
 		<div class="content">
+			<!-- <el-card> <Line></Line> </el-card>
 			<el-card> <Line></Line> </el-card>
 			<el-card> <Line></Line> </el-card>
 			<el-card> <Line></Line> </el-card>
@@ -9,8 +10,7 @@
 			<el-card> <Line></Line> </el-card>
 			<el-card> <Line></Line> </el-card>
 			<el-card> <Line></Line> </el-card>
-			<el-card> <Line></Line> </el-card>
-			<el-card> <Line></Line> </el-card>
+			<el-card> <Line></Line> </el-card> -->
 		</div>
 	</div>
 </template>
@@ -24,7 +24,8 @@ import Line from '/@/components/echarts/Line.vue';
 	flex-wrap: wrap;
 	justify-content: space-between;
 }
-.content > div {
+
+.content>div {
 	width: calc((100% - 15px) / 2);
 	height: calc((100% - 30px) / 2);
 	margin-top: 15px;
