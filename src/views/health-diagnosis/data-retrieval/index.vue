@@ -1,9 +1,279 @@
 <template>
-	<div class="container">诊断检索数据</div>
+	<div>
+		<Description :title="title" :desc="desc"></Description>
+		<el-card>
+			<div>
+				<icon>
+					<Search style="width: 1em; height: 1em; margin-right: 8px" />
+				</icon>
+				<span style="font-size: 20px;font-weight: bold;">原始数据查询</span>
+			</div>
+			<div style="margin-top: 50px;">
+				<h4 style="margin-bottom: 15px;">原始数据查询</h4>
+				<el-form ref="expressionRef" :rules="rules" :model="newFrom">
+					<el-form-item label="表达式" style="font-weight: bold;" prop="expression">
+						<el-input v-model.trim="newFrom.expression" placeholder="在此处输入表达式" style="width: 70%;" />
+					</el-form-item></el-form>
+
+			</div>
+			<div class="time">
+				<div class="demo-datetime-picker" style="flex:1">
+					<div class="operation" style="display: flex;line-height: 30px;">
+						<span>查询范围</span>
+						<div class="container">
+							<el-date-picker ref="dateRef" style="margin-left: 5px;" class="mr10" v-model="datetimerange"
+								type="datetimerange" unlink-panels range-separator="-" start-placeholder="请选择开始时间"
+								end-placeholder="请选择结束时间" value-format="YYYY-MM-DD HH:mm:ss" :shortcuts="shortcuts"
+								@change="dateChange" />
+							<div v-show="latestTime" class="container-time" @click="dateRef.focus()">{{ latestTime }}</div>
+						</div>
+
+					</div>
+				</div>
+				<el-button type="primary" style="margin-right: 30%;" @click="selectRawDate">查询</el-button>
+			</div>
+			<div style="margin-top: 100px;">
+				<h2>原始数据查询历史记录</h2>
+				<el-table :data="history" style="width: 100%">
+					<el-table-column label="表达式" align="center"> <template #default="{ row }"><span
+								@click="getExpression(row.expression)" style="cursor: pointer;">{{
+									row.expression }}</span></template></el-table-column>
+					<el-table-column prop="time" label="查询范围" align="center"> </el-table-column>
+
+				</el-table>
+			</div>
+			<div>
+				<el-dialog :title="rawtitle" v-model="dialogVisible" :destroy-on-close="true" width="60%">
+					<RawData ref="rawRuleRef" v-model:value="dialogVisible" @RefreshHistory="refreshHistory()"
+						:expression="newFrom.expression"></RawData>
+					<template #footer>
+						<el-button @click="dialogVisible = false">关闭</el-button>
+					</template>
+				</el-dialog>
+			</div>
+
+
+		</el-card>
+	</div>
 </template>
-<script lang="ts" setup></script>
-<style scoped>
+<script lang="ts" setup>
+import { ref, watch, defineAsyncComponent, provide, reactive, onMounted } from 'vue';
+import Description from '/@/components/description/index.vue'
+import { Search } from '@element-plus/icons-vue';
+import { timeNameMap } from '/@/utils/const';
+import { dayjs } from 'element-plus';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import type { FormInstance } from 'element-plus'
+import { Local } from '/@/utils/storage';
+dayjs.extend(relativeTime);
+const RawData = defineAsyncComponent(() => import('./components/rawData.vue'))
+const title = '原始数据检索';
+const desc = '提供诊断结果列表,支持诊断原始数据查看，显示诊断时所使用的原始数据,并提供图表展示原始数据的变化规律。'
+const datetimerange = ref()
+const defaultdaterange = ref<[number, string]>([5 * 60, 'second']);
+const latestTime = ref('最近 ' + timeNameMap[dayjs(dayjs().subtract(defaultdaterange.value[0], 'second')).fromNow(true)]);
+const dateRef = ref()
+const rawtitle = ref()
+const history = ref()
+const dialogVisible = ref(false)
+const expressionRef = ref<FormInstance>()
+const newFrom = ref({
+	expression: ''
+});
+const validateName = (rule: any, value: any, callback: any) => {
+	if (!value) {
+		return callback(new Error('请输入表达式'));
+	}
+	var reg = /^[^`~@#$%^&*?.]+$/;
+	if (!reg.test(value)) {
+		return callback(new Error('规则表达式中不可包含特殊字符'));
+	}
+	callback()
+}
+const rules = reactive({
+	expression: [{ validator: validateName, trigger: 'blur' }],
+
+});
+
+const dateChange = (val: any) => {
+	if (val) {
+		if (dayjs(val[1]).diff(new Date(), 'second') == 0) {  // relative time range
+			const diff = dayjs(val[1]).diff(val[0], 'second');
+			defaultdaterange.value[0] = diff;
+			datetimerange.value = null
+		} else {   // Filter time range
+			datetimerange.value = val;
+			latestTime.value = ''
+		}
+	} else {
+		datetimerange.value = null
+	}
+}
+//Refresh Historical Data
+const refreshHistory = () => {
+	history.value = Local.get('history')
+}
+const getExpression = (expression: string) => {
+	newFrom.value.expression = expression
+}
+provide('datetimerange', datetimerange);
+provide('defaultdaterange', defaultdaterange);
+const selectRawDate = () => {
+	if (!expressionRef.value) return;
+	expressionRef.value.validate((valid: any) => {
+		if (!valid) return;
+		rawtitle.value = `监控指标：${newFrom.value.expression}`
+		dialogVisible.value = true
+	})
+
+}
+// Monitoring time range change
+watch(
+	datetimerange,
+	val => {
+		!val && (latestTime.value = '最近 ' + timeNameMap[dayjs(dayjs().subtract(defaultdaterange.value[0], 'second')).fromNow(true)]);
+	},
+
+
+);
+onMounted(() => {
+	history.value = Local.get('history')
+})
+const shortcuts = [
+	{
+		text: '最近 5 分钟',
+		value: () => {
+			const end = new Date();
+			const start = new Date()
+			start.setTime(start.getTime() - 5 * 60 * 1000)
+			return [start, end]
+		}
+	},
+	{
+		text: '最近 10 分钟',
+		value: () => {
+			const end = new Date();
+			const start = new Date();
+			start.setTime(start.getTime() - 10 * 60 * 1000)
+			return [start, end]
+		}
+	},
+	{
+		text: '最近 30 分钟',
+		value: () => {
+			const end = new Date();
+			const start = new Date()
+			start.setTime(start.getTime() - 30 * 60 * 1000)
+			return [start, end]
+		}
+	},
+	{
+		text: '最近 1 小时',
+		value: () => {
+			const end = new Date();
+			const start = new Date();
+			start.setTime(start.getTime() - 60 * 60 * 1000);
+			return [start, end];
+		},
+	},
+	{
+		text: '最近 2 小时',
+		value: () => {
+			const end = new Date();
+			const start = new Date();
+			start.setTime(start.getTime() - 2 * 60 * 60 * 1000);
+			return [start, end];
+		},
+	},
+	{
+		text: '最近 3 小时',
+		value: () => {
+			const end = new Date();
+			const start = new Date();
+			start.setTime(start.getTime() - 3 * 60 * 60 * 1000);
+			return [start, end];
+		},
+	},
+	{
+		text: '最近 6 小时',
+		value: () => {
+			const end = new Date();
+			const start = new Date();
+			start.setTime(start.getTime() - 6 * 60 * 60 * 1000);
+			return [start, end];
+		},
+	},
+	{
+		text: '最近 12 小时',
+		value: () => {
+			const end = new Date();
+			const start = new Date();
+			start.setTime(start.getTime() - 12 * 60 * 60 * 1000);
+			return [start, end];
+		},
+	},
+	{
+		text: '最近 1 天',
+		value: () => {
+			const end = new Date();
+			const start = new Date();
+			start.setTime(start.getTime() - 24 * 60 * 60 * 1000);
+			return [start, end];
+		},
+	},
+	{
+		text: '最近 3 天',
+		value: () => {
+			const end = new Date();
+			const start = new Date();
+			start.setTime(start.getTime() - 3 * 24 * 60 * 60 * 1000);
+			return [start, end];
+		},
+	},
+	{
+		text: '最近 7 天',
+		value: () => {
+			const end = new Date();
+			const start = new Date();
+			start.setTime(start.getTime() - 7 * 24 * 60 * 60 * 1000);
+			return [start, end];
+		},
+	},
+	{
+		text: '最近 1 个月',
+		value: () => {
+			const end = new Date();
+			const start = new Date();
+			start.setTime(start.getTime() - 30 * 24 * 60 * 60 * 1000);
+			return [start, end];
+		},
+	},
+]
+
+</script>
+<style  lang="scss" scoped>
 .container {
+	position: relative;
+	margin-left: 10px;
+}
+
+.container-time {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 405px;
+	height: 33px;
+	z-index: 100px;
+	background: #fff;
+	line-height: 30px;
+	text-align: center;
+	cursor: pointer;
+	border: 1px solid gray;
+	border-radius: 5px;
+}
+
+.time {
+	display: flex;
 	margin-top: 50px;
 }
 </style>

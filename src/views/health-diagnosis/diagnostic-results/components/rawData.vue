@@ -91,7 +91,7 @@ defineExpose({
     close
 });
 
-const getRawData = (query: string) => {
+const getRawData = (query?: string) => {
     useHealthApi().getRawData({ query: query, start_time: dayjs().subtract(10, 'minutes').unix(), end_time: dayjs().unix(), step: 10 }).then((res) => {
         rawDataList.value = res.data.result.map((item: any) => {
             const value = item.values[item.values.length - 1][1]
@@ -147,7 +147,10 @@ const getRuleData = (loading: boolean = false, filter: string) => {
     tableLoading.value = loading;
     useRuleApi().getRuleList({ filter: filter }).then((res) => {
         ruleData.value = res.data.records[0]
-        getRawData(ruleData.value.expression)
+        if (ruleData.value) {
+            getRawData(ruleData.value.expression)
+        }
+
     }).finally(() => {
         tableLoading.value = false;
     })
