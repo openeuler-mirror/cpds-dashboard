@@ -1,0 +1,156 @@
+<template>
+    <div>
+        <div style="width: 100%;height: 100%;">
+            <Line :data="state1.data"></Line>
+        </div>
+        <div class="table">
+            <el-table :data="tableData()" style="width: 80%" element-loading-text="数据加载中..." v-loading="tableLoading">
+                <el-table-column prop="name" :label="tableData()[0].time" />
+                <el-table-column prop="value" label="value" align="center" width="100%" />
+            </el-table>
+
+        </div>
+        <div class="example-pagination-block">
+
+            <el-pagination background layout="prev, pager, next ,total,sizes" :total="state.total"
+                @current-change="handleCurrentChange" @size-change="handleSizeChange" :page-sizes="[5, 10, 30, 50]"
+                :page-size="5" />
+        </div>
+    </div>
+</template>
+
+<script lang="ts" setup>
+
+import { reactive, watch, ref, defineAsyncComponent, toRefs, inject } from 'vue';
+import { formatDate } from '/@/utils/formatTime';
+import { useDataRetrievalApi } from '/@/api/data-retrieval/index';
+import { dayjs } from 'element-plus';
+import { Local } from '/@/utils/storage';
+const Line = defineAsyncComponent(() => import('/@/components/echarts/Line.vue'))
+
+const state1 = reactive<{
+    data: {
+        xData: any[],
+        seriesData: any,
+        yData: any[],
+        subhealth_thresholds: number,
+        fault_thresholds: number
+    }
+}>({
+    data: {
+        xData: [],
+        seriesData: [],
+        yData: [],
+        subhealth_thresholds: 0,
+        fault_thresholds: 0
+    }
+})
+
+const tableLoading = ref(false);
+const rawDataList = ref([{ name: '', value: null, time: '' }])
+//Parameters used in the table
+const state = reactive({
+    page: 1,
+    limit: 5,
+    total: 0
+});
+//Frontend restricted pagination (tableData is the current display page table)
+const tableData = () => {
+    return rawDataList.value.filter(
+        (item, index) =>
+            index < state.page * state.limit &&
+            index >= state.limit * (state.page - 1)
+    );
+};
+
+//Change page number
+const handleCurrentChange = (e: any) => {
+    state.page = e;
+};
+//Change page limit
+const handleSizeChange = (e: any) => {
+    state.limit = e;
+}
+
+const emits = defineEmits(['update:value', 'RefreshHistory']);
+const close = () => {
+    emits('update:value', false);
+}
+const props = defineProps<{ expression: string }>()
+const datetimerange = inject('datetimerange', ref());
+const defaultdaterange = inject('defaultdaterange', ref());
+defineExpose({
+    close
+});
+
+const getRawData = (query: string) => {
+    const params = {
+        query: query,
+        start_time: datetimerange.value ? new Date(datetimerange.value[0]).getTime() / 1000 : new Date(dayjs().subtract(defaultdaterange.value[0], defaultdaterange.value[1]).format('YYYY-MM-DD HH:mm:ss')).getTime() / 1000,
+        end_time: datetimerange.value ? new Date(datetimerange.value[1]).getTime() / 1000 : new Date(dayjs().format('YYYY-MM-DD HH:mm:ss')).getTime() / 1000,
+    }
+    const step = Math.ceil((params.end_time - params.start_time) / 25)
+    Object.assign(params, { step: step })
+    useDataRetrievalApi().getRawData(params).then((res) => {
+        rawDataList.value = res.data.result.map((item: any) => {
+            const value = item.values[item.values.length - 1][1]
+            const time = formatDate(new
+                Date(item.values[item.values.length - 1][0] * 1000), 'YYYY-mm-dd HH:MM:SS')
+            const { job, instance } = item.metric
+            return { name: `${query}{instance="${instance}",job="${job}"}`, value: value, time: time }
+        })
+        state.total = rawDataList.value.length
+        state1.data.xData = Array.from(new Map(res.data.result[0].values).keys())
+        state1.data.seriesData = res.data.result.map((item: any, index: number) => {
+            return {
+                name: rawDataList.value[index].name,
+                data: Array.from(new Map(item.values).values()),
+                type: 'line',
+                smooth: true,
+                areaStyle: {
+                    opacity: 0.4
+                },
+            }
+        })
+        const history = Local.get('history') || []
+        if (history.length === 10) {
+            history.pop()
+        }
+        if (history.length > 0 && history.some((item: any) => item.expression === query)) {
+            history.forEach((item: any) => {
+                if (item.expression === query) {
+                    item.time = `${formatDate(new
+                        Date(params.start_time * 1000), 'YYYY-mm-dd HH:MM:SS')} ~ ${formatDate(new
+                            Date(params.end_time * 1000), 'YYYY-mm-dd HH:MM:SS')}`
+                }
+            });
+        } else {
+            history.unshift({
+                expression: query, time: `${formatDate(new
+                    Date(params.start_time * 1000), 'YYYY-mm-dd HH:MM:SS')} ~ ${formatDate(new
+                        Date(params.end_time * 1000), 'YYYY-mm-dd HH:MM:SS')}`
+            })
+        }
+        Local.set('history', history)
+        emits('RefreshHistory');
+    }).finally(() => {
+
+    })
+}
+
+
+watch(() => props.expression, () => {
+    getRawData(props.expression)
+}, { immediate: true })
+
+
+</script>
+
+<style scoped>
+.table {
+    margin-top: 30px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+}
+</style>
