@@ -36,7 +36,7 @@ const initChart = () => {
 		},
 		xAxis: {
 			type: 'category',
-			data: props.data.xData.map(time => formatDate(new Date(time * 1000), 'HH:MM:SS')),
+			data: props.data.xData.map(time => formatDate(new Date(time * 1000), 'mm-dd HH:MM:SS')) || ['01日00:00', '01日00:00'],
 
 		},
 		yAxis: {
@@ -48,13 +48,15 @@ const initChart = () => {
 	};
 	myChart.value.setOption(option);
 };
-
 onMounted(() => {
 	initChart();
 });
 watch(props.data, () => {
 	initChart();
 },)
+window.addEventListener('resize', () => {
+	myChart.value.resize()
+})
 </script>
 
 

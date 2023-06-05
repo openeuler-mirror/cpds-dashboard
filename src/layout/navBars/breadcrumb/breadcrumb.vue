@@ -131,7 +131,6 @@ export default defineComponent({
 		};
 		onMounted(() => {
 			initRouteSplit(route.path);
-			console.log(route.path == '/home');
 		});
 		onBeforeRouteUpdate((to) => {
 			initRouteSplit(to.path);

@@ -8,12 +8,12 @@
 				<el-col :span="24">
 					<el-statistic :value="props.usedstate?.running">
 						<template #title>
-							<div style="display: inline-flex; align-items: center">{{ props.usedstate.name }} {{ unit }}</div>
+							<div style="display: inline-flex; align-items: center">{{ props.usedstate.name }} {{ unit }}
+							</div>
 						</template>
 						<template #suffix>/{{ props.usedstate?.total }}</template>
 					</el-statistic>
-				</el-col></el-row
-			>
+				</el-col></el-row>
 		</div>
 	</div>
 </template>
@@ -35,26 +35,33 @@ const num = computed(() => {
 .container {
 	margin-left: 30px;
 }
+
 .right {
 	margin-right: px;
 }
+
 .circle {
 	margin-right: 30px;
 }
+
 .top {
 	margin: 5px 0 5px 0;
 }
+
 .left {
 	margin-left: 20px;
 }
+
 .demo-progress .el-progress--line {
 	margin-bottom: 15px;
 	height: 150px;
 	width: 150px;
 }
+
 .demo-progress .el-progress--circle {
 	margin-right: 15px;
 }
+
 .pross {
 	display: flex;
 	width: 250px;
@@ -65,11 +72,12 @@ const num = computed(() => {
 	color: red;
 	background-color: aqua;
 }
+
 .el-col {
 	text-align: center;
 }
+
 .statistic {
 	width: 100%;
 	display: flex;
-}
-</style>
+}</style>

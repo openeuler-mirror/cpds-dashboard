@@ -11,7 +11,7 @@
 
         </div>
         <div class="example-pagination-block">
-            <!-- <div class="example-demonstration">分页</div> -->
+
             <el-pagination background layout="prev, pager, next ,total,sizes" :total="state.total"
                 @current-change="handleCurrentChange" @size-change="handleSizeChange" :page-sizes="[5, 10, 30, 50]"
                 :page-size="5" />
@@ -20,12 +20,12 @@
 </template>
 
 <script lang="ts" setup>
-import { useHealthApi } from '/@/api/health-diagnosis/index';
-import { reactive, watch, ref, defineAsyncComponent, toRefs } from 'vue';
-import { ResultInterface } from '../../interface/index'
+
+import { reactive, watch, ref, defineAsyncComponent, toRefs, inject } from 'vue';
 import { formatDate } from '/@/utils/formatTime';
-import { useRuleApi } from '/@/api/rule-management/index';
+import { useDataRetrievalApi } from '/@/api/data-retrieval/index';
 import { dayjs } from 'element-plus';
+import { Local } from '/@/utils/storage';
 const Line = defineAsyncComponent(() => import('/@/components/echarts/Line.vue'))
 
 const state1 = reactive<{
@@ -46,16 +46,6 @@ const state1 = reactive<{
     }
 })
 
-const getruleData = reactive({
-    ruleData: {
-        expression: '',
-        subhealth_condition_type: '',
-        fault_condition_type: '',
-        subhealth_thresholds: '',
-        fault_thresholds: ''
-    }
-})
-const { ruleData } = toRefs(getruleData)
 const tableLoading = ref(false);
 const rawDataList = ref([{ name: '', value: null, time: '' }])
 //Parameters used in the table
@@ -82,17 +72,26 @@ const handleSizeChange = (e: any) => {
     state.limit = e;
 }
 
-const emits = defineEmits(['update:value']);
+const emits = defineEmits(['update:value', 'RefreshHistory']);
 const close = () => {
     emits('update:value', false);
 }
-const props = defineProps<{ rawData: ResultInterface }>()
+const props = defineProps<{ expression: string }>()
+const datetimerange = inject('datetimerange', ref());
+const defaultdaterange = inject('defaultdaterange', ref());
 defineExpose({
     close
 });
 
-const getRawData = (query?: string) => {
-    useHealthApi().getRawData({ query: query, start_time: dayjs().subtract(10, 'minutes').unix(), end_time: dayjs().unix(), step: 10 }).then((res) => {
+const getRawData = (query: string) => {
+    const params = {
+        query: query,
+        start_time: datetimerange.value ? new Date(datetimerange.value[0]).getTime() / 1000 : new Date(dayjs().subtract(defaultdaterange.value[0], defaultdaterange.value[1]).format('YYYY-MM-DD HH:mm:ss')).getTime() / 1000,
+        end_time: datetimerange.value ? new Date(datetimerange.value[1]).getTime() / 1000 : new Date(dayjs().format('YYYY-MM-DD HH:mm:ss')).getTime() / 1000,
+    }
+    const step = Math.ceil((params.end_time - params.start_time) / 25)
+    Object.assign(params, { step: step })
+    useDataRetrievalApi().getRawData(params).then((res) => {
         rawDataList.value = res.data.result.map((item: any) => {
             const value = item.values[item.values.length - 1][1]
             const time = formatDate(new
@@ -111,53 +110,37 @@ const getRawData = (query?: string) => {
                 areaStyle: {
                     opacity: 0.4
                 },
-                markLine: {
-                    symbol: ['none', 'none'],
-                    width: 1,
-                    lineStyle: {
-                        width: 0.8,
-                        type: 'solid',
-                    },
-                    data: [
-                        {
-                            yAxis: ruleData.value.fault_thresholds,
-                            lineStyle: {
-                                color: 'red'
-                            },
-                        },
-                        {
-                            yAxis: ruleData.value.subhealth_thresholds,
-                            lineStyle: {
-                                color: 'yellow'
-                            },
-                        },
-                    ],
-                    label: {
-                        show: false,
-                        color: 'rgb(91, 155, 213)',
-                    },
-                },
             }
         })
-    }).finally(() => {
-
-    })
-}
-const getRuleData = (loading: boolean = false, filter: string) => {
-    tableLoading.value = loading;
-    useRuleApi().getRuleList({ filter: filter }).then((res) => {
-        ruleData.value = res.data.records[0]
-        if (ruleData.value) {
-            getRawData(ruleData.value.expression)
+        const history = Local.get('history') || []
+        if (history.length === 10) {
+            history.pop()
         }
-
+        if (history.length > 0 && history.some((item: any) => item.expression === query)) {
+            history.forEach((item: any) => {
+                if (item.expression === query) {
+                    item.time = `${formatDate(new
+                        Date(params.start_time * 1000), 'YYYY-mm-dd HH:MM:SS')} ~ ${formatDate(new
+                            Date(params.end_time * 1000), 'YYYY-mm-dd HH:MM:SS')}`
+                }
+            });
+        } else {
+            history.unshift({
+                expression: query, time: `${formatDate(new
+                    Date(params.start_time * 1000), 'YYYY-mm-dd HH:MM:SS')} ~ ${formatDate(new
+                        Date(params.end_time * 1000), 'YYYY-mm-dd HH:MM:SS')}`
+            })
+        }
+        Local.set('history', history)
+        emits('RefreshHistory');
     }).finally(() => {
-        tableLoading.value = false;
+
     })
 }
 
-watch(() => props.rawData, () => {
-    getRuleData(true, props.rawData.rule_name)
+
+watch(() => props.expression, () => {
+    getRawData(props.expression)
 }, { immediate: true })
 
 
