@@ -1,35 +1,43 @@
 <template>
-	<div class="cluster-status">
-		<el-tabs v-model="activeName" type="card" class="tab" @tab-click="handleClick">
-			<el-tab-pane label="概览" name="概览">
-				<div class="main">
-					<overview></overview>
-				</div>
-			</el-tab-pane>
-			<el-tab-pane label="物理资源监控" name="物理资源监控"><el-card class="box-card">
-					<physicalResources></physicalResources>
-				</el-card></el-tab-pane>
-			<el-tab-pane label="容器健康监控" name="容器健康监控"><el-card class="box-card">
-					<containHealth></containHealth>
-				</el-card></el-tab-pane>
-		</el-tabs>
+	<div>
+		<Description :title="desctitle" :desc="desc"></Description>
+		<div class="cluster-status">
+			<el-tabs v-model="activeName" type="card" class="tab" @tab-click="handleClick">
+				<el-tab-pane label="概览" name="概览" lazy>
+					<div class="main">
+						<overview></overview>
+					</div>
+				</el-tab-pane>
+				<el-tab-pane label="物理资源监控" name="物理资源监控" lazy>
+					<div class="main">
+						<physicalResources></physicalResources>
+					</div>
+				</el-tab-pane>
+				<el-tab-pane label="容器健康监控" name="容器健康监控" lazy>
+					<div class="main">
+						<containHealth></containHealth>
+					</div>
+				</el-tab-pane>
+			</el-tabs>
+		</div>
 	</div>
 </template>
 <script lang="ts" setup>
-import { ref, defineAsyncComponent } from 'vue';
-
+import { ref, defineAsyncComponent, provide } from 'vue';
+import Description from '/@/components/description/index.vue'
 const containHealth = defineAsyncComponent(() => import('./components/container-health.vue'));
 const physicalResources = defineAsyncComponent(() => import('./components/physical-resources.vue'));
 const overview = defineAsyncComponent(() => import('./components/overview.vue'));
+const desctitle = '集群状态'
+const desc = '显示集群主机在线状态：显示在线节点数、离线节点数信息'
 const activeName = ref('概览');
-
+provide('activeName', activeName);
 const handleClick = (tab: 'TabsPaneContext', event: Event) => { };
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .cluster-status {
 	display: flex;
 	height: 100vh;
-	/* flex-direction: column; */
 	padding: 5px;
 	box-sizing: border-box;
 }

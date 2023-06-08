@@ -1,5 +1,5 @@
 <template>
-	<div style="display: flex;padding-top: 10px;padding-left: 15px;">
+	<div style="display: flex;">
 		<div style="flex:0.9">
 			<h4>集群物理资源监控</h4>
 		</div>
@@ -15,33 +15,30 @@
 			<Line :data="state.cpuData" title="CPU用量 (%)"></Line>
 		</el-card>
 		<el-card class="echart">
-			<Line :data="state.memoryData" title="内存用量 (%)"></Line>
+			<Line :data="state.cpuData" title="CPU用量 (%)"></Line>
 		</el-card>
 		<el-card class="echart">
-			<Line :data="state.cpuData" title="磁盘用量 (%)"></Line>
+			<Line :data="state.cpuData" title="CPU用量 (%)"></Line>
 		</el-card>
 		<el-card class="echart">
-			<Line :data="state.cpuData" title="磁盘吞吐 (MB/s)"></Line>
+			<Line :data="state.cpuData" title="CPU用量 (%)"></Line>
 		</el-card>
 		<el-card class="echart">
-			<Line :data="state.cpuData" title="IPOS"></Line>
+			<Line :data="state.cpuData" title="CPU用量 (%)"></Line>
 		</el-card>
 		<el-card class="echart">
-			<Line :data="state.cpuData" title="网络带宽 (Mbps)"></Line>
-		</el-card>
-		<el-card class="echart" style="width: 100%;">
-			<Line :data="state.cpuData" title="节点网络丢包率 (%)"></Line>
+			<Line :data="state.cpuData" title="CPU用量 (%)"></Line>
 		</el-card>
 	</div>
 </template>
 <script lang="ts" setup>
-import { ref, watch, reactive, onMounted, defineAsyncComponent, inject } from 'vue'
+import { ref, watch, reactive, defineAsyncComponent, onMounted, inject } from 'vue'
 import { timeNameMap } from '/@/utils/const';
 import { dayjs } from 'element-plus';
 import relativeTime from 'dayjs/plugin/relativeTime';
 const Line = defineAsyncComponent(() => import('/@/components/echarts/Line.vue'))
-import { useMonitorApi } from '/@/api/monitor-warn/index'
 import { LineChartData } from '/@/types/index'
+import { useMonitorApi } from '/@/api/monitor-warn/index'
 dayjs.extend(relativeTime);
 
 interface DataState {
@@ -58,6 +55,7 @@ const state = reactive<DataState>({
 		seriesData: [],
 	},
 })
+const address = inject('address', ref());
 const activeName = inject('activeName', ref());
 const datetimerange = ref()
 const dateRef = ref()
@@ -76,7 +74,7 @@ const dateChange = (val: any) => {
 	} else {
 		datetimerange.value = null
 	}
-	getClusterResource()
+	getNodeResource()
 }
 //Processing ECharts data
 const getData = (resource: any) => {
@@ -98,17 +96,18 @@ const getData = (resource: any) => {
 	})
 	return LineData
 }
-//Obtain cluster resource data
-const getClusterResource = () => {
+//Obtain node status information
+const getNodeResource = () => {
 	const params = {
+		instance: address,
 		start_time: datetimerange.value ? new Date(datetimerange.value[0]).getTime() / 1000 : new Date(dayjs().subtract(defaultdaterange.value[0], defaultdaterange.value[1] as any).format('YYYY-MM-DD HH:mm:ss')).getTime() / 1000,
 		end_time: datetimerange.value ? new Date(datetimerange.value[1]).getTime() / 1000 : new Date(dayjs().format('YYYY-MM-DD HH:mm:ss')).getTime() / 1000,
 	}
 	const step = Math.ceil((params.end_time - params.start_time) / 25)
 	Object.assign(params, { step: step })
-	useMonitorApi().getClusterResource(params).then((res: any) => {
-		res.forEach(((resource: any) => {
-			if (resource.metric_name === "cpu_usage") {
+	useMonitorApi().getNodeResource(params).then((res) => {
+		res.data.forEach(((resource: any) => {
+			if (resource.metric_name === "node_cpu_usage") {
 				state.cpuData = getData(resource)
 			}
 			if (resource.metric_name === "memory_usage") {
@@ -119,20 +118,24 @@ const getClusterResource = () => {
 }
 const handle = () => {
 	if (activeName.value === '物理资源监控') {
-		getClusterResource()
-
+		if (address.value) {
+			getNodeResource()
+		}
 	}
 }
+
+watch(activeName, () => {
+	handle()
+
+}, { immediate: true })
 watch(
 	datetimerange,
 	val => {
 		!val && (latestTime.value = '最近 ' + timeNameMap[dayjs(dayjs().subtract(defaultdaterange.value[0], 'second')).fromNow(true)]);
 	},
-);
-watch(activeName, () => {
-	handle()
-}, { immediate: true })
 
+
+);
 const shortcuts = [
 	{
 		text: '最近 5 分钟',
