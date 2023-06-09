@@ -39,6 +39,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 const Line = defineAsyncComponent(() => import('/@/components/echarts/Line.vue'))
 import { LineChartData } from '/@/types/index'
 import { useMonitorApi } from '/@/api/monitor-warn/index'
+import { shortcuts } from '/@/utils/const'
 dayjs.extend(relativeTime);
 
 interface DataState {
@@ -136,116 +137,7 @@ watch(
 
 
 );
-const shortcuts = [
-	{
-		text: '最近 5 分钟',
-		value: () => {
-			const end = new Date();
-			const start = new Date()
-			start.setTime(start.getTime() - 5 * 60 * 1000)
-			return [start, end]
-		}
-	},
-	{
-		text: '最近 10 分钟',
-		value: () => {
-			const end = new Date();
-			const start = new Date();
-			start.setTime(start.getTime() - 10 * 60 * 1000)
-			return [start, end]
-		}
-	},
-	{
-		text: '最近 30 分钟',
-		value: () => {
-			const end = new Date();
-			const start = new Date()
-			start.setTime(start.getTime() - 30 * 60 * 1000)
-			return [start, end]
-		}
-	},
-	{
-		text: '最近 1 小时',
-		value: () => {
-			const end = new Date();
-			const start = new Date();
-			start.setTime(start.getTime() - 60 * 60 * 1000);
-			return [start, end];
-		},
-	},
-	{
-		text: '最近 2 小时',
-		value: () => {
-			const end = new Date();
-			const start = new Date();
-			start.setTime(start.getTime() - 2 * 60 * 60 * 1000);
-			return [start, end];
-		},
-	},
-	{
-		text: '最近 3 小时',
-		value: () => {
-			const end = new Date();
-			const start = new Date();
-			start.setTime(start.getTime() - 3 * 60 * 60 * 1000);
-			return [start, end];
-		},
-	},
-	{
-		text: '最近 6 小时',
-		value: () => {
-			const end = new Date();
-			const start = new Date();
-			start.setTime(start.getTime() - 6 * 60 * 60 * 1000);
-			return [start, end];
-		},
-	},
-	{
-		text: '最近 12 小时',
-		value: () => {
-			const end = new Date();
-			const start = new Date();
-			start.setTime(start.getTime() - 12 * 60 * 60 * 1000);
-			return [start, end];
-		},
-	},
-	{
-		text: '最近 1 天',
-		value: () => {
-			const end = new Date();
-			const start = new Date();
-			start.setTime(start.getTime() - 24 * 60 * 60 * 1000);
-			return [start, end];
-		},
-	},
-	{
-		text: '最近 3 天',
-		value: () => {
-			const end = new Date();
-			const start = new Date();
-			start.setTime(start.getTime() - 3 * 24 * 60 * 60 * 1000);
-			return [start, end];
-		},
-	},
-	{
-		text: '最近 7 天',
-		value: () => {
-			const end = new Date();
-			const start = new Date();
-			start.setTime(start.getTime() - 7 * 24 * 60 * 60 * 1000);
-			return [start, end];
-		},
-	},
-	{
-		text: '最近 1 个月',
-		value: () => {
-			const end = new Date();
-			const start = new Date();
-			start.setTime(start.getTime() - 30 * 24 * 60 * 60 * 1000);
-			return [start, end];
-		},
-	},
-]
+
 </script>
 
 <style scoped>
