@@ -77,8 +77,8 @@ const close = () => {
     emits('update:value', false);
 }
 const props = defineProps<{ expression: string }>()
-const datetimerange = inject('datetimerange', ref());
-const defaultdaterange = inject('defaultdaterange', ref());
+const datetimeRange = inject('datetimeRange', ref());
+const defaultdateRange = inject('defaultdateRange', ref());
 defineExpose({
     close
 });
@@ -86,8 +86,8 @@ defineExpose({
 const getRawData = (query: string) => {
     const params = {
         query: query,
-        start_time: datetimerange.value ? new Date(datetimerange.value[0]).getTime() / 1000 : new Date(dayjs().subtract(defaultdaterange.value[0], defaultdaterange.value[1]).format('YYYY-MM-DD HH:mm:ss')).getTime() / 1000,
-        end_time: datetimerange.value ? new Date(datetimerange.value[1]).getTime() / 1000 : new Date(dayjs().format('YYYY-MM-DD HH:mm:ss')).getTime() / 1000,
+        start_time: datetimeRange.value ? new Date(datetimeRange.value[0]).getTime() / 1000 : new Date(dayjs().subtract(defaultdateRange.value[0], defaultdateRange.value[1]).format('YYYY-MM-DD HH:mm:ss')).getTime() / 1000,
+        end_time: datetimeRange.value ? new Date(datetimeRange.value[1]).getTime() / 1000 : new Date(dayjs().format('YYYY-MM-DD HH:mm:ss')).getTime() / 1000,
     }
     const step = Math.ceil((params.end_time - params.start_time) / 25)
     Object.assign(params, { step: step })

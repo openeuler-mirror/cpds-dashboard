@@ -4,8 +4,8 @@
 			<h4>集群物理资源监控</h4>
 		</div>
 		<div class="container">
-			<el-date-picker ref="dateRef" style="margin-left: 5px;" class="mr10" v-model="datetimerange"
-				type="datetimerange" unlink-panels range-separator="-" start-placeholder="请选择开始时间" end-placeholder="请选择结束时间"
+			<el-date-picker ref="dateRef" style="margin-left: 5px;" class="mr10" v-model="datetimeRange"
+				type="datetimeRange" unlink-panels range-separator="-" start-placeholder="请选择开始时间" end-placeholder="请选择结束时间"
 				value-format="YYYY-MM-DD HH:mm:ss" :shortcuts="shortcuts" @change="dateChange" />
 			<div v-show="latestTime" class="container-time" @click="dateRef.focus()">{{ latestTime }}</div>
 		</div>
@@ -59,22 +59,22 @@ const state = reactive<DataState>({
 	},
 })
 const activeName = inject('activeName', ref());
-const datetimerange = ref()
+const datetimeRange = ref()
 const dateRef = ref()
-const defaultdaterange = ref<[number, string]>([5 * 60, 'second']);
-const latestTime = ref('最近 ' + timeNameMap[dayjs(dayjs().subtract(defaultdaterange.value[0], 'second')).fromNow(true)]);
+const defaultdateRange = ref<[number, string]>([5 * 60, 'second']);
+const latestTime = ref('最近 ' + timeNameMap[dayjs(dayjs().subtract(defaultdateRange.value[0], 'second')).fromNow(true)]);
 const dateChange = (val: any) => {
 	if (val) {
 		if (dayjs(val[1]).diff(new Date(), 'second') == 0) {  // relative time range
 			const diff = dayjs(val[1]).diff(val[0], 'second');
-			defaultdaterange.value[0] = diff;
-			datetimerange.value = null
+			defaultdateRange.value[0] = diff;
+			datetimeRange.value = null
 		} else {   // Filter time range
-			datetimerange.value = val;
+			datetimeRange.value = val;
 			latestTime.value = ''
 		}
 	} else {
-		datetimerange.value = null
+		datetimeRange.value = null
 	}
 	getClusterResource()
 }
@@ -101,8 +101,8 @@ const getData = (resource: any) => {
 //Obtain cluster resource data
 const getClusterResource = () => {
 	const params = {
-		start_time: datetimerange.value ? new Date(datetimerange.value[0]).getTime() / 1000 : new Date(dayjs().subtract(defaultdaterange.value[0], defaultdaterange.value[1] as any).format('YYYY-MM-DD HH:mm:ss')).getTime() / 1000,
-		end_time: datetimerange.value ? new Date(datetimerange.value[1]).getTime() / 1000 : new Date(dayjs().format('YYYY-MM-DD HH:mm:ss')).getTime() / 1000,
+		start_time: datetimeRange.value ? new Date(datetimeRange.value[0]).getTime() / 1000 : new Date(dayjs().subtract(defaultdateRange.value[0], defaultdateRange.value[1] as any).format('YYYY-MM-DD HH:mm:ss')).getTime() / 1000,
+		end_time: datetimeRange.value ? new Date(datetimeRange.value[1]).getTime() / 1000 : new Date(dayjs().format('YYYY-MM-DD HH:mm:ss')).getTime() / 1000,
 	}
 	const step = Math.ceil((params.end_time - params.start_time) / 25)
 	Object.assign(params, { step: step })
@@ -124,9 +124,9 @@ const handle = () => {
 	}
 }
 watch(
-	datetimerange,
+	datetimeRange,
 	val => {
-		!val && (latestTime.value = '最近 ' + timeNameMap[dayjs(dayjs().subtract(defaultdaterange.value[0], 'second')).fromNow(true)]);
+		!val && (latestTime.value = '最近 ' + timeNameMap[dayjs(dayjs().subtract(defaultdateRange.value[0], 'second')).fromNow(true)]);
 	},
 );
 watch(activeName, () => {
