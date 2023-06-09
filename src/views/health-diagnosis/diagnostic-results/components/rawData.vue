@@ -32,7 +32,6 @@ const state1 = reactive<{
     data: {
         xData: any[],
         seriesData: any,
-        yData: any[],
         subhealth_thresholds: number,
         fault_thresholds: number
     }
@@ -40,7 +39,6 @@ const state1 = reactive<{
     data: {
         xData: [],
         seriesData: [],
-        yData: [],
         subhealth_thresholds: 0,
         fault_thresholds: 0
     }
@@ -91,7 +89,7 @@ defineExpose({
     close
 });
 
-const getRawData = (query?: string) => {
+const getRawData = (query: string) => {
     useHealthApi().getRawData({ query: query, start_time: dayjs().subtract(10, 'minutes').unix(), end_time: dayjs().unix(), step: 10 }).then((res) => {
         rawDataList.value = res.data.result.map((item: any) => {
             const value = item.values[item.values.length - 1][1]

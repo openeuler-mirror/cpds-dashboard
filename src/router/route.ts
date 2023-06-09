@@ -100,21 +100,6 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							icon: `iconfont icon-${nameToTitle.nodeHealth.icon}`,
 						},
 					},
-					{
-						path: '/monitor-warn/awrn-management',
-						name: 'awrn-management',
-						component: () => import('/@/views/monitor-warn/awrn-management/index.vue'),
-						meta: {
-							title: nameToTitle.awrnManagement.title,
-							isLink: '',
-							isHide: false,
-							isKeepAlive: true,
-							isAffix: false,
-							isIframe: false,
-							roles: ['admin'],
-							icon: `iconfont icon-${nameToTitle.awrnManagement.icon}`,
-						},
-					},
 				],
 			},
 			{

@@ -1,5 +1,5 @@
-export interface NodeDiskData{
-  devicePath: string;
+export interface NodeDiskData {
+	devicePath: string;
 	devicePgs: number;
 	deviceStatus: number;
 	deviceTotalSize: string;
@@ -8,35 +8,36 @@ export interface NodeDiskData{
 	deviceId: string;
 	osdId?: number;
 	osdStatus?: string;
-	usedPool?:string
+	usedPool?: string;
 }
-export interface NodeDataRow{
-	nodeId:number;
-	nodeIp:string;
-	nodeName:string;
-	nodeStatus:number;
-	nodeUsedDevice:number;
-	nodeAllDevice:number;
-	version:string;
-	devices:NodeDiskData[],
-	nodeDevices?:NodeDiskData[],
-	disabled?:boolean;
+export interface NodeDataRow {
+	nodeId: number;
+	nodeIp: string;
+	nodeName: string;
+	nodeStatus: number;
+	nodeUsedDevice: number;
+	nodeAllDevice: number;
+	version: string;
+	devices: NodeDiskData[];
+	nodeDevices?: NodeDiskData[];
+	disabled?: boolean;
 }
-export interface SelectOptionItem{
-	value:string;
-	label:string;
+export interface SelectOptionItem {
+	value: string;
+	label: string;
 }
-export interface mapData{
-	[key:string]:string
+export interface mapData {
+	[key: string]: string;
 }
 export interface Series {
 	name: string;
 	type: string;
 	data: number[];
-	[key:string]:any;
+	[key: string]: any;
 }
+
 export interface LineChartData {
-	seriesNames: string[];
-	seriesData: Series[];
-	[key:string]:any;
+	xData: any[];
+	seriesData: any;
+	title?: string;
 }
