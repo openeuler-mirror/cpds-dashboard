@@ -24,7 +24,7 @@
 			<Line :data="state.cpuData" title="磁盘吞吐 (MB/s)"></Line>
 		</el-card>
 		<el-card class="echart">
-			<Line :data="state.cpuData" title="IPOS"></Line>
+			<Line :data="state.cpuData" title="IOPS"></Line>
 		</el-card>
 		<el-card class="echart">
 			<Line :data="state.cpuData" title="网络带宽 (Mbps)"></Line>
