@@ -21,8 +21,8 @@
 					<div class="operation" style="display: flex;line-height: 30px;">
 						<span>查询范围</span>
 						<div class="container">
-							<el-date-picker ref="dateRef" style="margin-left: 5px;" class="mr10" v-model="datetimerange"
-								type="datetimerange" unlink-panels range-separator="-" start-placeholder="请选择开始时间"
+							<el-date-picker ref="dateRef" style="margin-left: 5px;" class="mr10" v-model="datetimeRange"
+								type="datetimeRange" unlink-panels range-separator="-" start-placeholder="请选择开始时间"
 								end-placeholder="请选择结束时间" value-format="YYYY-MM-DD HH:mm:ss" :shortcuts="shortcuts"
 								@change="dateChange" />
 							<div v-show="latestTime" class="container-time" @click="dateRef.focus()">{{ latestTime }}</div>
@@ -69,9 +69,9 @@ dayjs.extend(relativeTime);
 const RawData = defineAsyncComponent(() => import('./components/rawData.vue'))
 const title = '原始数据检索';
 const desc = '提供诊断结果列表,支持诊断原始数据查看，显示诊断时所使用的原始数据,并提供图表展示原始数据的变化规律。'
-const datetimerange = ref()
-const defaultdaterange = ref<[number, string]>([5 * 60, 'second']);
-const latestTime = ref('最近 ' + timeNameMap[dayjs(dayjs().subtract(defaultdaterange.value[0], 'second')).fromNow(true)]);
+const datetimeRange = ref()
+const defaultdateRange = ref<[number, string]>([5 * 60, 'second']);
+const latestTime = ref('最近 ' + timeNameMap[dayjs(dayjs().subtract(defaultdateRange.value[0], 'second')).fromNow(true)]);
 const dateRef = ref()
 const rawtitle = ref()
 const history = ref()
@@ -99,14 +99,14 @@ const dateChange = (val: any) => {
 	if (val) {
 		if (dayjs(val[1]).diff(new Date(), 'second') == 0) {  // relative time range
 			const diff = dayjs(val[1]).diff(val[0], 'second');
-			defaultdaterange.value[0] = diff;
-			datetimerange.value = null
+			defaultdateRange.value[0] = diff;
+			datetimeRange.value = null
 		} else {   // Filter time range
-			datetimerange.value = val;
+			datetimeRange.value = val;
 			latestTime.value = ''
 		}
 	} else {
-		datetimerange.value = null
+		datetimeRange.value = null
 	}
 }
 //Refresh Historical Data
@@ -116,8 +116,8 @@ const refreshHistory = () => {
 const getExpression = (expression: string) => {
 	newFrom.value.expression = expression
 }
-provide('datetimerange', datetimerange);
-provide('defaultdaterange', defaultdaterange);
+provide('datetimeRange', datetimeRange);
+provide('defaultdateRange', defaultdateRange);
 const selectRawDate = () => {
 	if (!expressionRef.value) return;
 	expressionRef.value.validate((valid: any) => {
@@ -129,9 +129,9 @@ const selectRawDate = () => {
 }
 // Monitoring time range change
 watch(
-	datetimerange,
+	datetimeRange,
 	val => {
-		!val && (latestTime.value = '最近 ' + timeNameMap[dayjs(dayjs().subtract(defaultdaterange.value[0], 'second')).fromNow(true)]);
+		!val && (latestTime.value = '最近 ' + timeNameMap[dayjs(dayjs().subtract(defaultdateRange.value[0], 'second')).fromNow(true)]);
 	},
 
 
