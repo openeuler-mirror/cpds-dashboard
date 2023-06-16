@@ -31,7 +31,7 @@
 			</el-card>
 			<el-card>
 				<div style="display: flex;">
-					<div style="flex:0 1 30%; margin-top: 50px;">
+					<div style="flex:0 1 28%; margin-top: 50px;">
 						<Usage style="margin-bottom: 30px;cursor: pointer;" name="CPU" unit="core" :data="overViewInfo.cpu"
 							@click="changeLine('cpu')"></Usage>
 						<Usage style="margin-bottom: 30px;cursor: pointer;" name="内存" unit="Gi" :data="overViewInfo.memory"
@@ -40,11 +40,10 @@
 							@click="changeLine('disk')">
 						</Usage>
 					</div>
-					<div style="flex:0 1 70%">
-						<Line :data="lineChart.lineData"></Line>
+					<div style="flex:0 1 70%;padding-left: 40px;">
+						<Line :data="lineChart.lineData" yUnit="%"></Line>
 					</div>
 				</div>
-
 			</el-card>
 		</div>
 	</div>
@@ -52,11 +51,11 @@
 <script lang="ts" setup>
 
 import { defineAsyncComponent, reactive, ref, inject, watch, toRefs } from 'vue';
-
 import { useMonitorApi } from '/@/api/monitor-warn/index'
 import { AwrnStateInterface } from '../../interface/index'
 import Line from '/@/components/echarts/Line.vue';
 import { LineChartData } from '/@/types/index'
+import { dayjs } from 'element-plus';
 const Usage = defineAsyncComponent(() => import('/@/components/usage/index.vue'))
 //import Pie from '/@/components/echarts/pie.vue'
 const Pie = defineAsyncComponent(() => import('/@/components/echarts/pie.vue'))
@@ -129,7 +128,7 @@ const getData = (resource: any) => {
 	LineData.xData = Array.from(new Map(resource.data.result[0].values).keys())
 	LineData.seriesData = resource.data.result.map((item: any, index: number) => {
 		return {
-			name: item.metric.instance,
+			name: '',
 			data: Array.from(new Map(item.values).values()),
 			type: 'line',
 			smooth: true,
@@ -157,7 +156,7 @@ const getContainer = async (address: string) => {
 }
 //Obtaining Node Information and Rendering Charts
 const getNodeResource = (address: string) => {
-	useMonitorApi().getNodeResource({ instance: address }).then((res) => {
+	useMonitorApi().getNodeResource({ instance: address, start_time: dayjs().subtract(10, 'minutes').unix(), end_time: dayjs().unix(), step: 24 }).then((res) => {
 		res.data.forEach(((resource: any) => {
 			if (lineName.value === "node_cpu_usage" && resource.metric_name === "node_cpu_usage") {
 				lineChart.lineData = getData(resource)
