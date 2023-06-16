@@ -24,21 +24,21 @@ export function useMonitorApi() {
 		},
 		getClusterResource: (data: Object) => {
 			return request({
-				url: '/api/monitor/cluster_resource',
+				url: '/api/v1/monitor/cluster_resources',
 				method: 'get',
 				params: data,
 			});
 		},
 		getClusterContainer: (data: Object) => {
 			return request({
-				url: '/api/monitor/cluster_container',
+				url: '/api/v1/monitor/cluster_container_status',
 				method: 'get',
 				params: data,
 			});
 		},
 		getNodeResource: (data: Object) => {
 			return request({
-				url: '/api/v1/monitor/node_resource',
+				url: '/api/v1/monitor/node_resources',
 				method: 'get',
 				params: data,
 			});
