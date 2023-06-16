@@ -22,7 +22,7 @@
 						<span>查询范围</span>
 						<div class="container">
 							<el-date-picker ref="dateRef" style="margin-left: 5px;" class="mr10" v-model="datetimeRange"
-								type="datetimeRange" unlink-panels range-separator="-" start-placeholder="请选择开始时间"
+								type="datetimerange" unlink-panels range-separator="-" start-placeholder="请选择开始时间"
 								end-placeholder="请选择结束时间" value-format="YYYY-MM-DD HH:mm:ss" :shortcuts="shortcuts"
 								@change="dateChange" />
 							<div v-show="latestTime" class="container-time" @click="dateRef.focus()">{{ latestTime }}</div>
