@@ -12,22 +12,25 @@
 	</div>
 	<div style="display: flex; flex-wrap: wrap;justify-content:space-between">
 		<el-card class="echart">
-			<Line :data="state.cpuData" title="CPU用量 (%)"></Line>
+			<Line :data="state.cpuUsageData" yUnit="%" title="CPU用量 (%)"></Line>
 		</el-card>
 		<el-card class="echart">
-			<Line :data="state.cpuData" title="CPU用量 (%)"></Line>
+			<Line :data="state.memoryUsageData" yUnit="%" title="内存用量 (%)"></Line>
 		</el-card>
 		<el-card class="echart">
-			<Line :data="state.cpuData" title="CPU用量 (%)"></Line>
+			<Line :data="state.containerTotalData" title="容器总数 (个)"></Line>
 		</el-card>
 		<el-card class="echart">
-			<Line :data="state.cpuData" title="CPU用量 (%)"></Line>
+			<Line :data="state.containerRunningData" title="容器运行数 (个)"></Line>
 		</el-card>
 		<el-card class="echart">
-			<Line :data="state.cpuData" title="CPU用量 (%)"></Line>
+			<Line :data="state.diskUsageData" yUnit="%" title="磁盘用量 (%)"></Line>
 		</el-card>
 		<el-card class="echart">
-			<Line :data="state.cpuData" title="CPU用量 (%)"></Line>
+			<Line :data="state.diskNumData" title="磁盘吞吐量 (次)"></Line>
+		</el-card>
+		<el-card class="echart" style="width: 100%;">
+			<Line :data="state.diskBytesData" yUnit="KB/s" title="磁盘吞吐"></Line>
 		</el-card>
 	</div>
 </template>
@@ -43,15 +46,40 @@ import { shortcuts } from '/@/utils/const'
 dayjs.extend(relativeTime);
 
 interface DataState {
-	cpuData: LineChartData;
-	memoryData: LineChartData;
+	memoryUsageData: LineChartData;
+	containerTotalData: LineChartData;
+	containerRunningData: LineChartData;
+	cpuUsageData: LineChartData;
+	diskUsageData: LineChartData;
+	diskNumData: LineChartData;
+	diskBytesData: LineChartData;
 }
 const state = reactive<DataState>({
-	cpuData: {
+	memoryUsageData: {
 		xData: [],
 		seriesData: [],
 	},
-	memoryData: {
+	containerTotalData: {
+		xData: [],
+		seriesData: [],
+	},
+	containerRunningData: {
+		xData: [],
+		seriesData: [],
+	},
+	cpuUsageData: {
+		xData: [],
+		seriesData: [],
+	},
+	diskUsageData: {
+		xData: [],
+		seriesData: [],
+	},
+	diskNumData: {
+		xData: [],
+		seriesData: [],
+	},
+	diskBytesData: {
 		xData: [],
 		seriesData: [],
 	},
@@ -83,10 +111,11 @@ const getData = (resource: any) => {
 		xData: [],
 		seriesData: []
 	};
+	if (!resource.data.result) return LineData
 	LineData.xData = Array.from(new Map(resource.data.result[0].values).keys())
 	LineData.seriesData = resource.data.result.map((item: any, index: number) => {
 		return {
-			name: item.metric.instance,
+			name: getName(resource.metric_name),
 			data: Array.from(new Map(item.values).values()),
 			type: 'line',
 			smooth: true,
@@ -100,22 +129,72 @@ const getData = (resource: any) => {
 //Obtain node status information
 const getNodeResource = () => {
 	const params = {
-		instance: address,
+		instance: address.value,
 		start_time: datetimeRange.value ? new Date(datetimeRange.value[0]).getTime() / 1000 : new Date(dayjs().subtract(defaultdateRange.value[0], defaultdateRange.value[1] as any).format('YYYY-MM-DD HH:mm:ss')).getTime() / 1000,
 		end_time: datetimeRange.value ? new Date(datetimeRange.value[1]).getTime() / 1000 : new Date(dayjs().format('YYYY-MM-DD HH:mm:ss')).getTime() / 1000,
 	}
 	const step = Math.ceil((params.end_time - params.start_time) / 25)
 	Object.assign(params, { step: step })
 	useMonitorApi().getNodeResource(params).then((res) => {
-		res.data.forEach(((resource: any) => {
+		res.data.forEach((resource: any) => {
+			if (resource.metric_name === "node_memory_usage") {
+				state.memoryUsageData = getData(resource)
+			}
+			if (resource.metric_name === "node_container_total") {
+				state.containerTotalData = getData(resource)
+			}
+			if (resource.metric_name === "node_container_running") {
+				state.containerRunningData = getData(resource)
+			}
 			if (resource.metric_name === "node_cpu_usage") {
-				state.cpuData = getData(resource)
+				state.cpuUsageData = getData(resource)
 			}
-			if (resource.metric_name === "memory_usage") {
-				state.memoryData = getData(resource)
+			if (resource.metric_name === "node_disk_usage") {
+				state.diskUsageData = getData(resource)
 			}
-		}))
+			if (resource.metric_name === "node_disk_written_complete") {
+				const data = getData(resource)
+				if (state.diskNumData.seriesData.length != 1) {
+					state.diskNumData = data
+				} else {
+					state.diskNumData.seriesData.push(data.seriesData[0])
+					state.diskNumData.xData = data.xData
+				}
+			}
+			if (resource.metric_name === "node_disk_read_bytes") {
+				const data = getData(resource)
+				if (state.diskBytesData.seriesData.length != 1) {
+					state.diskBytesData = data
+				} else {
+					state.diskBytesData.seriesData.push(data.seriesData[0])
+					state.diskBytesData.xData = data.xData
+				}
+			}
+			if (resource.metric_name === "node_disk_written_bytes") {
+				const data = getData(resource)
+				if (state.diskBytesData.seriesData.length != 1) {
+					state.diskBytesData = data
+				} else {
+					state.diskBytesData.seriesData.push(data.seriesData[0])
+					state.diskBytesData.xData = data.xData
+				}
+			}
+			if (resource.metric_name === "node_disk_read_complete") {
+				const data = getData(resource)
+				if (state.diskNumData.seriesData.length != 1) {
+					state.diskNumData = data
+				} else {
+					state.diskNumData.seriesData.push(data.seriesData[0])
+					state.diskNumData.xData = data.xData
+				}
+			}
+		})
 	})
+}
+const getName = (name: string) => {
+	if (name === 'node_disk_read_complete' || name === 'node_disk_read_bytes') return '读'
+	if (name === 'node_disk_written_complete' || name === 'node_disk_written_bytes') return '写'
+	return ''
 }
 const handle = () => {
 	if (activeName.value === '物理资源监控') {
