@@ -2,7 +2,7 @@
 	<div class="container-health">
 		<el-card class="table-wrap" shadow="never">
 			<div class="operation mb15">
-				<el-select class="width-150 mr10" v-model="state.containerTable.params.sort_field">
+				<el-select class="width-150 mr10" v-model="sort_field">
 					<el-option v-for="item in moduleOptions" :key="item.value" :label="item.label" :value="item.value" />
 				</el-select><span :class="ascClick" style="cursor: pointer;" @click="sort('asc')">升序</span><span> |
 				</span><span :class="descClick" style="cursor: pointer;" @click="sort('desc')">降序</span>
@@ -10,9 +10,9 @@
 			<el-table :data="state.containerTable.data" style="width: 100% ;" element-loading-text="数据加载中..."
 				v-loading="state.containerTable.loading"
 				:row-style="{ height: '50px', background: '#f8f8f8', padding: '0' }">
-				<el-table-column label="容器名" width="180">
+				<el-table-column label="容器名">
 					<template #default="{ row }">
-						<div class="cell" style="height: 50px;">
+						<div class="cell" style="height: 150px;">
 							<span class="iconfont icon-rongqi" style="font-size: 30px;"></span>
 							<div style="margin-left: 10px;">
 								<div style="color: #70b8fb;">
@@ -22,7 +22,7 @@
 						</div>
 					</template>
 				</el-table-column>
-				<el-table-column label="容器状态" width="180">
+				<el-table-column label="容器状态">
 					<template #default="{ row }">
 						<div class="cell">
 							<div class="iconfont icon-dian" :style="statusColor(row.status)"> </div>
@@ -34,7 +34,7 @@
 					<template #default="{ row }">
 						<div class="cell">
 							<div>
-								{{ row.cpuUsage }}
+								{{ getUsed('cpu', row.cpuUsage) }}
 							</div>
 						</div>
 					</template>
@@ -43,7 +43,7 @@
 					<template #default="{ row }">
 						<div class="cell">
 							<div>
-								{{ row.memoryUsage }}
+								{{ getUsed('memory', row.memoryUsage) }}
 							</div>
 						</div>
 					</template>
@@ -52,7 +52,7 @@
 					<template #default="{ row }">
 						<div class="cell">
 							<div>
-								{{ row.outbound }}
+								{{ getUsed('outbound', row.outbound) }}
 							</div>
 						</div>
 					</template>
@@ -61,7 +61,7 @@
 					<template #default="{ row }">
 						<div class="cell">
 							<div>
-								{{ row.inbound }}
+								{{ getUsed('inbound', row.inbound) }}
 							</div>
 						</div>
 					</template>
@@ -90,8 +90,6 @@ interface ContainerState {
 		data: ContainerData[];
 		params: {
 			instance: string,
-			sort_field: string,
-			sort_order: string
 		}
 	}
 
@@ -102,8 +100,6 @@ const state = reactive<ContainerState>({
 		data: [],
 		params: {
 			instance: '',
-			sort_field: 'name',
-			sort_order: 'asc'
 		}
 	}
 })
@@ -111,16 +107,27 @@ const address = inject('address', ref());
 const activeName = inject('activeName', ref());
 const ascClick = ref('confirm')
 const descClick = ref('')
+const sort_field = ref('name')
+const order = ref('asc')
 //Change sorting status
-const sort = (order: string) => {
-	if (order === 'asc') {
+const sort = (value: string) => {
+	order.value = value
+	if (order.value === 'asc') {
 		ascClick.value = 'confirm'
 		descClick.value = ''
-		state.containerTable.params.sort_order = order
+		if (sort_field.value === 'status') {
+			state.containerTable.data.sort((a, b) => (a.status >= b.status ? 1 : -1))
+		} else {
+			state.containerTable.data.sort((a, b) => (a.name >= b.name ? 1 : -1))
+		}
 	} else {
 		ascClick.value = ''
 		descClick.value = 'confirm'
-		state.containerTable.params.sort_order = order
+		if (sort_field.value === 'status') {
+			state.containerTable.data.sort((a, b) => (a.status <= b.status ? 1 : -1))
+		} else {
+			state.containerTable.data.sort((a, b) => (a.name <= b.name ? 1 : -1))
+		}
 	}
 }
 //Obtain node container data
@@ -128,11 +135,66 @@ const getContainerList = () => {
 	state.containerTable.loading = true
 	state.containerTable.params.instance = address.value
 	useMonitorApi().getNodeContainer(state.containerTable.params).then((res) => {
-		state.containerTable.data = res.data.records
+		const containerDataList = <ContainerData[]>[]
+		res.data.forEach(({ metric_name, data }: any) => {
+			if (metric_name === 'node_container_status') {
+				for (let i = 0; i < data.result.length; i++) {
+					const container = <ContainerData>{}
+					res.data.forEach(({ metric_name, data }: any) => {
+						const resultArray = data.result
+						if (metric_name === 'node_container_memory_used') {
+							container.memoryUsage = resultArray[i].value[1]
+						}
+						if (metric_name === 'node_container_outbound_traffic') {
+							if (!resultArray) {
+								container.outbound = 0
+							} else {
+								container.outbound = resultArray[i].value[1]
+							}
+						}
+						if (metric_name === 'node_container_inbound_traffic') {
+							if (!resultArray) {
+								container.inbound = 0
+							} else {
+								container.inbound = resultArray[i].value[1]
+							}
+						}
+						if (metric_name === 'node_container_cpu_usage') {
+							container.cpuUsage = resultArray[i].value[1]
+						}
+						if (metric_name === 'node_container_status') {
+							container.status = resultArray[i].metric.state
+							container.name = resultArray[i].metric.container
+						}
+					})
+					containerDataList.push(container)
+				}
+				state.containerTable.data = containerDataList
+			}
+		})
+		console.log(state.containerTable.data);
+
 	}).finally(() => {
 		state.containerTable.loading = false
 	})
 }
+
+const getUsed = computed(() => (type: string, used: any) => {
+	used = parseFloat(used)
+	switch (type) {
+		case 'cpu':
+			return (used).toFixed(1) + ' Core'
+		case 'memory':
+			return (used / Math.pow(1024, 2)).toFixed(2) + ' MB';
+		case 'inbound':
+			return (used / Math.pow(1024, 1)).toFixed(1) + ' KB/s';
+		case 'outbound':
+			return (used / Math.pow(1024, 1)).toFixed(1) + ' KB/s';
+	}
+})
+
+
+
 const handle = () => {
 	if (activeName.value === '容器健康监控') {
 		if (address.value) {
@@ -145,13 +207,15 @@ const statusColor = computed(() => (status: string) => {
 		case 'iowaiting':
 			return "font-size: 30px;color: red";
 		case 'stopped':
-			return "font-size: 30px;color: #c6c8c5";
+			return "font-size: 30px;color: #E6A23C";
+		case 'exited':
+			return "font-size: 30px;color: #c6c8c5"
 		case '正常':
 			return "font-size: 30px;color: #51c41b";
 	}
 });
-watch(() => [state.containerTable.params.sort_field, state.containerTable.params.sort_order], () => {
-	getContainerList()
+watch(() => sort_field.value, () => {
+	sort(order.value)
 })
 watch(activeName, () => {
 	handle()
