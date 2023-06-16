@@ -6,15 +6,18 @@ import { onMounted, ref, shallowRef, watch } from 'vue';
 import * as echarts from 'echarts';
 import { formatDate } from '/@/utils/formatTime';
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
 	data: {
 		xData: any[],
 		seriesData: any[],
 		subhealth_thresholds?: number,
 		fault_thresholds?: number
 	}
+	yUnit?: string
 	title?: string
-}>()
+}>(), {
+	yUnit: ''
+})
 
 const myChart = shallowRef();
 const chartRef = ref<HTMLDivElement>();
@@ -32,6 +35,38 @@ const initChart = () => {
 					backgroundColor: '#6a7985'
 				}
 			},
+			formatter: (params: any) => {
+				//console.log(params[0]);
+				let str = `<div><p>${params[0].axisValue}</p>`;
+				for (let item of params) {
+					let value = null
+					let yUnit = props.yUnit
+					value = item.value
+					if (props.yUnit === '%' && value <= 1) {
+						value = (value * 100).toFixed(2)
+					}
+					if (props.yUnit === 'KB/s') {
+						if (value >= 1024 * 1024) {
+							value = (value / 1024 / 1024).toFixed(2);
+							yUnit = 'GB/s'
+						} else if (value >= 1024) {
+							value = (value / 1024).toFixed(2);
+							yUnit = 'MB/s'
+						}
+					}
+					str += `<p style="display:flex;justify-content:space-between;align-items:center;">
+							<span>
+								<span style="display:inline-block;width:10px;height:10px;border-radius:10px;background:${item.color};margin-right:5px;"></span>
+								<span>${item.seriesName}</span>
+							</span>
+							<span style="font-weight:bold;">${value} ${yUnit}</span>
+						</p>`
+
+				}
+				str += '</div>'
+				return str
+
+			}
 		},
 		legend: {
 			show: true,
@@ -44,6 +79,9 @@ const initChart = () => {
 			data: props.data.xData.map(time => formatDate(new Date(time * 1000), 'mm-dd HH:MM:SS')),
 			axisLabel: {
 
+			},
+			axisTick: {
+				alignWithLabel: true
 			}
 
 		},
@@ -51,6 +89,24 @@ const initChart = () => {
 			type: 'value',
 			min: null as any,
 			max: null as any,
+			axisLabel: {
+				formatter: function (value: any) {
+					let yUnit = props.yUnit;
+					if (props.yUnit === '%' && value <= 1) {
+						value = (value * 100).toFixed(2)
+					}
+					if (props.yUnit === 'KB/s') {
+						if (value >= 1024 * 1024) {
+							value = (value / 1024 / 1024).toFixed(2);
+							yUnit = 'GB/s'
+						} else if (value >= 1024) {
+							value = (value / 1024).toFixed(2);
+							yUnit = 'MB/s'
+						}
+					}
+					return value + yUnit
+				}
+			}
 		},
 		series: props.data.seriesData
 
@@ -91,6 +147,7 @@ watch(props.data, () => {
 window.addEventListener('resize', () => {
 	myChart.value.resize()
 })
+
 </script>
 
 
