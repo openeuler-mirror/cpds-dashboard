@@ -14,22 +14,25 @@
 		</div>
 		<div style="display: flex; flex-wrap: wrap;justify-content:space-between">
 			<el-card class="echart">
-				<Line :data="state.cpuData" title="集群容器状态"></Line>
+				<Line :data="state.cpuUsageData" yUnit="%" title="容器CPU使用 (%)"></Line>
 			</el-card>
 			<el-card class="echart">
-				<Line :data="state.cpuData" title="容器内存使用率 (%)"></Line>
+				<Line :data="state.runningData" title="运行容器 (个)"></Line>
 			</el-card>
 			<el-card class="echart">
-				<Line :data="state.cpuData" title="容器CPU使用率 (%)"></Line>
+				<Line :data="state.notRunningData" title="停止容器 (个)"></Line>
 			</el-card>
 			<el-card class="echart">
-				<Line :data="state.cpuData" title="容器网络流量 (KB)"></Line>
+				<Line :data="state.containerBytesData" yUnit="KB" title="容器流量"></Line>
 			</el-card>
 			<el-card class="echart">
-				<Line :data="state.cpuData" title="容器网络丢包率 (%)"></Line>
+				<Line :data="state.memoryUsageData" yUnit="%" title="容器内存使用 (%)"></Line>
 			</el-card>
 			<el-card class="echart">
-				<Line :data="state.cpuData" title="容器网络错误率 (%)"></Line>
+				<Line :data="state.netErrorRateData" yUnit="%" title="容器网络错误率 (%)"></Line>
+			</el-card>
+			<el-card class="echart" style="width: 100%;">
+				<Line :data="state.netDropRateData" yUnit="%" title="容器网络丢包率 (%)"></Line>
 			</el-card>
 		</div>
 	</div>
@@ -46,15 +49,40 @@ import { LineChartData } from '/@/types/index'
 dayjs.extend(relativeTime);
 
 interface DataState {
-	cpuData: LineChartData;
-	memoryData: LineChartData;
+	netDropRateData: LineChartData;
+	runningData: LineChartData;
+	notRunningData: LineChartData;
+	containerBytesData: LineChartData;
+	netErrorRateData: LineChartData;
+	memoryUsageData: LineChartData;
+	cpuUsageData: LineChartData;
 }
 const state = reactive<DataState>({
-	cpuData: {
+	netDropRateData: {
 		xData: [],
 		seriesData: [],
 	},
-	memoryData: {
+	runningData: {
+		xData: [],
+		seriesData: [],
+	},
+	notRunningData: {
+		xData: [],
+		seriesData: [],
+	},
+	containerBytesData: {
+		xData: [],
+		seriesData: [],
+	},
+	netErrorRateData: {
+		xData: [],
+		seriesData: [],
+	},
+	memoryUsageData: {
+		xData: [],
+		seriesData: [],
+	},
+	cpuUsageData: {
 		xData: [],
 		seriesData: [],
 	},
@@ -85,10 +113,11 @@ const getData = (resource: any) => {
 		xData: [],
 		seriesData: []
 	};
+	if (!resource.data.result) return LineData
 	LineData.xData = Array.from(new Map(resource.data.result[0].values).keys())
 	LineData.seriesData = resource.data.result.map((item: any, index: number) => {
 		return {
-			name: item.metric.instance,
+			name: getName(resource.metric_name),
 			data: Array.from(new Map(item.values).values()),
 			type: 'line',
 			smooth: true,
@@ -108,15 +137,80 @@ const getClusterContainer = () => {
 	const step = Math.ceil((params.end_time - params.start_time) / 25)
 	Object.assign(params, { step: step })
 	useMonitorApi().getClusterContainer(params).then((res: any) => {
-		res.forEach(((resource: any) => {
-			if (resource.metric_name === "cpu_usage") {
-				state.cpuData = getData(resource)
+		res.data.forEach(((resource: any) => {
+			if (resource.metric_name === "cluster_container_network_transmit_drop_rate") {
+				const data = getData(resource)
+				if (state.netDropRateData.seriesData.length != 1) {
+					state.netDropRateData = data
+				} else {
+					state.netDropRateData.seriesData.push(data.seriesData[0])
+					state.netDropRateData.xData = data.xData
+				}
 			}
-			if (resource.metric_name === "memory_usage") {
-				state.memoryData = getData(resource)
+			if (resource.metric_name === "cluster_container_running") {
+				state.runningData = getData(resource)
+			}
+			if (resource.metric_name === "cluster_container_not_running") {
+				state.notRunningData = getData(resource)
+			}
+			if (resource.metric_name === "cluster_container_recive_bytes") {
+				const data = getData(resource)
+				if (state.containerBytesData.seriesData.length != 1) {
+					state.containerBytesData = data
+				} else {
+					state.containerBytesData.seriesData.push(data.seriesData[0])
+					state.containerBytesData.xData = data.xData
+				}
+			}
+			if (resource.metric_name === "cluster_container_network_recive_error_rate") {
+				const data = getData(resource)
+				if (state.netErrorRateData.seriesData.length != 1) {
+					state.netErrorRateData = data
+				} else {
+					state.netErrorRateData.seriesData.push(data.seriesData[0])
+					state.netErrorRateData.xData = data.xData
+				}
+			}
+			if (resource.metric_name === "cluster_container_write_bytes") {
+				const data = getData(resource)
+				if (state.containerBytesData.seriesData.length != 1) {
+					state.containerBytesData = data
+				} else {
+					state.containerBytesData.seriesData.push(data.seriesData[0])
+					state.containerBytesData.xData = data.xData
+				}
+			}
+			if (resource.metric_name === "cluster_container_memory_usage") {
+				state.memoryUsageData = getData(resource)
+			}
+			if (resource.metric_name === "cluster_container_network_recive_drop_rate") {
+				const data = getData(resource)
+				if (state.netDropRateData.seriesData.length != 1) {
+					state.netDropRateData = data
+				} else {
+					state.netDropRateData.seriesData.push(data.seriesData[0])
+					state.netDropRateData.xData = data.xData
+				}
+			}
+			if (resource.metric_name === "cluster_container_network_transmit_error_rate") {
+				const data = getData(resource)
+				if (state.netErrorRateData.seriesData.length != 1) {
+					state.netErrorRateData = data
+				} else {
+					state.netErrorRateData.seriesData.push(data.seriesData[0])
+					state.netErrorRateData.xData = data.xData
+				}
+			}
+			if (resource.metric_name === "cluster_container_cpu_usage") {
+				state.cpuUsageData = getData(resource)
 			}
 		}))
 	})
+}
+const getName = (name: string) => {
+	if (name === 'cluster_container_recive_bytes' || name === 'cluster_container_network_recive_drop_rate' || name === 'cluster_container_network_recive_error_rate') return '接收'
+	if (name === 'cluster_container_write_bytes' || name === 'cluster_container_network_transmit_drop_rate' || name === 'cluster_container_network_transmit_error_rate') return '发送'
+	return ''
 }
 const handle = () => {
 	if (activeName.value === '容器健康监控') {
