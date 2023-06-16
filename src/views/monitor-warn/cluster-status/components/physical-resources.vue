@@ -12,30 +12,25 @@
 	</div>
 	<div style="display: flex; flex-wrap: wrap;justify-content:space-between">
 		<el-card class="echart">
-			<Line :data="state.cpuData" title="CPU用量 (%)"></Line>
+			<Line :data="state.cpuUsageData" yUnit="%" title="CPU用量 (%)"></Line>
 		</el-card>
 		<el-card class="echart">
-			<Line :data="state.memoryData" title="内存用量 (%)"></Line>
+			<Line :data="state.memoryUsageData" yUnit="%" title="内存用量 (%)"></Line>
 		</el-card>
 		<el-card class="echart">
-			<Line :data="state.cpuData" title="磁盘用量 (%)"></Line>
+			<Line :data="state.diskUsageData" yUnit="%" title="磁盘用量 (%)"></Line>
 		</el-card>
 		<el-card class="echart">
-			<Line :data="state.cpuData" title="磁盘吞吐 (MB/s)"></Line>
-		</el-card>
-		<el-card class="echart">
-			<Line :data="state.cpuData" title="IOPS"></Line>
-		</el-card>
-		<el-card class="echart">
-			<Line :data="state.cpuData" title="网络带宽 (Mbps)"></Line>
+			<Line :data="state.diskBytesData" yUnit="KB/s" title="磁盘吞吐"></Line>
 		</el-card>
 		<el-card class="echart" style="width: 100%;">
-			<Line :data="state.cpuData" title="节点网络丢包率 (%)"></Line>
+			<Line :data="state.diskNumData" title="磁盘吞吐量 (次)"></Line>
 		</el-card>
+
 	</div>
 </template>
 <script lang="ts" setup>
-import { ref, watch, reactive, onMounted, defineAsyncComponent, inject } from 'vue'
+import { ref, watch, reactive, computed, defineAsyncComponent, inject } from 'vue'
 import { timeNameMap } from '/@/utils/const';
 import { dayjs } from 'element-plus';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -46,19 +41,36 @@ import { shortcuts } from '/@/utils/const'
 dayjs.extend(relativeTime);
 
 interface DataState {
-	cpuData: LineChartData;
-	memoryData: LineChartData;
+	diskBytesData: LineChartData;
+	diskUsageData: LineChartData;
+	cpuUsageData: LineChartData;
+	diskNumData: LineChartData;
+
+	memoryUsageData: LineChartData;
 }
 const state = reactive<DataState>({
-	cpuData: {
+	diskBytesData: {
 		xData: [],
 		seriesData: [],
 	},
-	memoryData: {
+	diskUsageData: {
+		xData: [],
+		seriesData: [],
+	},
+	cpuUsageData: {
+		xData: [],
+		seriesData: [],
+	},
+	diskNumData: {
+		xData: [],
+		seriesData: [],
+	},
+	memoryUsageData: {
 		xData: [],
 		seriesData: [],
 	},
 })
+
 const activeName = inject('activeName', ref());
 const datetimeRange = ref()
 const dateRef = ref()
@@ -85,10 +97,11 @@ const getData = (resource: any) => {
 		xData: [],
 		seriesData: []
 	};
+	if (!resource.data.result) return LineData
 	LineData.xData = Array.from(new Map(resource.data.result[0].values).keys())
 	LineData.seriesData = resource.data.result.map((item: any, index: number) => {
 		return {
-			name: item.metric.instance,
+			name: getName(resource.metric_name),
 			data: Array.from(new Map(item.values).values()),
 			type: 'line',
 			smooth: true,
@@ -108,15 +121,59 @@ const getClusterResource = () => {
 	const step = Math.ceil((params.end_time - params.start_time) / 25)
 	Object.assign(params, { step: step })
 	useMonitorApi().getClusterResource(params).then((res: any) => {
-		res.forEach(((resource: any) => {
-			if (resource.metric_name === "cpu_usage") {
-				state.cpuData = getData(resource)
+		res.data.forEach(((resource: any) => {
+			if (resource.metric_name === "cluster_disk_read_bytes") {
+				const data = getData(resource)
+				if (state.diskBytesData.seriesData.length != 1) {
+					state.diskBytesData = data
+				} else {
+					state.diskBytesData.seriesData.push(data.seriesData[0])
+					state.diskBytesData.xData = data.xData
+				}
 			}
-			if (resource.metric_name === "memory_usage") {
-				state.memoryData = getData(resource)
+			if (resource.metric_name === "cluster_disk_usage") {
+				state.diskUsageData = getData(resource)
+			}
+			if (resource.metric_name === "cluster_cpu_usage") {
+				state.cpuUsageData = getData(resource)
+			}
+			if (resource.metric_name === "cluster_disk_read_complete") {
+				const data = getData(resource)
+				if (state.diskNumData.seriesData.length != 1) {
+					state.diskNumData = data
+				} else {
+					state.diskNumData.seriesData.push(data.seriesData[0])
+					state.diskNumData.xData = data.xData
+				}
+			}
+			if (resource.metric_name === "cluster_disk_written_complete") {
+				const data = getData(resource)
+				if (state.diskNumData.seriesData.length != 1) {
+					state.diskNumData = data
+				} else {
+					state.diskNumData.seriesData.push(data.seriesData[0])
+					state.diskNumData.xData = data.xData
+				}
+			}
+			if (resource.metric_name === "cluster_memory_usage") {
+				state.memoryUsageData = getData(resource)
+			}
+			if (resource.metric_name === "cluster_disk_written_bytes") {
+				const data = getData(resource)
+				if (state.diskBytesData.seriesData.length != 1) {
+					state.diskBytesData = data
+				} else {
+					state.diskBytesData.seriesData.push(data.seriesData[0])
+					state.diskBytesData.xData = data.xData
+				}
 			}
 		}))
 	})
+}
+const getName = (name: string) => {
+	if (name === 'cluster_disk_read_bytes' || name === 'cluster_disk_read_complete') return '读'
+	if (name === 'cluster_disk_written_bytes' || name === 'cluster_disk_written_complete') return '写'
+	return ''
 }
 const handle = () => {
 	if (activeName.value === '物理资源监控') {
