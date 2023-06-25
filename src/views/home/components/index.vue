@@ -13,8 +13,8 @@
                 </tr>
                 <tr>
                     <td>{{ props.name }}</td>
-                    <td>已使用</td>
-                    <td>总计</td>
+                    <td>{{ props.name }}使用量</td>
+                    <td>{{ props.name }}总量</td>
                 </tr>
             </table>
         </div>
@@ -33,17 +33,17 @@ const usageNum = computed(() => {
 })
 const usedNum = computed(() => {
     if (props.name === 'CPU') {
-        return (props.data?.used_core).toFixed(2)
+        return (props.data?.used_core).toFixed(1)
     } else {
-        return (props.data?.used_bytes / Math.pow(1024, 3)).toFixed(2)
+        return (props.data?.used_bytes / Math.pow(1024, 3)).toFixed(1)
     }
 
 })
 const totalNum = computed(() => {
     if (props.name === 'CPU') {
-        return (props.data?.total_core).toFixed(2)
+        return (props.data?.total_core).toFixed(1)
     } else {
-        return (props.data?.total_bytes / Math.pow(1024, 3)).toFixed(2)
+        return (props.data?.total_bytes / Math.pow(1024, 3)).toFixed(1)
     }
 })
 

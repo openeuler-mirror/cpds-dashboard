@@ -55,13 +55,13 @@
 				<h3 style="margin-left: 30px;">集群资源用量</h3>
 				<div>
 					<ClusterResource style="margin-top: 5px
-					;max-width: 500px;margin: 0 auto;" :data="overViewInfo.cpu" name="CPU" unit="cores">
+					;max-width: 550px;margin: 0 auto;" :data="overViewInfo.cpu" name="CPU" unit="cores">
 					</ClusterResource>
 					<ClusterResource style="margin-top: 5px
-					;max-width: 500px;margin: 0 auto;" :data="overViewInfo.memory" name="内存" unit="Gi">
+					;max-width: 550px;margin: 0 auto;" :data="overViewInfo.memory" name="内存" unit="Gi">
 					</ClusterResource>
 					<ClusterResource style="margin-top: 5px
-					;max-width: 500px;margin: 0 auto;" :data="overViewInfo.disk" name="磁盘" unit="GB">
+					;max-width: 550px;margin: 0 auto;" :data="overViewInfo.disk" name="磁盘" unit="GB">
 					</ClusterResource>
 				</div>
 				<div>
