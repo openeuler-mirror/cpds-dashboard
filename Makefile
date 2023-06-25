@@ -1,10 +1,10 @@
 RPM_NAME=cpds-ui
 RPM_VERSION=1.0
 RPM_RELEASE=1.0.0
-RPM_ARCH=x86_64
+RPM_ARCH=aarch64
 RPM_BUILD_DIR=$(shell pwd)/rpmbuild
 RPM_SPEC_FILE=$(RPM_BUILD_DIR)/SPECS/$(RPM_NAME).spec
-
+RPM_DIRS = BUILD BUILDROOT RPMS SOURCES SPECS SRPMS
 
 .PHONY: clean build
 
@@ -14,7 +14,7 @@ clean:
 
 build: clean
 	npm install --force && npm run build
-	mkdir -p rpmbuild/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS}
+	mkdir -p $(foreach dir,$(RPM_DIRS),$(RPM_BUILD_DIR)/$(dir))
 	mkdir -p $(RPM_BUILD_DIR)/BUILD/cpds-ui/
 	cp -r cpds-ui/* $(RPM_BUILD_DIR)/BUILD/cpds-ui/
 	cp build/* $(RPM_BUILD_DIR)/BUILD/
