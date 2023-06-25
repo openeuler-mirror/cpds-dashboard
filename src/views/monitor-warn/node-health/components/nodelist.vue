@@ -169,11 +169,11 @@ const getPercent = computed(() => (usage: number) => {
 const getUsed = computed(() => (type: string, used: number, total: number) => {
     switch (type) {
         case 'cpu':
-            return used.toFixed(2) + '/' + total.toFixed(2) + ' core';
+            return used.toFixed(1) + '/' + total.toFixed(1) + ' core';
         case 'memory':
-            return (used / Math.pow(1024, 3)).toFixed(2) + '/' + (total / Math.pow(1024, 3)).toFixed(2) + ' Gi';
+            return (used / Math.pow(1024, 3)).toFixed(1) + '/' + (total / Math.pow(1024, 3)).toFixed(1) + ' GB';
         case 'disk':
-            return (used / Math.pow(1024, 3)).toFixed(2) + '/' + (total / Math.pow(1024, 3)).toFixed(2) + ' GB';
+            return (used / Math.pow(1024, 3)).toFixed(1) + '/' + (total / Math.pow(1024, 3)).toFixed(1) + ' GB';
     }
 })
 const returnList = () => {
