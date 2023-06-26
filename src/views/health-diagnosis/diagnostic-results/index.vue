@@ -4,7 +4,7 @@
 		<el-card>
 			<div class="header">
 				<div>
-					<el-input v-model="diagnosisinfo.params.filter" class="width-150 mr10" placeholder="输入名称"
+					<el-input v-model="diagnosisinfo.params.filter" class="width-150 mr10" placeholder="输入规则名称"
 						:prefix-icon="Search" />
 					<el-button @click="search" type="primary">搜索</el-button>
 				</div>
