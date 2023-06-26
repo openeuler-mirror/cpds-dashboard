@@ -35,9 +35,9 @@ const usageNum = computed(() => {
 })
 const used = computed(() => {
     if (props.name === 'CPU') {
-        return props.data?.used_core.toFixed(2) + '/' + props.data?.total_core?.toFixed(2);
+        return props.data?.used_core.toFixed(1) + '/' + props.data?.total_core?.toFixed(1);
     } else {
-        return (props.data?.used_bytes / Math.pow(1024, 3)).toFixed(2) + '/' + (props.data?.total_bytes / Math.pow(1024, 3)).toFixed(2)
+        return (props.data?.used_bytes / Math.pow(1024, 3)).toFixed(1) + '/' + (props.data?.total_bytes / Math.pow(1024, 3)).toFixed(1)
     }
 
 
