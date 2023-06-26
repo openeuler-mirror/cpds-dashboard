@@ -2,7 +2,7 @@
 	<el-card style="overflow: auto;">
 		<div style="display: flex;">
 			<div style="flex:0 1 50%">
-				<h4>容器健康状态</h4>
+				<h2>容器健康状态</h2>
 				<div style="display: flex;margin-top: 10px;margin-left: 20px; ">
 					<el-progress type="circle" :percentage="numContainer" :width="100" :height="100" stroke-width="7"
 						color="#51c41b">
@@ -11,7 +11,7 @@
 							}}</span>
 						</template>
 					</el-progress>
-					<div style="display: flex;align-items: center;margin-left: 20px;">
+					<div style="display: flex;align-items: center;margin-left: 20px;font-size: 20px;">
 						<div>
 							<p>全部容器：</p>
 							<p>运行中的容器：</p>
@@ -27,7 +27,7 @@
 			</div>
 
 			<div style="flex:0 1 50%">
-				<h4>集群节点状态</h4>
+				<h2>集群节点状态</h2>
 				<div style="display: flex;margin-top: 10px;margin-left: 20px; ">
 					<el-progress type="circle" :percentage="numNode" :width="100" :height="100" stroke-width="7"
 						color="#51c41b">
@@ -36,7 +36,7 @@
 							}}</span>
 						</template>
 					</el-progress>
-					<div style="display: flex;align-items: center;margin-left: 20px;">
+					<div style="display: flex;align-items: center;margin-left: 20px;font-size: 20px;">
 						<div>
 							<p>全部节点：</p>
 							<p>在线节点：</p>
@@ -52,7 +52,7 @@
 			</div>
 		</div>
 		<div style="margin-top: 30px;">
-			<h3>资源使用情况</h3>
+			<h2>资源使用情况</h2>
 			<div style="display: flex;margin-top: 10px;justify-content: space-between;width: 70%;">
 				<div style="flex:0 1 25%;">
 					<Usage name="CPU" unit="cores" :data="overViewInfo.cpu"></Usage>
