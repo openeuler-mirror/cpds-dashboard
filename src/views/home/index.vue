@@ -156,7 +156,7 @@
 	</el-card>
 </template>
 <script lang="ts" setup>
-import { ref, onMounted, computed, reactive, toRefs, watch, defineAsyncComponent } from 'vue';
+import { ref, onMounted, computed, reactive, toRefs, watch } from 'vue';
 import { InstanceListInterface } from '/@/views/monitor-warn/interface/index'
 import { useMonitorApi } from '/@/api/monitor-warn/index'
 import ClusterResource from './components/index.vue'
@@ -249,6 +249,7 @@ const statusColor = computed(() => (status: string) => {
 			return "font-size: 30px;color: #e6a23c";
 	}
 });
+//Obtain Table Data
 const getTableData = async (ids: any) => {
 	await Promise.all(ids.map((instance: string) => useMonitorApi().getNodeList({ instance: instance }))).then(res => {
 		res.map(item => {
@@ -256,6 +257,7 @@ const getTableData = async (ids: any) => {
 		})
 	})
 }
+//Obtain the content and corresponding information of targets
 const getTargets = async () => {
 	useMonitorApi().getInstance().then(async (res: any) => {
 		targets.value = await res.data.targets.map((item: any) =>
@@ -351,6 +353,7 @@ const diskTotal = computed(() => {
 		return accumulator + currentValue.disk.total_bytes
 	}, 0)
 })
+//Listen for changes in nodeList data and update the content of OverViewInfo
 watch(nodeList.value, () => {
 	overViewInfo.value.cpu = {
 		usage: cpuUsage.value,
