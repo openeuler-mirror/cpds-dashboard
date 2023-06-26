@@ -11,7 +11,7 @@
 							}}</span>
 						</template>
 					</el-progress>
-					<div style="display: flex;align-items: center;margin-left: 20px;">
+					<div style="display: flex;align-items: center;margin-left: 20px;font-size: 20px;">
 						<div>
 							<p>全部容器：</p>
 							<p>运行中的容器：</p>
@@ -36,7 +36,7 @@
 							}}</span>
 						</template>
 					</el-progress>
-					<div style="display: flex;align-items: center;margin-left: 20px;">
+					<div style="display: flex;align-items: center;margin-left: 20px;font-size: 20px;">
 						<div>
 							<p>全部节点：</p>
 							<p>在线节点：</p>
