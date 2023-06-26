@@ -3,6 +3,9 @@
 		<div style="flex:0.9">
 			<h4>集群物理资源监控</h4>
 		</div>
+		<div style="display: flex;align-items: center;">
+			<span style="font-size: 15px;">查询时间范围:</span>
+		</div>
 		<div class="container">
 			<el-date-picker ref="dateRef" style="margin-left: 5px;" class="mr10" v-model="datetimeRange"
 				type="datetimerange" unlink-panels range-separator="-" start-placeholder="请选择开始时间" end-placeholder="请选择结束时间"
