@@ -1,7 +1,7 @@
 <template>
 	<div style="display: flex;padding-top: 10px;padding-left: 15px;">
 		<div style="flex:0.9">
-			<h4>集群物理资源监控</h4>
+			<h2>集群物理资源监控</h2>
 		</div>
 		<div class="container">
 			<el-date-picker ref="dateRef" style="margin-left: 5px;" class="mr10" v-model="datetimeRange"
@@ -12,16 +12,16 @@
 	</div>
 	<div style="display: flex; flex-wrap: wrap;justify-content:space-between">
 		<el-card class="echart">
-			<Line :data="state.cpuUsageData" yUnit="%" title="CPU用量 (%)"></Line>
+			<Line :data="state.cpuUsageData" yUnit="%" title="CPU使用率 (%)"></Line>
 		</el-card>
 		<el-card class="echart">
-			<Line :data="state.memoryUsageData" yUnit="%" title="内存用量 (%)"></Line>
+			<Line :data="state.memoryUsageData" yUnit="%" title="内存使用率 (%)"></Line>
 		</el-card>
 		<el-card class="echart">
-			<Line :data="state.diskUsageData" yUnit="%" title="磁盘用量 (%)"></Line>
+			<Line :data="state.diskUsageData" yUnit="%" title="磁盘使用率 (%)"></Line>
 		</el-card>
 		<el-card class="echart">
-			<Line :data="state.diskBytesData" yUnit="KB/s" title="磁盘吞吐"></Line>
+			<Line :data="state.diskBytesData" yUnit="KB/s" title="磁盘吞吐速率"></Line>
 		</el-card>
 		<el-card class="echart" style="width: 100%;">
 			<Line :data="state.diskNumData" title="磁盘吞吐量 (次)"></Line>
