@@ -1,14 +1,8 @@
 <template>
     <div>
         <div class="node-health" v-show="!visiable">
-            <h4>节点状态</h4>
+            <h2>节点状态</h2>
             <el-card class="table-wrap" shadow="never">
-                <div class="operation mb15">
-                    <el-select class="width-150 mr10" placeholder="按节点状态排序" v-model="alarmModule" clearable>
-                        <el-option v-for="item in moduleOptions" :key="item.value" :label="item.label"
-                            :value="item.value" />
-                    </el-select>
-                </div>
                 <el-table :data="nodeList" style="width: 100% ;"
                     :row-style="{ height: '50px', background: '#f8f8f8', padding: '0' }">
                     <el-table-column label="节点" width="180">
@@ -290,21 +284,6 @@ watch(nodeList.value, () => {
     emits('update:upNum', upNum)
     emits('update:overViewInfo', overViewInfo)
 })
-
-const moduleOptions: SelectOptionType[] = [
-    {
-        label: '节点',
-        value: 'nodes',
-    },
-    {
-        label: '集群',
-        value: 'cluster',
-    },
-    {
-        label: '设备',
-        value: 'devices',
-    },
-];
 
 </script>
 
