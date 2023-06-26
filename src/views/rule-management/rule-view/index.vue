@@ -17,7 +17,7 @@
 			</div>
 			<el-table element-loading-text="数据加载中..." highlight-current-row height="calc(100vh - 455px)" ref="tableRef"
 				v-loading="tableLoading" @sort-change="ruleSort" :data="rulesionfo.data" border style="width: 100%">
-				<el-table-column prop="name" label="检测名" sortable="custom" width="100%" />
+				<el-table-column prop="name" label="规则名称" sortable="custom" width="110%" />
 				<el-table-column prop="expression" label="表达式" min-width="100%" />
 				<el-table-column prop="severity" label="警告级别" width="100%">
 					<template #default="{ row }">
