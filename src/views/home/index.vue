@@ -2,9 +2,9 @@
 	<el-card>
 		<div style="display: flex;justify-content: space-between;margin: 20px 5% 0 5%">
 			<el-card class="content">
-				<div style="flex:0 1 50%;margin: 30px 0 0 10%;">
+				<div style="flex:0 1 50%;">
 					<h3>容器健康状态</h3>
-					<div style="display: flex;margin-top: 10px;margin-left: 20px; ">
+					<div style="display: flex;margin-top: 50px;margin-left: 20px; ">
 						<el-progress type="circle" :percentage="numContainer" :width="150" :height="150" stroke-width="9"
 							color="#51c41b">
 							<template #default="{ percentage }">
@@ -26,7 +26,7 @@
 						</div>
 					</div>
 				</div>
-				<div style="flex:0 1 50%;margin: 100px 0 0 10%;">
+				<div style="flex:0 1 50%;margin-top: 20%;">
 					<h3>集群节点状态</h3>
 					<div style="display: flex;margin-top: 10px;margin-left: 20px; ">
 						<el-progress type="circle" :percentage="numNode" :width="150" :height="150" stroke-width="9"
@@ -52,8 +52,8 @@
 				</div>
 			</el-card>
 			<el-card class="content">
-				<h3 style="margin-left: 30px;">集群资源用量</h3>
-				<div>
+				<h3>集群资源用量</h3>
+				<el-card>
 					<ClusterResource style="margin-top: 5px
 					;max-width: 500px;margin: 0 auto;" :data="overViewInfo.cpu" name="CPU" unit="cores">
 					</ClusterResource>
@@ -63,8 +63,8 @@
 					<ClusterResource style="margin-top: 5px
 					;max-width: 500px;margin: 0 auto;" :data="overViewInfo.disk" name="磁盘" unit="GB">
 					</ClusterResource>
-				</div>
-				<div>
+				</el-card>
+				<el-card style="margin-top: 10px;">
 					<el-table :data="nodeList?.slice(0, 3)" style="width: 100% ;min-height: 220px; font-size: 20px;"
 						:row-style="{ height: '50px', background: '#f8f8f8', padding: '0' }">
 						<el-table-column label="节点">
@@ -94,7 +94,7 @@
 							@click="jumpNodeData">
 							查看更多</h3>
 					</div>
-				</div>
+				</el-card>
 			</el-card>
 
 		</div>
@@ -393,7 +393,6 @@ watch(nodeList.value, () => {
 
 .content {
 	width: calc((100% - 50px) / 2);
-	height: 620px;
 	margin-top: 15px;
 }
 
