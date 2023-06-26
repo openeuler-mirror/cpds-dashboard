@@ -10,7 +10,7 @@
 			<div v-show="latestTime" class="container-time" @click="dateRef.focus()">{{ latestTime }}</div>
 		</div>
 	</div>
-	<div style="display: flex; flex-wrap: wrap;justify-content:space-between">
+	<div class="line-container">
 		<el-card class="echart">
 			<Line :data="state.cpuUsageData" yUnit="%" title="CPU使用率 (%)"></Line>
 		</el-card>
@@ -232,6 +232,11 @@ watch(
 
 }
 
+.line-container {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between
+}
 
 
 
