@@ -72,18 +72,19 @@ const handleSizeChange = (e: any) => {
     state.limit = e;
     state.page = 1
 }
-
+//define events and pass them to parent components
 const emits = defineEmits(['update:value', 'RefreshHistory']);
 const close = () => {
     emits('update:value', false);
 }
 const props = defineProps<{ expression: string }>()
+//use inject to obtain the value passed by the parent component
 const datetimeRange = inject('datetimeRange', ref());
 const defaultdateRange = inject('defaultdateRange', ref());
 defineExpose({
     close
 });
-
+//Get original data
 const getRawData = (query: string) => {
     const params = {
         query: query,

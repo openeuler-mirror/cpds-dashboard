@@ -98,11 +98,13 @@ const rules = reactive({
 
 const dateChange = (val: any) => {
 	if (val) {
-		if (dayjs(val[1]).diff(new Date(), 'second') == 0) {  // relative time range
+		// relative time range
+		if (dayjs(val[1]).diff(new Date(), 'second') == 0) {
 			const diff = dayjs(val[1]).diff(val[0], 'second');
 			defaultdateRange.value[0] = diff;
 			datetimeRange.value = null
-		} else {   // Filter time range
+			// Filter time range
+		} else {
 			datetimeRange.value = val;
 			latestTime.value = ''
 		}
@@ -114,9 +116,11 @@ const dateChange = (val: any) => {
 const refreshHistory = () => {
 	history.value = Local.get('history')
 }
+//auto fill expression
 const getExpression = (expression: string) => {
 	newFrom.value.expression = expression
 }
+//using provide to pass values to subcomponents
 provide('datetimeRange', datetimeRange);
 provide('defaultdateRange', defaultdateRange);
 const selectRawDate = () => {
@@ -137,6 +141,7 @@ watch(
 
 
 );
+//retrieve history from browser localstorage
 onMounted(() => {
 	history.value = Local.get('history')
 })
