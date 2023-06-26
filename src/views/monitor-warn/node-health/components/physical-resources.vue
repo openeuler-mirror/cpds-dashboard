@@ -12,10 +12,10 @@
 	</div>
 	<div style="display: flex; flex-wrap: wrap;justify-content:space-between">
 		<el-card class="echart">
-			<Line :data="state.cpuUsageData" yUnit="%" title="CPU用量 (%)"></Line>
+			<Line :data="state.cpuUsageData" yUnit="%" title="CPU使用率 (%)"></Line>
 		</el-card>
 		<el-card class="echart">
-			<Line :data="state.memoryUsageData" yUnit="%" title="内存用量 (%)"></Line>
+			<Line :data="state.memoryUsageData" yUnit="%" title="内存使用率 (%)"></Line>
 		</el-card>
 		<el-card class="echart">
 			<Line :data="state.containerTotalData" title="容器总数 (个)"></Line>
@@ -24,7 +24,7 @@
 			<Line :data="state.containerRunningData" title="容器运行数 (个)"></Line>
 		</el-card>
 		<el-card class="echart">
-			<Line :data="state.diskUsageData" yUnit="%" title="磁盘用量 (%)"></Line>
+			<Line :data="state.diskUsageData" yUnit="%" title="磁盘使用率 (%)"></Line>
 		</el-card>
 		<el-card class="echart">
 			<Line :data="state.diskNumData" title="磁盘吞吐量 (次)"></Line>
