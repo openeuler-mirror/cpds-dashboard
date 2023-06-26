@@ -52,7 +52,7 @@
 		</el-card>
 		<el-dialog :title="title" v-model="dialogVisible" :destroy-on-close="true" width="600px">
 			<RuleDialog ref="dialogRuleRef" v-model:value="dialogVisible" :ruleFromdata="editRuleData"
-				@RefreshList="getruleList(true)"></RuleDialog>
+				@refreshList="getruleList(true)"></RuleDialog>
 			<template #footer>
 				<el-button @click="dialogVisible = false">取消</el-button>
 				<el-button type="primary" @click="handleDialogRule">确定</el-button>

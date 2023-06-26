@@ -96,7 +96,7 @@ watch(
 	{ immediate: true }
 );
 const ruleDataRuleRef = ref<FormInstance>();
-const emits = defineEmits(['update:value', 'RefreshList']);
+const emits = defineEmits(['update:value', 'refreshList']);
 //Submit Edit Form
 const editRule = () => {
 	if (!ruleDataRuleRef.value) return;
@@ -113,7 +113,7 @@ const editRule = () => {
 			.then(() => {
 				ElMessage.success('编辑规则任务成功');
 				emits('update:value', false);
-				emits('RefreshList');
+				emits('refreshList');
 			});
 	});
 };
@@ -133,7 +133,7 @@ const addRule = () => {
 			.then(() => {
 				ElMessage.success('添加规则任务成功');
 				emits('update:value', false);
-				emits('RefreshList');
+				emits('refreshList');
 			});
 	});
 };
