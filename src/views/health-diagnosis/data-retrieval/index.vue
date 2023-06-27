@@ -44,7 +44,7 @@
 			</div>
 			<div>
 				<el-dialog :title="rawtitle" v-model="dialogVisible" :destroy-on-close="true" width="60%">
-					<RawData ref="rawRuleRef" v-model:value="dialogVisible" @RefreshHistory="refreshHistory()"
+					<RawData ref="rawRuleRef" v-model:value="dialogVisible" @refreshHistory="refreshHistory()"
 						:expression="newFrom.expression"></RawData>
 					<template #footer>
 						<el-button @click="dialogVisible = false">关闭</el-button>
