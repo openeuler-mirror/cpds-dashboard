@@ -12,7 +12,7 @@
 			<el-table element-loading-text="数据加载中..." highlight-current-row height="calc(100vh - 455px)" ref="tableRef"
 				v-loading="tableLoading" :data="diagnosisinfo.data" border style="width: 100%">
 				<el-table-column prop="id" label="诊断id"></el-table-column>
-				<el-table-column prop="rule_name" label="触发规则"></el-table-column>
+				<el-table-column prop="rule_name" label="规则名称"></el-table-column>
 				<el-table-column prop="status" label="节点当前状态"><template #default="{ row }"><el-tag class="ml-2" :type="row.status === 'subhealth'
 					? 'warning' : 'danger'">{{
 		row.status === 'subhealth'
