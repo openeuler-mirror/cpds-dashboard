@@ -15,7 +15,7 @@ Vite + Vue3 + Es6 + Element-plus + typescript + Pinia
 
 ### 运行说明
 
-    1. npm install
+    1. npm install -force
         下载相关依赖包的源
         注：下载过慢通过命令 'npm config set registry https://registry.npmmirror.com'设置淘宝源，或者通过yarn包管理器
     2. npm run dev
