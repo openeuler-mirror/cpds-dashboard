@@ -220,6 +220,7 @@ const validateConditionType = (rule: any, value: any, callback: any) => {
 		callback();
 	}
 };
+//Form Rule Validation
 const ruleDataRules = reactive({
 	name: [{ validator: validateName, trigger: 'blur' }],
 	expression: [{ validator: validateExpression, trigger: 'blur' }],
@@ -235,6 +236,7 @@ const faultConditionTypeOptions = [
 	{ label: '<', value: '<' },
 	{ label: '>', value: '>' },
 ];
+//Delete warning messages for form validation by listening for changes in conditions
 watch(() => [newFrom.value.subhealth_condition_type, newFrom.value.fault_condition_type], () => {
 	if (!newFrom.value.subhealth_condition_type) {
 		ruleDataRuleRef.value?.clearValidate(['subhealth_thresholds']);
