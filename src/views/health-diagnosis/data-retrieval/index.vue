@@ -116,6 +116,7 @@ const refreshHistory = () => {
 }
 const getExpression = (expression: string) => {
 	newFrom.value.expression = expression
+	expressionRef.value?.clearValidate(['expression']);
 }
 provide('datetimeRange', datetimeRange);
 provide('defaultdateRange', defaultdateRange);
