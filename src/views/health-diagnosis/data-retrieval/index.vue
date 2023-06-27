@@ -69,7 +69,7 @@ import { shortcuts } from '/@/utils/const'
 dayjs.extend(relativeTime);
 const RawData = defineAsyncComponent(() => import('./components/rawData.vue'))
 const title = '原始数据检索';
-const desc = '提供诊断结果列表,支持诊断原始数据查看，显示诊断时所使用的原始数据,并提供图表展示原始数据的变化规律。'
+const desc = '功能描述：提供诊断结果列表,支持诊断原始数据查看，显示诊断时所使用的原始数据,并提供图表展示原始数据的变化规律。'
 const datetimeRange = ref()
 const defaultdateRange = ref<[number, string]>([5 * 60, 'second']);
 const latestTime = ref('最近 ' + timeNameMap[dayjs(dayjs().subtract(defaultdateRange.value[0], 'second')).fromNow(true)]);
