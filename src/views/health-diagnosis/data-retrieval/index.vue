@@ -119,6 +119,7 @@ const refreshHistory = () => {
 //auto fill expression
 const getExpression = (expression: string) => {
 	newFrom.value.expression = expression
+	expressionRef.value?.clearValidate(['expression']);
 }
 //using provide to pass values to subcomponents
 provide('datetimeRange', datetimeRange);
