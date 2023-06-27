@@ -12,9 +12,10 @@
 								}}</span>
 							</template>
 						</el-progress>
-						<div style="display: flex;align-items: center;margin-left: 20%;font-size: 20px;">
+						<div
+							style="display: flex;align-items: center;margin-left: 20%;font-size: 20px;font-style: oblique;">
 							<div>
-								<p>容器个数：</p>
+								<p>全部容器：</p>
 								<p>运行中的容器：</p>
 								<p>停止的容器：</p>
 							</div>
@@ -36,7 +37,8 @@
 								}}</span>
 							</template>
 						</el-progress>
-						<div style="display: flex;align-items: center;margin-left: 20%;font-size: 20px;">
+						<div
+							style="display: flex;align-items: center;margin-left: 20%;font-size: 20px;font-style: oblique;">
 							<div>
 								<p>全部节点：</p>
 								<p>在线节点：</p>
@@ -58,14 +60,15 @@
 					;max-width: 550px;margin: 0 auto;" :data="overViewInfo.cpu" name="CPU" unit="cores">
 					</ClusterResource>
 					<ClusterResource style="margin-top: 5px
-					;max-width: 550px;margin: 0 auto;" :data="overViewInfo.memory" name="内存" unit="Gi">
+					;max-width: 550px;margin: 0 auto;" :data="overViewInfo.memory" name="内存" unit="GB">
 					</ClusterResource>
 					<ClusterResource style="margin-top: 5px
 					;max-width: 550px;margin: 0 auto;" :data="overViewInfo.disk" name="磁盘" unit="GB">
 					</ClusterResource>
 				</el-card>
 				<el-card style="margin-top: 10px;">
-					<el-table :data="nodeList?.slice(0, 3)" style="width: 100% ;min-height: 220px; font-size: 20px;"
+					<el-table :data="nodeList?.slice(0, 3)"
+						style="width: 100% ;min-height: 220px; font-size: 20px;font-style:oblique"
 						:row-style="{ height: '50px', background: '#f8f8f8', padding: '0' }">
 						<el-table-column label="节点">
 							<template #default="{ row }">
@@ -90,9 +93,9 @@
 						</el-table-column>
 					</el-table>
 					<div style="width: 100%;background: #f8f8f8;">
-						<h3 style="text-align: center;line-height: 3;letter-spacing: 5px;cursor: pointer;margin-top: 20px;"
+						<div style="text-align: center;line-height: 3;letter-spacing: 5px;cursor: pointer;margin-top: 20px;font-size: 20px;color:#ababa8;font-style: oblique;"
 							@click="jumpNodeData">
-							查看更多</h3>
+							查看更多</div>
 					</div>
 				</el-card>
 			</el-card>
@@ -100,8 +103,9 @@
 		</div>
 		<div style="margin: 20px 5% 0 5%">
 			<el-card>
-				<h3 style="margin-left: 30px;margin-bottom: 30px;">诊断结果</h3>
-				<el-table :data="diagnostic.DiagnosticList" style="width: 100% ;min-height: 300px;font-size: 20px;"
+				<h2 style="margin-bottom: 30px;">诊断结果</h2>
+				<el-table :data="diagnostic.DiagnosticList"
+					style="width: 100% ;min-height: 300px;font-size: 20px;font-style: oblique;"
 					:row-style="{ height: '50px', background: '#f8f8f8', padding: '0' }">
 					<el-table-column label="触发规则">
 						<template #default="{ row }">
@@ -145,9 +149,9 @@
 					</el-table-column>
 				</el-table>
 				<div style="width: 100%;background: #f8f8f8;margin-top: 50px;">
-					<h3 style="text-align: center;line-height: 3;letter-spacing: 5px;cursor: pointer;"
+					<div style="text-align: center;line-height: 3;letter-spacing: 5px;cursor: pointer;font-size: 20px;color:#ababa8;font-style: oblique;"
 						@click="jumpDiagnosticData">
-						查看更多</h3>
+						查看更多</div>
 				</div>
 			</el-card>
 
