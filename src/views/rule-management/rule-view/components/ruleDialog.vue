@@ -231,8 +231,6 @@ const faultConditionTypeOptions = [
 	{ label: '!=', value: '!=' },
 	{ label: '<', value: '<' },
 	{ label: '>', value: '>' },
-	{ label: '<=', value: '<=' },
-	{ label: '>=', value: '>=' },
 ];
 watch(() => [newFrom.value.subhealth_condition_type, newFrom.value.fault_condition_type], () => {
 	if (!newFrom.value.subhealth_condition_type) {
