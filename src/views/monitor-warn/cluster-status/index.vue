@@ -29,7 +29,7 @@ const containHealth = defineAsyncComponent(() => import('./components/container-
 const physicalResources = defineAsyncComponent(() => import('./components/physical-resources.vue'));
 const overview = defineAsyncComponent(() => import('./components/overview.vue'));
 const desctitle = '集群状态'
-const desc = '显示集群主机在线状态：显示在线节点数、离线节点数信息'
+const desc = '功能描述:显示集群主机在线状态,提供物理资源监控和容器健康监控'
 const activeName = ref('概览');
 provide('activeName', activeName);
 const handleClick = (tab: 'TabsPaneContext', event: Event) => { };
