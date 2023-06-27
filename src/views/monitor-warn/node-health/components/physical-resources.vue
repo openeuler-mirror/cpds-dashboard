@@ -220,13 +220,6 @@ watch(
 </script>
 
 <style scoped>
-.content {
-	height: calc(100% - 40px);
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-between;
-}
-
 .echart {
 	width: calc((100% - 15px) / 2);
 	height: calc((100% - 30px) / 2);
