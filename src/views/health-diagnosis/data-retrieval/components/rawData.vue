@@ -113,10 +113,12 @@ const getRawData = (query: string) => {
                 },
             }
         })
+        //Obtain Historical Query Data
         const history = Local.get('history') || []
         if (history.length === 10) {
             history.pop()
         }
+        //Delete the first data when the history is greater than 10
         if (history.length > 0 && history.some((item: any) => item.expression === query)) {
             history.forEach((item: any) => {
                 if (item.expression === query) {
@@ -132,7 +134,9 @@ const getRawData = (query: string) => {
                         Date(params.end_time * 1000), 'YYYY-mm-dd HH:MM:SS')}`
             })
         }
+        //Save to browser local storage
         Local.set('history', history)
+        //Pass refresh history event to parent component
         emits('RefreshHistory');
     }).finally(() => {
 
