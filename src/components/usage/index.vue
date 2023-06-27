@@ -4,7 +4,7 @@
             <el-progress stroke-width="4" :width="40" :height="40" :text-inside="true" type="circle" :percentage="usageNum"
                 color="#a2bbea" />
         </div>
-        <div style="margin-left: 30px;color: azure;margin: 0 auto;">
+        <div style="margin-left: 30px;color: azure;margin: 0 auto;font-size: 20px;">
             <table>
                 <tbody>
                     <tr>
