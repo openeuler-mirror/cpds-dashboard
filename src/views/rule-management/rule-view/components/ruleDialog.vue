@@ -16,9 +16,12 @@
 		<el-form-item label="阈值时间">
 			<el-select v-model="newFrom.duration">
 				<el-option label="1m" value="1m" />
+				<el-option label="3m" value="3m" />
 				<el-option label="5m" value="5m" />
 				<el-option label="10m" value="10m" />
+				<el-option label="15m" value="15m" />
 				<el-option label="30m" value="30m" />
+				<el-option label="45m" value="45m" />
 				<el-option label="1h" value="1h" />
 			</el-select>
 		</el-form-item>
