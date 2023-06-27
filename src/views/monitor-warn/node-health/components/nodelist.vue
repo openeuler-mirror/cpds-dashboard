@@ -74,7 +74,7 @@
 
         <div class="cluster-status" v-if="visiable">
             <el-tabs v-model="activeName" type="card" class="tab" @tab-click="handleClick">
-                <el-button type="primary" @click="returnList">返回</el-button>
+                <el-button type="primary" style="font-size: 15px;" @click="returnList">返回主页</el-button>
                 <el-tab-pane label="概览" name="概览" lazy>
                     <div class="main">
                         <overview></overview>
