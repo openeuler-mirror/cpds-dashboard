@@ -70,7 +70,7 @@ import { RulesStateInterface, editRuleDataInterface, RulesInterface } from '../i
 import Description from '/@/components/description/index.vue'
 const RuleDialog = defineAsyncComponent(() => import('./components/ruleDialog.vue'));
 const desctitle = '查看规则'
-const desc = '支持故障/亚健康检测规则列表查看、创建、编辑、删除功能，列表包括规则名、表达式、告警级别和亚健康、故障比较规则值信息'
+const desc = '功能描述：支持故障/亚健康检测规则列表查看、创建、编辑、删除功能，列表包括规则名、表达式、告警级别和亚健康、故障比较规则值信息'
 const state = reactive<RulesStateInterface>({
 	rulesionfo: {
 		data: [],
