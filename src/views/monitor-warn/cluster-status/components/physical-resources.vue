@@ -15,19 +15,19 @@
 	</div>
 	<div style="display: flex; flex-wrap: wrap;justify-content:space-between">
 		<el-card class="echart">
-			<Line :data="state.cpuUsageData" yUnit="%" title="CPU使用率 (%)"></Line>
+			<Line :data="state.cpuUsageData" yUnit="%" title="集群总CPU使用率"></Line>
 		</el-card>
 		<el-card class="echart">
-			<Line :data="state.memoryUsageData" yUnit="%" title="内存使用率 (%)"></Line>
+			<Line :data="state.memoryUsageData" yUnit="%" title="集群总内存使用率"></Line>
 		</el-card>
 		<el-card class="echart">
-			<Line :data="state.diskUsageData" yUnit="%" title="磁盘使用率 (%)"></Line>
+			<Line :data="state.diskUsageData" yUnit="%" title="集群总磁盘使用率"></Line>
 		</el-card>
 		<el-card class="echart">
-			<Line :data="state.diskBytesData" yUnit="KB/s" title="磁盘吞吐速率"></Line>
+			<Line :data="state.diskBytesData" yUnit="KB/s" title="集群总磁盘吞吐速率"></Line>
 		</el-card>
 		<el-card class="echart" style="width: 100%;">
-			<Line :data="state.diskNumData" title="磁盘吞吐量 (次)"></Line>
+			<Line :data="state.diskNumData" title="集群总磁盘吞吐量"></Line>
 		</el-card>
 
 	</div>
