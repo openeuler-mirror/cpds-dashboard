@@ -27,6 +27,9 @@
 			<Line :data="state.diskIops" yUnit="%" title="磁盘iops"></Line>
 		</el-card>
 		<el-card class="echart">
+			<Line :data="state.netIops" yUnit="%" title="网络iops"></Line>
+		</el-card>
+		<el-card class="echart">
 			<Line :data="state.netDropRate" yUnit="%" title="网络丢包率"></Line>
 		</el-card>
 		<el-card class="echart">
@@ -65,6 +68,7 @@ interface DataState {
 	netDropRate: LineChartData;
 	netErrorRate: LineChartData
 	retransmRate: LineChartData
+	netIops: LineChartData
 }
 const state = reactive<DataState>({
 	diskBytesData: {
@@ -103,6 +107,10 @@ const state = reactive<DataState>({
 		xData: [],
 		seriesData: [],
 	},
+	netIops: {
+		xData: [],
+		seriesData: [],
+	}
 })
 
 const activeName = inject('activeName', ref());
