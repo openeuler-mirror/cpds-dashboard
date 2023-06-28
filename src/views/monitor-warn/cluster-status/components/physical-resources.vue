@@ -33,7 +33,7 @@
 			<Line :data="state.netErrorRate" yUnit="%" title="网络错误率"></Line>
 		</el-card>
 		<el-card class="echart">
-			<Line :data="state.diskUsageData" yUnit="%" title="网络重传率"></Line>
+			<Line :data="state.retransmRate" yUnit="%" title="网络重传率"></Line>
 		</el-card>
 		<el-card class="echart">
 			<Line :data="state.diskBytesData" yUnit="KB/s" title="集群总磁盘吞吐速率"></Line>
@@ -239,6 +239,9 @@ const getClusterResource = () => {
 					state.netErrorRate.seriesData.push(data.seriesData[0])
 					state.netErrorRate.xData = data.xData
 				}
+			}
+			if (resource.metric_name === "cluster_retransm_rate") {
+				state.retransmRate = getData(resource)
 			}
 		}))
 	})
