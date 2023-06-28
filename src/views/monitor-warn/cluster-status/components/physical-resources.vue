@@ -27,7 +27,7 @@
 			<Line :data="state.diskIops" yUnit="%" title="磁盘iops"></Line>
 		</el-card>
 		<el-card class="echart">
-			<Line :data="state.diskUsageData" yUnit="%" title="网络丢包率"></Line>
+			<Line :data="state.netDropRate" yUnit="%" title="网络丢包率"></Line>
 		</el-card>
 		<el-card class="echart">
 			<Line :data="state.diskUsageData" yUnit="%" title="网络错误率"></Line>
@@ -62,8 +62,7 @@ interface DataState {
 	diskNumData: LineChartData;
 	memoryUsageData: LineChartData;
 	diskIops: LineChartData;
-	netReciveDrop: LineChartData;
-	netTransmitDrop: LineChartData
+	netDropRate: LineChartData;
 }
 const state = reactive<DataState>({
 	diskBytesData: {
@@ -90,11 +89,7 @@ const state = reactive<DataState>({
 		xData: [],
 		seriesData: [],
 	},
-	netReciveDrop: {
-		xData: [],
-		seriesData: [],
-	},
-	netTransmitDrop: {
+	netDropRate: {
 		xData: [],
 		seriesData: [],
 	},
@@ -198,6 +193,24 @@ const getClusterResource = () => {
 			}
 			if (resource.metric_name === "cluster_disk_iops") {
 				state.diskIops = getData(resource)
+			}
+			if (resource.metric_name === "cluster_network_recive_drop_rate") {
+				const data = getData(resource)
+				if (state.netDropRate.seriesData.length != 1) {
+					state.netDropRate = data
+				} else {
+					state.netDropRate.seriesData.push(data.seriesData[0])
+					state.netDropRate.xData = data.xData
+				}
+			}
+			if (resource.metric_name === "cluster_network_transmit_drop_rate") {
+				const data = getData(resource)
+				if (state.netDropRate.seriesData.length != 1) {
+					state.netDropRate = data
+				} else {
+					state.netDropRate.seriesData.push(data.seriesData[0])
+					state.netDropRate.xData = data.xData
+				}
 			}
 		}))
 	})
