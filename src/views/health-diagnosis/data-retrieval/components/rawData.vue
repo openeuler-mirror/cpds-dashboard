@@ -73,7 +73,7 @@ const handleSizeChange = (e: any) => {
     state.page = 1
 }
 //define events and pass them to parent components
-const emits = defineEmits(['update:value', 'RefreshHistory']);
+const emits = defineEmits(['update:value', 'refreshHistory']);
 const close = () => {
     emits('update:value', false);
 }
@@ -138,7 +138,7 @@ const getRawData = (query: string) => {
         //Save to browser local storage
         Local.set('history', history)
         //Pass refresh history event to parent component
-        emits('RefreshHistory');
+        emits('refreshHistory');
     }).finally(() => {
 
     })
