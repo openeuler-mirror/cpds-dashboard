@@ -60,8 +60,8 @@ interface DataState {
 	diskUsageData: LineChartData;
 	cpuUsageData: LineChartData;
 	diskNumData: LineChartData;
-
 	memoryUsageData: LineChartData;
+	disk_iops: LineChartData;
 }
 const state = reactive<DataState>({
 	diskBytesData: {
@@ -84,6 +84,10 @@ const state = reactive<DataState>({
 		xData: [],
 		seriesData: [],
 	},
+	disk_iops: {
+		xData: [],
+		seriesData: [],
+	}
 })
 
 const activeName = inject('activeName', ref());
