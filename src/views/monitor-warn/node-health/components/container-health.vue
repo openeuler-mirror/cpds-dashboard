@@ -172,7 +172,6 @@ const getContainerList = () => {
 				state.containerTable.data = containerDataList
 			}
 		})
-		console.log(state.containerTable.data);
 
 	}).finally(() => {
 		state.containerTable.loading = false
