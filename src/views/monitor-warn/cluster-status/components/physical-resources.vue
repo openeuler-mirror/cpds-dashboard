@@ -24,6 +24,18 @@
 			<Line :data="state.diskUsageData" yUnit="%" title="集群总磁盘使用率"></Line>
 		</el-card>
 		<el-card class="echart">
+			<Line :data="state.diskUsageData" yUnit="%" title="磁盘iops"></Line>
+		</el-card>
+		<el-card class="echart">
+			<Line :data="state.diskUsageData" yUnit="%" title="网络丢包率"></Line>
+		</el-card>
+		<el-card class="echart">
+			<Line :data="state.diskUsageData" yUnit="%" title="网络错误率"></Line>
+		</el-card>
+		<el-card class="echart">
+			<Line :data="state.diskUsageData" yUnit="%" title="网络重传率"></Line>
+		</el-card>
+		<el-card class="echart">
 			<Line :data="state.diskBytesData" yUnit="KB/s" title="集群总磁盘吞吐速率"></Line>
 		</el-card>
 		<el-card class="echart" style="width: 100%;">
@@ -48,8 +60,8 @@ interface DataState {
 	diskUsageData: LineChartData;
 	cpuUsageData: LineChartData;
 	diskNumData: LineChartData;
-
 	memoryUsageData: LineChartData;
+	disk_iops: LineChartData;
 }
 const state = reactive<DataState>({
 	diskBytesData: {
@@ -72,6 +84,10 @@ const state = reactive<DataState>({
 		xData: [],
 		seriesData: [],
 	},
+	disk_iops: {
+		xData: [],
+		seriesData: [],
+	}
 })
 
 const activeName = inject('activeName', ref());
