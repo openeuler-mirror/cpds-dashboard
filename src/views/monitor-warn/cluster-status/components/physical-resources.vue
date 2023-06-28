@@ -30,7 +30,7 @@
 			<Line :data="state.netDropRate" yUnit="%" title="网络丢包率"></Line>
 		</el-card>
 		<el-card class="echart">
-			<Line :data="state.diskUsageData" yUnit="%" title="网络错误率"></Line>
+			<Line :data="state.netErrorRate" yUnit="%" title="网络错误率"></Line>
 		</el-card>
 		<el-card class="echart">
 			<Line :data="state.diskUsageData" yUnit="%" title="网络重传率"></Line>
@@ -215,6 +215,24 @@ const getClusterResource = () => {
 				} else {
 					state.netDropRate.seriesData.push(data.seriesData[0])
 					state.netDropRate.xData = data.xData
+				}
+			}
+			if (resource.metric_name === "cluster_network_recive_error_rate") {
+				const data = getData(resource)
+				if (state.netErrorRate.seriesData.length != 1) {
+					state.netErrorRate = data
+				} else {
+					state.netErrorRate.seriesData.push(data.seriesData[0])
+					state.netErrorRate.xData = data.xData
+				}
+			}
+			if (resource.metric_name === "cluster_network_transmit_error_rate") {
+				const data = getData(resource)
+				if (state.netErrorRate.seriesData.length != 1) {
+					state.netErrorRate = data
+				} else {
+					state.netErrorRate.seriesData.push(data.seriesData[0])
+					state.netErrorRate.xData = data.xData
 				}
 			}
 		}))
