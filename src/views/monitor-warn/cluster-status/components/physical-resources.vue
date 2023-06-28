@@ -241,6 +241,8 @@ const getClusterResource = () => {
 const getName = (name: string) => {
 	if (name === 'cluster_disk_read_bytes' || name === 'cluster_disk_read_complete') return '读'
 	if (name === 'cluster_disk_written_bytes' || name === 'cluster_disk_written_complete') return '写'
+	if (name === 'cluster_network_recive_drop_rate' || name === 'cluster_network_recive_error_rate') return '接收'
+	if (name === 'cluster_network_transmit_drop_rate' || name === 'cluster_network_transmit_error_rate') return '发送'
 	return ''
 }
 const handle = () => {
