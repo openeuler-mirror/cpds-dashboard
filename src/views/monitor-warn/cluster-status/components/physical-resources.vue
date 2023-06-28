@@ -251,6 +251,9 @@ const getClusterResource = () => {
 			if (resource.metric_name === "cluster_retransm_rate") {
 				state.retransmRate = getData(resource)
 			}
+			if (resource.metric_name === "cluster_network_iops") {
+				state.netIops = getData(resource)
+			}
 		}))
 	})
 }
