@@ -24,7 +24,7 @@
 			<Line :data="state.diskUsageData" yUnit="%" title="集群总磁盘使用率"></Line>
 		</el-card>
 		<el-card class="echart">
-			<Line :data="state.diskUsageData" yUnit="%" title="磁盘iops"></Line>
+			<Line :data="state.diskIops" yUnit="%" title="磁盘iops"></Line>
 		</el-card>
 		<el-card class="echart">
 			<Line :data="state.diskUsageData" yUnit="%" title="网络丢包率"></Line>
@@ -61,7 +61,7 @@ interface DataState {
 	cpuUsageData: LineChartData;
 	diskNumData: LineChartData;
 	memoryUsageData: LineChartData;
-	disk_iops: LineChartData;
+	diskIops: LineChartData;
 }
 const state = reactive<DataState>({
 	diskBytesData: {
@@ -84,7 +84,7 @@ const state = reactive<DataState>({
 		xData: [],
 		seriesData: [],
 	},
-	disk_iops: {
+	diskIops: {
 		xData: [],
 		seriesData: [],
 	}
@@ -185,6 +185,9 @@ const getClusterResource = () => {
 					state.diskBytesData.seriesData.push(data.seriesData[0])
 					state.diskBytesData.xData = data.xData
 				}
+			}
+			if (resource.metric_name === "cluster_disk_iops") {
+				state.diskIops = getData(resource)
 			}
 		}))
 	})
