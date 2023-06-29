@@ -223,6 +223,15 @@ const getNodeResource = () => {
 			if (resource.metric_name === "node_disk_iops") {
 				state.diskIops = getData(resource)
 			}
+			if (resource.metric_name === "node_network_recive_drop_rate") {
+				const data = getData(resource)
+				if (state.netDropRate.seriesData.length != 1) {
+					state.netDropRate = data
+				} else {
+					state.netDropRate.seriesData.push(data.seriesData[0])
+					state.netDropRate.xData = data.xData
+				}
+			}
 		})
 	})
 }
