@@ -20,6 +20,9 @@
 				<Line :data="state.cpuUsageData" yUnit="%" title="容器CPU使用率 (%)"></Line>
 			</el-card>
 			<el-card class="echart">
+				<Line :data="state.cpuUsageData" yUnit="%" title="容器磁盘使用率 (%)"></Line>
+			</el-card>
+			<el-card class="echart">
 				<Line :data="state.runningData" title="运行容器 (个)"></Line>
 			</el-card>
 			<el-card class="echart">
