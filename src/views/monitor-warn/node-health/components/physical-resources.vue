@@ -232,6 +232,15 @@ const getNodeResource = () => {
 					state.netDropRate.xData = data.xData
 				}
 			}
+			if (resource.metric_name === "node_network_transmit_drop_rate") {
+				const data = getData(resource)
+				if (state.netDropRate.seriesData.length != 1) {
+					state.netDropRate = data
+				} else {
+					state.netDropRate.seriesData.push(data.seriesData[0])
+					state.netDropRate.xData = data.xData
+				}
+			}
 		})
 	})
 }
