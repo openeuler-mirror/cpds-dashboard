@@ -241,6 +241,15 @@ const getNodeResource = () => {
 					state.netDropRate.xData = data.xData
 				}
 			}
+			if (resource.metric_name === "node_network_recive_error_rate") {
+				const data = getData(resource)
+				if (state.netErrorRate.seriesData.length != 1) {
+					state.netErrorRate = data
+				} else {
+					state.netErrorRate.seriesData.push(data.seriesData[0])
+					state.netErrorRate.xData = data.xData
+				}
+			}
 		})
 	})
 }
