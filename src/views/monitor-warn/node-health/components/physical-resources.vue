@@ -270,6 +270,9 @@ const getNodeResource = () => {
 			if (resource.metric_name === "node_network_iops") {
 				state.netIops = getData(resource)
 			}
+			if (resource.metric_name === "node_retransm_rate") {
+				state.retransmRate = getData(resource)
+			}
 		})
 	})
 }
