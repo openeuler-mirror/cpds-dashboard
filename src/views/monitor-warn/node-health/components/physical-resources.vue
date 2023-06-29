@@ -21,6 +21,9 @@
 			<Line :data="state.diskIops" yUnit="%" title="节点磁盘iops"></Line>
 		</el-card>
 		<el-card class="echart">
+			<Line :data="state.netIops" yUnit="%" title="节点网络iops"></Line>
+		</el-card>
+		<el-card class="echart">
 			<Line :data="state.containerTotalData" title="容器总数 (个)"></Line>
 		</el-card>
 		<el-card class="echart">
@@ -57,6 +60,7 @@ interface DataState {
 	diskNumData: LineChartData;
 	diskBytesData: LineChartData;
 	diskIops: LineChartData;
+	netIops: LineChartData
 }
 const state = reactive<DataState>({
 	memoryUsageData: {
@@ -88,6 +92,10 @@ const state = reactive<DataState>({
 		seriesData: [],
 	},
 	diskIops: {
+		xData: [],
+		seriesData: [],
+	},
+	netIops: {
 		xData: [],
 		seriesData: [],
 	},
