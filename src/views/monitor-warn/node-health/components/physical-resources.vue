@@ -259,6 +259,9 @@ const getNodeResource = () => {
 					state.netErrorRate.xData = data.xData
 				}
 			}
+			if (resource.metric_name === "node_network_iops") {
+				state.netIops = getData(resource)
+			}
 		})
 	})
 }
