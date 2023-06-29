@@ -62,6 +62,7 @@ interface DataState {
 	netErrorRateData: LineChartData;
 	memoryUsageData: LineChartData;
 	cpuUsageData: LineChartData;
+	diskUsageData: LineChartData
 }
 const state = reactive<DataState>({
 	netDropRateData: {
@@ -89,6 +90,10 @@ const state = reactive<DataState>({
 		seriesData: [],
 	},
 	cpuUsageData: {
+		xData: [],
+		seriesData: [],
+	},
+	diskUsageData: {
 		xData: [],
 		seriesData: [],
 	},
