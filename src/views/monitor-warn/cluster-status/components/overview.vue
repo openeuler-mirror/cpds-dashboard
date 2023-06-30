@@ -55,13 +55,13 @@
 			<h2>资源使用情况</h2>
 			<div style="display: flex;margin-top: 10px;justify-content: space-between;width: 70%;">
 				<div style="flex:0 1 25%;">
-					<Usage name="CPU" unit="cores" :data="overViewInfo.cpu"></Usage>
+					<Usage name="CPU" :data="overViewInfo.cpu"></Usage>
 				</div>
 				<div style="flex:0 1 25%">
-					<Usage name="内存" unit="GB" :data="overViewInfo.memory"></Usage>
+					<Usage name="内存" :data="overViewInfo.memory"></Usage>
 				</div>
 				<div style="flex:0 1 25%">
-					<Usage name="磁盘" unit="GB" :data="overViewInfo.disk"></Usage>
+					<Usage name="磁盘" :data="overViewInfo.disk"></Usage>
 				</div>
 			</div>
 		</div>
