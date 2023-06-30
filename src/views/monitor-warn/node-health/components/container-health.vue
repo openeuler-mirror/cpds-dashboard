@@ -149,14 +149,14 @@ const getContainerList = () => {
 							if (!resultArray) {
 								container.outbound = 0
 							} else {
-								container.outbound = resultArray[i].value[1]
+								container.outbound = resultArray[0].value[1]
 							}
 						}
 						if (metric_name === 'node_container_inbound_traffic') {
 							if (!resultArray) {
 								container.inbound = 0
 							} else {
-								container.inbound = resultArray[i].value[1]
+								container.inbound = resultArray[0].value[1]
 							}
 						}
 						if (metric_name === 'node_container_cpu_usage') {
