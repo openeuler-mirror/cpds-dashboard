@@ -24,10 +24,10 @@
 			<Line :data="state.diskUsageData" yUnit="%" title="集群总磁盘使用率"></Line>
 		</el-card>
 		<el-card class="echart">
-			<Line :data="state.diskIops" yUnit="%" title="磁盘iops"></Line>
+			<Line :data="state.diskIops" yUnit="次/s" title="磁盘iops"></Line>
 		</el-card>
 		<el-card class="echart">
-			<Line :data="state.netIops" yUnit="%" title="网络iops"></Line>
+			<Line :data="state.netIops" yUnit="个/s" title="网络iops"></Line>
 		</el-card>
 		<el-card class="echart">
 			<Line :data="state.netDropRate" yUnit="%" title="网络丢包率"></Line>
@@ -42,7 +42,7 @@
 			<Line :data="state.diskBytesData" yUnit="KB/s" title="集群总磁盘吞吐速率"></Line>
 		</el-card>
 		<el-card class="echart" style="width: 100%;">
-			<Line :data="state.diskNumData" title="集群总磁盘吞吐量"></Line>
+			<Line :data="state.diskNumData" yUnit="次/s" title="集群总磁盘吞吐量"></Line>
 		</el-card>
 
 	</div>
