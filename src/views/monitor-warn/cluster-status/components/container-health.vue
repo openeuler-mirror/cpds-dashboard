@@ -37,7 +37,7 @@
 			<el-card class="echart">
 				<Line :data="state.netErrorRateData" yUnit="%" title="容器网络错误率 (%)"></Line>
 			</el-card>
-			<el-card class="echart" style="width: 100%;">
+			<el-card class="echart">
 				<Line :data="state.netDropRateData" yUnit="%" title="容器网络丢包率 (%)"></Line>
 			</el-card>
 		</div>
