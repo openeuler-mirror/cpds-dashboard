@@ -12,13 +12,16 @@
 	</div>
 	<div class="line-container">
 		<el-card class="echart">
-			<Line :data="state.cpuUsageData" yUnit="%" title="CPU使用率 (%)"></Line>
+			<Line :data="state.cpuUsageData" yUnit="%" title="节点CPU使用率"></Line>
 		</el-card>
 		<el-card class="echart">
-			<Line :data="state.memoryUsageData" yUnit="%" title="内存使用率 (%)"></Line>
+			<Line :data="state.memoryUsageData" yUnit="%" title="节点内存使用率"></Line>
 		</el-card>
 		<el-card class="echart">
-			<Line :data="state.netIops" yUnit="%" title="节点网络iops"></Line>
+			<Line :data="state.diskUsageData" yUnit="%" title="节点磁盘使用率"></Line>
+		</el-card>
+		<el-card class="echart">
+			<Line :data="state.netIops" yUnit="个/s" title="节点网络iops"></Line>
 		</el-card>
 		<el-card class="echart">
 			<Line :data="state.netDropRate" yUnit="%" title="节点网络丢包率"></Line>
@@ -30,19 +33,10 @@
 			<Line :data="state.retransmRate" yUnit="%" title="节点网络重传率"></Line>
 		</el-card>
 		<el-card class="echart">
-			<Line :data="state.containerTotalData" title="容器总数 (个)"></Line>
-		</el-card>
-		<el-card class="echart">
-			<Line :data="state.containerRunningData" title="容器运行数 (个)"></Line>
-		</el-card>
-		<el-card class="echart">
-			<Line :data="state.diskUsageData" yUnit="%" title="磁盘使用率 (%)"></Line>
-		</el-card>
-		<el-card class="echart">
 			<Line :data="state.diskNumData" yUnit="次/s" title="节点磁盘iops"></Line>
 		</el-card>
 		<el-card class="echart" style="width: 100%;">
-			<Line :data="state.diskBytesData" yUnit="KB/s" title="磁盘吞吐"></Line>
+			<Line :data="state.diskBytesData" yUnit="KB/s" title="节点磁盘吞吐速度"></Line>
 		</el-card>
 	</div>
 </template>
