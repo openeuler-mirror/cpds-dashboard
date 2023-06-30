@@ -220,6 +220,9 @@ const getNodeResource = () => {
 					state.diskNumData.xData = data.xData
 				}
 			}
+			if (resource.metric_name === "node_disk_iops") {
+				state.diskIops = getData(resource)
+			}
 		})
 	})
 }
