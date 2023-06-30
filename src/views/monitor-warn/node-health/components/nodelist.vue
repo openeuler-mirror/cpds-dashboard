@@ -2,7 +2,7 @@
     <div>
         <div class="node-health" v-show="!visiable">
             <h2>节点状态</h2>
-            <el-card class="table-wrap" shadow="never">
+            <el-card class="table-wrap" shadow="never" style="margin-top: 20px;">
                 <el-table :data="nodeList" style="width: 100% ;"
                     :row-style="{ height: '50px', background: '#f8f8f8', padding: '0' }">
                     <el-table-column label="节点" width="180">
@@ -104,7 +104,6 @@ provide('activeName', activeName);
 
 const visiable = ref(false)
 const handleClick = (tab: 'TabsPaneContext', event: Event) => { };
-const alarmModule = ref('');
 const address = ref()
 const endIndex = ref(5)
 const state = reactive<InstanceListInterface>({
@@ -161,13 +160,11 @@ const getPercent = computed(() => (usage: number) => {
     return (usage * 100).toFixed(0) + '%'
 })
 const getUsed = computed(() => (type: string, used: number, total: number) => {
-    switch (type) {
-        case 'cpu':
-            return used.toFixed(1) + '/' + total.toFixed(1) + ' core';
-        case 'memory':
-            return (used / Math.pow(1024, 3)).toFixed(1) + '/' + (total / Math.pow(1024, 3)).toFixed(1) + ' GB';
-        case 'disk':
-            return (used / Math.pow(1024, 3)).toFixed(1) + '/' + (total / Math.pow(1024, 3)).toFixed(1) + ' GB';
+    if (type === 'cpu') {
+        return used.toFixed(1) + '/' + total.toFixed(1) + ' cores';
+    } else {
+        if (total > 1024 * 1024 * 1024 * 1024) return (used / Math.pow(1024, 4)).toFixed(1) + '/' + (total / Math.pow(1024, 4)).toFixed(1) + ' TB';
+        return (used / Math.pow(1024, 3)).toFixed(1) + '/' + (total / Math.pow(1024, 3)).toFixed(1) + ' GB';
     }
 })
 const returnList = () => {
@@ -187,6 +184,7 @@ const getTargets = async () => {
         }
     })
 }
+//load more nodes
 const loadMore = () => {
     let startIndex = nodeList.value.length
     endIndex.value = nodeList.value.length + 5
@@ -208,6 +206,7 @@ onMounted(async () => {
 })
 //Transfer data to overview
 const emits = defineEmits(['update:total', 'update:upNum', 'update:overViewInfo']);
+//calculate usage data
 const total = computed(() => {
     return nodeList.value.reduce((accumulator, currentValue) => {
         return accumulator + currentValue.container.total
@@ -280,10 +279,12 @@ watch(nodeList.value, () => {
         used_bytes: diskUsed.value,
         total_bytes: diskTotal.value
     }
+    //transfer data to other components
     emits('update:total', total)
     emits('update:upNum', upNum)
     emits('update:overViewInfo', overViewInfo)
 })
+
 
 </script>
 
