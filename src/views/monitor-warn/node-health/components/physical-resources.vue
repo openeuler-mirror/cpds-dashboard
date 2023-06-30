@@ -30,6 +30,9 @@
 			<Line :data="state.netErrorRate" yUnit="%" title="节点网络错误率"></Line>
 		</el-card>
 		<el-card class="echart">
+			<Line :data="state.retransmRate" yUnit="%" title="节点网络重传率"></Line>
+		</el-card>
+		<el-card class="echart">
 			<Line :data="state.containerTotalData" title="容器总数 (个)"></Line>
 		</el-card>
 		<el-card class="echart">
@@ -69,6 +72,7 @@ interface DataState {
 	netIops: LineChartData
 	netDropRate: LineChartData;
 	netErrorRate: LineChartData
+	retransmRate: LineChartData
 }
 const state = reactive<DataState>({
 	memoryUsageData: {
@@ -112,6 +116,10 @@ const state = reactive<DataState>({
 		seriesData: [],
 	},
 	netErrorRate: {
+		xData: [],
+		seriesData: [],
+	},
+	retransmRate: {
 		xData: [],
 		seriesData: [],
 	},
@@ -258,6 +266,12 @@ const getNodeResource = () => {
 					state.netErrorRate.seriesData.push(data.seriesData[0])
 					state.netErrorRate.xData = data.xData
 				}
+			}
+			if (resource.metric_name === "node_network_iops") {
+				state.netIops = getData(resource)
+			}
+			if (resource.metric_name === "node_retransm_rate") {
+				state.retransmRate = getData(resource)
 			}
 		})
 	})
