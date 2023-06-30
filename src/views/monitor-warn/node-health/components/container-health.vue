@@ -26,7 +26,7 @@
 					<template #default="{ row }">
 						<div class="cell">
 							<div class="iconfont icon-dian" :style="statusColor(row.status)"> </div>
-							{{ row.status }}
+							{{ getStatus(row.status) }}
 						</div>
 					</template>
 				</el-table-column>
@@ -203,16 +203,29 @@ const handle = () => {
 }
 const statusColor = computed(() => (status: string) => {
 	switch (status) {
-		case 'iowaiting':
-			return "font-size: 30px;color: red";
-		case 'stopped':
+		case 'paused':
+			return "font-size: 30px;color: #909399";
+		case 'created':
 			return "font-size: 30px;color: #E6A23C";
 		case 'exited':
-			return "font-size: 30px;color: #c6c8c5"
-		case '正常':
-			return "font-size: 30px;color: #51c41b";
+			return "font-size: 30px;color: #909399"
+		case 'running':
+			return "font-size: 30px;color: #67C23A";
 	}
 });
+
+const getStatus = computed(() => (status: string) => {
+	switch (status) {
+		case 'running':
+			return "运行中"
+		case 'created':
+			return "已创建";
+		case 'exited':
+			return "停止等待"
+		case 'paused':
+			return "暂停"
+	}
+})
 watch(() => sort_field.value, () => {
 	sort(order.value)
 })
