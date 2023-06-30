@@ -180,15 +180,22 @@ const getContainerList = () => {
 
 const getUsed = computed(() => (type: string, used: any) => {
 	used = parseFloat(used)
-	switch (type) {
-		case 'cpu':
-			return (used).toFixed(1) + ' Core'
-		case 'memory':
-			return (used / Math.pow(1024, 2)).toFixed(2) + ' MB';
-		case 'inbound':
-			return (used / Math.pow(1024, 1)).toFixed(1) + ' KB/s';
-		case 'outbound':
-			return (used / Math.pow(1024, 1)).toFixed(1) + ' KB/s';
+	if (type === 'cpu') {
+		return (used).toFixed(1) + ' cores'
+	}
+	if (type === 'memory') {
+		if (used > 1024 * 1024 * 1024) return (used / Math.pow(1024, 3)).toFixed(1) + ' GB';
+		return (used / Math.pow(1024, 2)).toFixed(1) + ' MB';
+	}
+	if (type === 'inbound') {
+		if (used > 1024 * 1024) return (used / Math.pow(1024, 2)).toFixed(1) + ' MB';
+		if (used > 1024 * 1024 * 1024) return (used / Math.pow(1024, 3)).toFixed(1) + ' GB';
+		return (used / Math.pow(1024, 1)).toFixed(1) + ' KB/s';
+	}
+	if (type === 'outbound') {
+		if (used > 1024 * 1024) return (used / Math.pow(1024, 2)).toFixed(1) + ' MB';
+		if (used > 1024 * 1024 * 1024) return (used / Math.pow(1024, 3)).toFixed(1) + ' GB';
+		return (used / Math.pow(1024, 1)).toFixed(1) + ' KB/s';
 	}
 })
 
@@ -213,7 +220,6 @@ const statusColor = computed(() => (status: string) => {
 			return "font-size: 30px;color: #67C23A";
 	}
 });
-
 const getStatus = computed(() => (status: string) => {
 	switch (status) {
 		case 'running':
