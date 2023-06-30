@@ -20,7 +20,7 @@
 				<Line :data="state.cpuUsageData" yUnit="%" title="容器CPU使用率 (%)"></Line>
 			</el-card>
 			<el-card class="echart">
-				<Line :data="state.cpuUsageData" yUnit="%" title="容器磁盘使用率 (%)"></Line>
+				<Line :data="state.diskUsageData" yUnit="%" title="容器磁盘使用率 (%)"></Line>
 			</el-card>
 			<el-card class="echart">
 				<Line :data="state.runningData" title="运行容器 (个)"></Line>
@@ -214,6 +214,9 @@ const getClusterContainer = () => {
 			}
 			if (resource.metric_name === "cluster_container_cpu_usage") {
 				state.cpuUsageData = getData(resource)
+			}
+			if (resource.metric_name === "cluster_container_disk_usage") {
+				state.diskUsageData = getData(resource)
 			}
 		}))
 	})
