@@ -8,8 +8,8 @@
             <table style="font-size: 20px;">
                 <tr>
                     <td>{{ usageNum.toFixed(0) }}%</td>
-                    <td>{{ usedNum }} {{ props.unit }}</td>
-                    <td>{{ totalNum }} {{ props.unit }}</td>
+                    <td>{{ usedNum }}</td>
+                    <td>{{ totalNum }}</td>
                 </tr>
                 <tr>
                     <td>{{ props.name }}</td>
@@ -24,26 +24,30 @@
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
 const props = defineProps<{
-    unit: string
     name: string
     data: any
 }>()
+//process computing
 const usageNum = computed(() => {
     return (props.data?.usage * 100)
 })
+//usage calculation
 const usedNum = computed(() => {
     if (props.name === 'CPU') {
-        return (props.data?.used_core).toFixed(1)
+        return (props.data?.used_core).toFixed(1) + ' cores'
     } else {
-        return (props.data?.used_bytes / Math.pow(1024, 3)).toFixed(1)
+        if (props.data?.used_bytes > 1024 * 1024 * 1024 * 1024) return (props.data?.used_bytes / Math.pow(1024, 3)).toFixed(1) + ' TB'
+        return (props.data?.used_bytes / Math.pow(1024, 3)).toFixed(1) + ' GB'
     }
 
 })
+//total calculation
 const totalNum = computed(() => {
     if (props.name === 'CPU') {
-        return (props.data?.total_core).toFixed(1)
+        return (props.data?.total_core).toFixed(1) + ' cores'
     } else {
-        return (props.data?.total_bytes / Math.pow(1024, 3)).toFixed(1)
+        if (props.data?.used_bytes > 1024 * 1024 * 1024 * 1024) return (props.data?.used_bytes / Math.pow(1024, 3)).toFixed(1) + ' TB'
+        return (props.data?.total_bytes / Math.pow(1024, 3)).toFixed(1) + ' GB'
     }
 })
 
