@@ -98,6 +98,7 @@ const getRawData = (query: string) => {
             const value = item.values[item.values.length - 1][1]
             const time = formatDate(new
                 Date(item.values[item.values.length - 1][0] * 1000), 'YYYY-mm-dd HH:MM:SS')
+            if (!item.metric) return { name: '{}', value: value, time: time }
             const { job, instance } = item.metric
             return { name: `${query}{instance="${instance}",job="${job}"}`, value: value, time: time }
         })
