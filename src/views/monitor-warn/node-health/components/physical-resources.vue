@@ -24,6 +24,9 @@
 			<Line :data="state.netIops" yUnit="%" title="节点网络iops"></Line>
 		</el-card>
 		<el-card class="echart">
+			<Line :data="state.netDropRate" yUnit="%" title="节点网络丢包率"></Line>
+		</el-card>
+		<el-card class="echart">
 			<Line :data="state.containerTotalData" title="容器总数 (个)"></Line>
 		</el-card>
 		<el-card class="echart">
@@ -61,6 +64,7 @@ interface DataState {
 	diskBytesData: LineChartData;
 	diskIops: LineChartData;
 	netIops: LineChartData
+	netDropRate: LineChartData;
 }
 const state = reactive<DataState>({
 	memoryUsageData: {
@@ -96,6 +100,10 @@ const state = reactive<DataState>({
 		seriesData: [],
 	},
 	netIops: {
+		xData: [],
+		seriesData: [],
+	},
+	netDropRate: {
 		xData: [],
 		seriesData: [],
 	},
