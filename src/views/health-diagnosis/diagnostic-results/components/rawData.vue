@@ -90,7 +90,7 @@ defineExpose({
 });
 
 const getRawData = (query: string) => {
-    useHealthApi().getRawData({ query: query, start_time: dayjs().subtract(10, 'minutes').unix(), end_time: dayjs().unix(), step: 10 }).then((res) => {
+    useHealthApi().getRawData({ query: encodeURIComponent(query), start_time: dayjs().subtract(10, 'minutes').unix(), end_time: dayjs().unix(), step: 10 }).then((res) => {
         rawDataList.value = res.data.result.map((item: any) => {
             const value = item.values[item.values.length - 1][1]
             const time = formatDate(new

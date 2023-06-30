@@ -87,7 +87,7 @@ defineExpose({
 //Get original data
 const getRawData = (query: string) => {
     const params = {
-        query: query,
+        query: encodeURIComponent(query),
         start_time: datetimeRange.value ? new Date(datetimeRange.value[0]).getTime() / 1000 : new Date(dayjs().subtract(defaultdateRange.value[0], defaultdateRange.value[1]).format('YYYY-MM-DD HH:mm:ss')).getTime() / 1000,
         end_time: datetimeRange.value ? new Date(datetimeRange.value[1]).getTime() / 1000 : new Date(dayjs().format('YYYY-MM-DD HH:mm:ss')).getTime() / 1000,
     }
