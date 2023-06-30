@@ -279,6 +279,8 @@ const getNodeResource = () => {
 const getName = (name: string) => {
 	if (name === 'node_disk_read_complete' || name === 'node_disk_read_bytes') return '读'
 	if (name === 'node_disk_written_complete' || name === 'node_disk_written_bytes') return '写'
+	if (name === 'node_network_recive_drop_rate' || name === 'node_network_recive_error_rate') return '接收'
+	if (name === 'node_network_transmit_drop_rate' || name === 'node_network_transmit_error_rate') return '发送'
 	return ''
 }
 const handle = () => {
