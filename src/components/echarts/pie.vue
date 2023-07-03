@@ -64,15 +64,24 @@ const initChart = () => {
     }
     myChart.value.setOption(option);
 }
+const resize = () => {
+    myChart.value.resize({
+        animation: {
+            duration: 200,
+            easing: 'linear'
+        }
+    });
+};
 onMounted(() => {
     initChart();
+    window.addEventListener('resize', resize);
 });
 watch(() => props.data, () => {
     initChart();
 })
-window.addEventListener('resize', () => {
-    myChart.value.resize()
-})
+onUnmounted(() => {
+    window.removeEventListener('resize', resize);
+});
 </script>
 
 <style lang="scss" scoped>
