@@ -201,11 +201,11 @@ const getLevel = computed(() => (level: string) => {
 const tagColor = computed(() => (color: string) => {
 	switch (color) {
 		case 'critical':
-			return '';
+			return 'danger';
 		case 'error':
 			return 'warning';
 		case 'warning':
-			return 'danger';
+			return 'info';
 	}
 });
 </script>
