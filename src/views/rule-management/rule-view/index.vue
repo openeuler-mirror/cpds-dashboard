@@ -19,7 +19,7 @@
 				v-loading="tableLoading" @sort-change="ruleSort" :data="rulesionfo.data" border style="width: 100%">
 				<el-table-column prop="name" label="规则名称" sortable="custom" width="110%" />
 				<el-table-column prop="expression" label="表达式" min-width="100%" />
-				<el-table-column prop="severity" label="警告级别" width="100%">
+				<el-table-column prop="severity" label="告警级别" width="100%">
 					<template #default="{ row }">
 						<el-tag class="ml-2" :type="tagColor(row.severity)">{{ getLevel(row.severity) }}</el-tag>
 					</template>
@@ -191,11 +191,11 @@ const onHandleSizeChange = () => {
 const getLevel = computed(() => (level: string) => {
 	switch (level) {
 		case 'critical':
-			return '严重危险';
+			return '危险';
 		case 'error':
-			return '严重警告';
+			return '严重';
 		case 'warning':
-			return '一般警告';
+			return '一般';
 	}
 });
 const tagColor = computed(() => (color: string) => {
