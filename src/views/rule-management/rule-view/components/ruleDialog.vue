@@ -6,11 +6,11 @@
 		<el-form-item label="规则表达式" prop="expression">
 			<el-input placeholder="请输入内容" hight="50px" v-model="newFrom.expression" clearable type="textarea" />
 		</el-form-item>
-		<el-form-item label="警告级别">
+		<el-form-item label="告警级别">
 			<el-select v-model="newFrom.severity">
-				<el-option label="一般警告" value="warning" />
-				<el-option label="重要警告" value="error" />
-				<el-option label="危险警告" value="critical" />
+				<el-option label="一般" value="warning" />
+				<el-option label="严重" value="error" />
+				<el-option label="危险" value="critical" />
 			</el-select>
 		</el-form-item>
 		<el-form-item label="阈值时间">
