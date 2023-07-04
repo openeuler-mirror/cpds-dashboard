@@ -2,7 +2,7 @@
 	<div class="chart" ref="chartRef"></div>
 </template>
 <script setup lang="ts">
-import { onMounted, ref, shallowRef, watch } from 'vue';
+import { onMounted, ref, shallowRef, watch, onUnmounted } from 'vue';
 import * as echarts from 'echarts';
 import { formatDate } from '/@/utils/formatTime';
 
@@ -132,7 +132,16 @@ const initChart = () => {
 	myChart.value.setOption(option);
 
 };
+const resize = () => {
+	myChart.value.resize({
+		animation: {
+			duration: 200,
+			easing: 'linear'
+		}
+	});
+};
 onMounted(() => {
+	window.addEventListener('resize', resize);
 	initChart();
 
 });
@@ -144,9 +153,9 @@ watch(props.data, () => {
 	if (!chartRef.value) return
 	initChart();
 }, { immediate: true })
-window.addEventListener('resize', () => {
-	myChart.value.resize()
-})
+onUnmounted(() => {
+	window.removeEventListener('resize', resize);
+});
 
 </script>
 
