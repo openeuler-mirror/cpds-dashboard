@@ -1,5 +1,5 @@
 <template>
-    <div class="chart" style="width: 100%;" ref="chartRef"></div>
+    <div class="chart" v-loading="resizeLoading" style="width: 100%;" ref="chartRef"></div>
 </template>
 <script lang="ts" setup>
 import { onMounted, ref, shallowRef, watch, onUnmounted } from 'vue';
@@ -72,12 +72,18 @@ const resize = () => {
         }
     });
 };
+const resizeLoading = ref(false);
 onMounted(() => {
     initChart();
     window.addEventListener('resize', resize);
 });
 watch(() => props.data, () => {
+    setTimeout(() => {
+        resize();
+        resizeLoading.value = false;
+    }, 500);
     initChart();
+
 })
 onUnmounted(() => {
     window.removeEventListener('resize', resize);
