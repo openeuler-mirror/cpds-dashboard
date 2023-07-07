@@ -1,8 +1,8 @@
 <template>
     <div style="margin-bottom: 20px;">
         <el-card shadow="never">
+            <div style="font-size: 25px;">{{ title }}</div>
             <el-card style="margin-top: 20px;">{{ desc }}</el-card>
-            <div style="margin-top: 40px;">{{ desc }}</div>
         </el-card>
     </div>
 </template>
