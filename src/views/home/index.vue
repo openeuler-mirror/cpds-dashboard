@@ -3,7 +3,7 @@
 		<div style="display: flex;justify-content: space-between;margin: 20px 5% 0 5%">
 			<el-card class="content">
 				<div style="flex:0 1 50%;">
-					<h3>容器健康状态</h3>
+					<h2>容器健康状态</h2>
 					<div style="display: flex;margin-top: 50px;margin-left: 20px; ">
 						<el-progress type="circle" :percentage="numContainer" :width="150" :height="150" stroke-width="9"
 							color="#51c41b">
@@ -12,8 +12,7 @@
 								}}</span>
 							</template>
 						</el-progress>
-						<div
-							style="display: flex;align-items: center;margin-left: 20%;font-size: 20px;font-style: oblique;">
+						<div style="display: flex;align-items: center;margin-left: 20%;font-size: 20px;">
 							<div>
 								<p>全部容器：</p>
 								<p>运行中的容器：</p>
@@ -28,7 +27,7 @@
 					</div>
 				</div>
 				<div style="flex:0 1 50%;margin-top: 20%;">
-					<h3>集群节点状态</h3>
+					<h2>集群节点状态</h2>
 					<div style="display: flex;margin-top: 10px;margin-left: 20px; ">
 						<el-progress type="circle" :percentage="numNode" :width="150" :height="150" stroke-width="9"
 							color="#51c41b">
@@ -37,8 +36,7 @@
 								}}</span>
 							</template>
 						</el-progress>
-						<div
-							style="display: flex;align-items: center;margin-left: 20%;font-size: 20px;font-style: oblique;">
+						<div style="display: flex;align-items: center;margin-left: 20%;font-size: 20px;">
 							<div>
 								<p>全部节点：</p>
 								<p>在线节点：</p>
@@ -54,7 +52,7 @@
 				</div>
 			</el-card>
 			<el-card class="content">
-				<h3>集群资源用量</h3>
+				<h2>集群资源用量</h2>
 				<el-card>
 					<ClusterResource style="margin-top: 5px
 					;max-width: 550px;margin: 0 auto;" :data="overViewInfo.cpu" name="CPU">
@@ -84,6 +82,13 @@
 								</div>
 							</template>
 						</el-table-column>
+						<el-table-column label="状态" width="180">
+							<template #default="{ row }">
+								<div class="cell">
+									<el-tag class="ml-2" :type="tagColor(row.status)">{{ getLevel(row.status) }}</el-tag>
+								</div>
+							</template>
+						</el-table-column>
 						<el-table-column label="运行容器数">
 							<template #default="{ row }">
 								<div class="cell">
@@ -104,8 +109,7 @@
 		<div style="margin: 20px 5% 0 5%">
 			<el-card>
 				<h2 style="margin-bottom: 30px;">诊断结果</h2>
-				<el-table :data="diagnostic.DiagnosticList"
-					style="width: 100% ;min-height: 300px;font-size: 20px;font-style: oblique;"
+				<el-table :data="diagnostic.DiagnosticList" style="width: 100% ;min-height: 300px;font-size: 20px;"
 					:row-style="{ height: '50px', background: '#f8f8f8', padding: '0' }">
 					<el-table-column label="触发规则">
 						<template #default="{ row }">
@@ -160,7 +164,7 @@
 	</el-card>
 </template>
 <script lang="ts" setup>
-import { ref, onMounted, computed, reactive, toRefs, watch } from 'vue';
+import { ref, onMounted, computed, reactive, toRefs, watch, defineAsyncComponent } from 'vue';
 import { InstanceListInterface } from '/@/views/monitor-warn/interface/index'
 import { useMonitorApi } from '/@/api/monitor-warn/index'
 import ClusterResource from './components/index.vue'
@@ -245,6 +249,7 @@ const jumpNodeData = () => {
 const jumpDiagnosticData = () => {
 	router.push('/health-diagnosis/diagnostic-results')
 }
+//obtain colors based on status
 const statusColor = computed(() => (status: string) => {
 	switch (status) {
 		case 'fault':
@@ -253,20 +258,25 @@ const statusColor = computed(() => (status: string) => {
 			return "font-size: 30px;color: #e6a23c";
 	}
 });
-//Obtain Table Data
+//obtain table data
 const getTableData = async (ids: any) => {
-	await Promise.all(ids.map((instance: string) => useMonitorApi().getNodeList({ instance: instance }))).then(res => {
+	await Promise.all(ids.map((obj: any) => useMonitorApi().getNodeList({ instance: obj.instance }))).then(res => {
 		res.map(item => {
+			ids.map((obj: any) => {
+				if (item.data[0].instance.includes(obj.instance)) {
+					Object.assign(item.data[0], { status: obj.status })
+				}
+			})
 			nodeList.value.push(item.data[0])
 		})
 	})
 }
-//Obtain the content and corresponding information of targets
+//obtain targets data
 const getTargets = async () => {
 	useMonitorApi().getInstance().then(async (res: any) => {
-		targets.value = await res.data.targets.map((item: any) =>
-			item.instance.split(':')[0]
-		)
+		targets.value = await res.data.targets.map((item: any) => {
+			return { instance: item.instance.split(':')[0], status: item.status }
+		})
 		online_node.targets = res.data.targets
 		getTableData(targets.value)
 	})
@@ -287,6 +297,22 @@ const getResultList = async (loading: boolean = false) => {
 		});
 };
 
+const getLevel = computed(() => (level: string) => {
+	switch (level) {
+		case 'up':
+			return '在线';
+		case 'down':
+			return '离线';
+	}
+});
+const tagColor = computed(() => (color: string) => {
+	switch (color) {
+		case 'down':
+			return 'danger';
+		case 'up':
+			return 'primary';
+	}
+});
 onMounted(async () => {
 	await getTargets()
 	await getResultList(true)
@@ -357,7 +383,7 @@ const diskTotal = computed(() => {
 		return accumulator + currentValue.disk.total_bytes
 	}, 0)
 })
-//Listen for changes in nodeList data and update the content of OverViewInfo
+//listen to nodelist and assign calculated values to overViewInfo
 watch(nodeList.value, () => {
 	overViewInfo.value.cpu = {
 		usage: cpuUsage.value,
