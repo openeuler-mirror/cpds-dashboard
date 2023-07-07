@@ -85,7 +85,7 @@ const validateName = (rule: any, value: any, callback: any) => {
 	if (!value) {
 		return callback(new Error('请输入表达式'));
 	}
-	var reg = /^[^`~@#$%^&*?]+$/;
+	var reg = /^[^`@#$%^&*?]+$/;
 	if (!reg.test(value)) {
 		return callback(new Error('规则表达式中不可包含特殊字符'));
 	}
@@ -103,8 +103,8 @@ const dateChange = (val: any) => {
 			const diff = dayjs(val[1]).diff(val[0], 'second');
 			defaultdateRange.value[0] = diff;
 			datetimeRange.value = null
-			// Filter time range
 		} else {
+			// Filter time range  
 			datetimeRange.value = val;
 			latestTime.value = ''
 		}
