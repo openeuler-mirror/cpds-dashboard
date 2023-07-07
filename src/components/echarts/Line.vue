@@ -93,7 +93,7 @@ const initChart = () => {
 				formatter: function (value: any) {
 					let yUnit = props.yUnit;
 					if (props.yUnit === '%' && value <= 1) {
-						value = (value * 100).toFixed(0)
+						value = (value * 100).toFixed(1)
 					}
 					if (props.yUnit === 'KB/s') {
 						if (value >= 1024 * 1024) {
