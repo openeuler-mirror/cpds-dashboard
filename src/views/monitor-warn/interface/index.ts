@@ -37,6 +37,7 @@ export interface InstanceInterface {
 	cpu: { usage: number; used_core: number; total_core: number };
 	memory: { usage: number; used_bytes: number; total_bytes: number };
 	disk: { usage: number; used_bytes: number; total_bytes: number };
+	status: string;
 }
 export interface InstanceListInterface {
 	nodeList: Array<InstanceInterface>;

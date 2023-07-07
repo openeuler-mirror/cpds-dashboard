@@ -20,6 +20,13 @@
                             </div>
                         </template>
                     </el-table-column>
+                    <el-table-column label="状态" width="180">
+                        <template #default="{ row }">
+                            <div class="cell">
+                                <el-tag class="ml-2" :type="tagColor(row.status)">{{ getLevel(row.status) }}</el-tag>
+                            </div>
+                        </template>
+                    </el-table-column>
                     <el-table-column label="运行容器数" width="180">
                         <template #default="{ row }">
                             <div class="cell">
@@ -149,7 +156,7 @@ const usage = reactive<{
     }
 })
 const { overViewInfo } = toRefs(usage)
-const targets = ref([])
+const targets = ref([{}])
 provide('address', address);
 const openDetails = (instance: string) => {
     activeName.value = '概览'
@@ -174,9 +181,9 @@ const returnList = () => {
 //Obtain the instance of a node
 const getTargets = async () => {
     useMonitorApi().getInstance().then(async (res: any) => {
-        targets.value = res.data.targets.map((item: any) =>
-            item.instance.split(':')[0]
-        )
+        targets.value = res.data.targets.map((item: any) => {
+            return { instance: item.instance.split(':')[0], status: item.status }
+        })
         if (targets.value.length > 5) {
             getTableData(targets.value.slice(0, 5))
         } else {
@@ -195,12 +202,34 @@ const loadMore = () => {
 }
 //Obtain node list data
 const getTableData = async (ids: any) => {
-    await Promise.all(ids.map((instance: string) => useMonitorApi().getNodeList({ instance: instance }))).then(res => {
+    await Promise.all(ids.map((obj: any) => useMonitorApi().getNodeList({ instance: obj.instance }))).then(res => {
         res.map(item => {
+            ids.map((obj: any) => {
+                if (item.data[0].instance.includes(obj.instance)) {
+                    Object.assign(item.data[0], { status: obj.status })
+                }
+            })
             nodeList.value.push(item.data[0])
         })
     })
 }
+
+const getLevel = computed(() => (level: string) => {
+    switch (level) {
+        case 'up':
+            return '在线';
+        case 'down':
+            return '离线';
+    }
+});
+const tagColor = computed(() => (color: string) => {
+    switch (color) {
+        case 'down':
+            return 'danger';
+        case 'up':
+            return 'primary';
+    }
+});
 onMounted(async () => {
     await getTargets()
 })
