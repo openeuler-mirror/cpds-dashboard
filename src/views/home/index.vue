@@ -353,11 +353,6 @@ const cpuTotal = computed(() => {
 		return accumulator + currentValue.cpu.total_core
 	}, 0)
 })
-const memoryUsage = computed(() => {
-	return nodeList.value.reduce((accumulator, currentValue) => {
-		return accumulator + currentValue.memory.usage
-	}, 0)
-})
 const memoryUsed = computed(() => {
 	return nodeList.value.reduce((accumulator, currentValue) => {
 		return accumulator + currentValue.memory.used_bytes
@@ -366,11 +361,6 @@ const memoryUsed = computed(() => {
 const memoryTotal = computed(() => {
 	return nodeList.value.reduce((accumulator, currentValue) => {
 		return accumulator + currentValue.memory.total_bytes
-	}, 0)
-})
-const diskUsage = computed(() => {
-	return nodeList.value.reduce((accumulator, currentValue) => {
-		return accumulator + currentValue.disk.usage
 	}, 0)
 })
 const diskUsed = computed(() => {
@@ -386,17 +376,17 @@ const diskTotal = computed(() => {
 //listen to nodelist and assign calculated values to overViewInfo
 watch(nodeList.value, () => {
 	overViewInfo.value.cpu = {
-		usage: cpuUsage.value,
+		usage: cpuUsed.value / cpuTotal.value,
 		used_core: cpuUsed.value,
 		total_core: cpuTotal.value
 	}
 	overViewInfo.value.memory = {
-		usage: memoryUsage.value,
+		usage: memoryUsed.value / memoryTotal.value,
 		used_bytes: memoryUsed.value,
 		total_bytes: memoryTotal.value
 	}
 	overViewInfo.value.disk = {
-		usage: diskUsage.value,
+		usage: diskUsed.value / diskTotal.value,
 		used_bytes: diskUsed.value,
 		total_bytes: diskTotal.value
 	}
