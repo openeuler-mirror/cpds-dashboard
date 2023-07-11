@@ -108,7 +108,7 @@ const initChart = () => {
 				}
 			}
 		},
-		series: props.data.seriesData
+		series: props.yUnit != '%' ? props.data.seriesData : props.data.seriesData.map(item => ({ ...item, data: item.data.map((value: any) => (value < 0.001 ? 0 : value)) }))
 
 
 	};
