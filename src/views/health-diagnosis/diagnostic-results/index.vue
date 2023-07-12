@@ -35,7 +35,7 @@
 			</div>
 		</el-card>
 		<div>
-			<el-dialog :title="rawtitle" v-model="dialogVisible" :destroy-on-close="true" width="60%">
+			<el-dialog :title="rawtitle" v-model="dialogVisible" :destroy-on-close="true" width="80%">
 				<RawData ref="rawRuleRef" v-model:value="dialogVisible" :rawData="rawData"></RawData>
 				<template #footer>
 					<el-button @click="dialogVisible = false">关闭</el-button>
