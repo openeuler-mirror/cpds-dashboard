@@ -171,7 +171,7 @@ const reqNumber = /^\d+$|^\d+[.]?\d+$/;
 //Sub health threshold
 const validateSubhealthThresholds = (rule: any, value: any, callback: any) => {
 	const flag = newFrom.value.subhealth_condition_type;
-	if (flag && !value) {
+	if (flag && !value && value != 0) {
 		return callback(new Error('请输入亚健康阈值'));
 	}
 
@@ -183,7 +183,7 @@ const validateSubhealthThresholds = (rule: any, value: any, callback: any) => {
 //Fault threshold
 const validateFaultThresholds = (rule: any, value: any, callback: any) => {
 	const flag = newFrom.value.fault_condition_type;
-	if (flag && !value) {
+	if (flag && !value && value != 0) {
 		return callback(new Error('请输入亚健康阈值'));
 	}
 	if (!reqNumber.test(value) && value) {
