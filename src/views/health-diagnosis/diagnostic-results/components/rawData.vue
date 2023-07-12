@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div style="width: 100%;height: 100%;">
+        <div style="width: 100%;height: 100%">
             <Line :data="state1.data"></Line>
         </div>
         <div class="table">
@@ -79,7 +79,7 @@ const tableData = () => {
             index >= state.limit * (state.page - 1)
     );
 };
-
+const regex = /(\{[^{}]*\})(?!.*\{[^{}]*\})/;
 //Change page number
 const handleCurrentChange = (e: any) => {
     state.page = e;
@@ -105,14 +105,20 @@ const getRawData = (query: string) => {
             const time = formatDate(new
                 Date(item.values[item.values.length - 1][0] * 1000), 'YYYY-mm-dd HH:MM:SS')
             if (!item.metric) return { name: '{}', value: value, time: time }
-            const { job, instance } = item.metric
-            return { name: `${query}{instance="${instance}",job="${job}"}`, value: value, time: time }
+            return { name: `${query}${JSON.stringify(item.metric)}`, value: value, time: time }
         })
         state.total = rawDataList.value.length
         state1.data.xData = Array.from(new Map(res.data.result[0].values).keys())
         state1.data.seriesData = res.data.result.map((item: any, index: number) => {
+            let matches = rawDataList.value[index].name.match(regex)
+            let name
+            if (matches && matches.length > 0) {
+                name = matches[1]
+            } else {
+                name = rawDataList.value[index].name
+            }
             return {
-                name: rawDataList.value[index].name,
+                name: name,
                 data: Array.from(new Map(item.values).values()),
                 type: 'line',
                 smooth: true,
