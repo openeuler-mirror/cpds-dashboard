@@ -43,7 +43,7 @@
 				</el-table>
 			</div>
 			<div>
-				<el-dialog :title="rawtitle" v-model="dialogVisible" :destroy-on-close="true" width="60%">
+				<el-dialog :title="rawtitle" v-model="dialogVisible" :destroy-on-close="true" width="80%">
 					<RawData ref="rawRuleRef" v-model:value="dialogVisible" @refreshHistory="refreshHistory()"
 						:expression="newFrom.expression"></RawData>
 					<template #footer>

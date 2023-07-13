@@ -1,8 +1,8 @@
 <template>
-	<div class="chart" v-loading="resizeLoading" ref="chartRef"></div>
+	<div :style="{ height: containerHeight }" class="chart" v-loading="resizeLoading" ref="chartRef"></div>
 </template>
 <script setup lang="ts">
-import { onMounted, ref, shallowRef, watch, onUnmounted } from 'vue';
+import { onMounted, ref, shallowRef, watch, onUnmounted, computed } from 'vue';
 import * as echarts from 'echarts';
 import { formatDate } from '/@/utils/formatTime';
 
@@ -21,6 +21,12 @@ const props = withDefaults(defineProps<{
 
 const myChart = shallowRef();
 const chartRef = ref<HTMLDivElement>();
+const containerHeight = computed(() => {
+	return 500 + props.data.seriesData.length * 20 + 'px'
+})
+const containerHeight1 = computed(() => {
+	return 40 + props.data.seriesData.length * 20 + 'px'
+})
 const initChart = () => {
 	myChart.value = echarts.init(chartRef.value as HTMLDivElement)
 	const option = {
@@ -72,6 +78,9 @@ const initChart = () => {
 			show: true,
 			top: 'top',
 		},
+		grid: {
+			top: containerHeight1.value
+		},
 		xAxis: {
 			type: 'category',
 			min: null as any,
@@ -109,7 +118,6 @@ const initChart = () => {
 			}
 		},
 		series: props.yUnit != '%' ? props.data.seriesData : props.data.seriesData.map(item => ({ ...item, data: item.data.map((value: any) => (value < 0.001 ? 0 : value)) }))
-
 
 	};
 	if (props.data.xData.length === 0) {
@@ -176,6 +184,5 @@ onUnmounted(() => {
 <style scoped>
 .chart {
 	width: 100%;
-	height: 400px;
 }
 </style>
