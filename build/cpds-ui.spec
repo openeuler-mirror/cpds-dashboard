@@ -28,4 +28,7 @@ systemctl enable nginx
 %files
 /etc/*
 
+%preun
+systemctl stop nginx.service
+
 %changelog
