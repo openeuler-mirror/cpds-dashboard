@@ -376,17 +376,17 @@ const diskTotal = computed(() => {
 //listen to nodelist and assign calculated values to overViewInfo
 watch(nodeList.value, () => {
 	overViewInfo.value.cpu = {
-		usage: cpuUsed.value / cpuTotal.value,
+		usage: (cpuUsed.value / cpuTotal.value) | 0,
 		used_core: cpuUsed.value,
 		total_core: cpuTotal.value
 	}
 	overViewInfo.value.memory = {
-		usage: memoryUsed.value / memoryTotal.value,
+		usage: (memoryUsed.value / memoryTotal.value | 0),
 		used_bytes: memoryUsed.value,
 		total_bytes: memoryTotal.value
 	}
 	overViewInfo.value.disk = {
-		usage: diskUsed.value / diskTotal.value,
+		usage: (diskUsed.value / diskTotal.value) | 0,
 		used_bytes: diskUsed.value,
 		total_bytes: diskTotal.value
 	}
