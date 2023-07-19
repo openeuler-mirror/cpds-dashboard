@@ -1,3 +1,4 @@
+import { message } from './message';
 import axios from 'axios';
 import { ElMessage } from 'element-plus';
 
@@ -29,8 +30,6 @@ service.interceptors.response.use(
 		if (res?.status && res?.status !== 200) {
 			if (res.status === 404) {
 				ElMessage.error('资源未找到');
-			} else {
-				ElMessage.error('未知错误');
 			}
 		}
 		// Response error
