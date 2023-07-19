@@ -5,7 +5,7 @@
         </div>
         <div class="table">
             <el-table :data="tableData()" style="width: 80%" element-loading-text="数据加载中..." v-loading="tableLoading">
-                <el-table-column prop="name" :label="tableData()[0].time" />
+                <el-table-column prop="name" :label="getTime" />
                 <el-table-column prop="value" label="value" align="center" width="100%" />
             </el-table>
 
@@ -21,7 +21,7 @@
 
 <script lang="ts" setup>
 
-import { reactive, watch, ref, defineAsyncComponent, toRefs, inject } from 'vue';
+import { reactive, watch, ref, defineAsyncComponent, computed, inject } from 'vue';
 import { formatDate } from '/@/utils/formatTime';
 import { useDataRetrievalApi } from '/@/api/data-retrieval/index';
 import { dayjs } from 'element-plus';
@@ -47,7 +47,16 @@ const state1 = reactive<{
 })
 
 const tableLoading = ref(false);
-const rawDataList = ref([{ name: '', value: null, time: '' }])
+interface RawInterface {
+    name: string,
+    value: string | null
+    time: string
+}
+const rawDataList = ref<Array<RawInterface>>([])
+const getTime = computed(() => {
+    if (!tableData()[0]?.time) return
+    return tableData()[0].time
+})
 //Parameters used in the table
 const state = reactive({
     page: 1,
