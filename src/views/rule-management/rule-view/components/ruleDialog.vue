@@ -142,6 +142,11 @@ const addRule = () => {
 				ElMessage.success('添加规则任务成功');
 				emits('update:value', false);
 				emits('refreshList');
+			}).catch(error => {
+				let req = error.response
+				if (req.data.code === 1002) {
+					ElMessage.warning('规则名称已存在')
+				}
 			});
 	});
 };
