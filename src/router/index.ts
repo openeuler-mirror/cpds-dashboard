@@ -7,6 +7,7 @@ import { useKeepALiveNames } from '/@/stores/keepAliveNames';
 import { useThemeConfig } from '/@/stores/themeConfig';
 import { Session } from '/@/utils/storage';
 import { staticRoutes } from '/@/router/route';
+import Cookies from 'js-cookie';
 import { initFrontEndControlRoutes } from '/@/router/frontEnd';
 // import { ElMessage } from 'element-plus';
 
@@ -59,39 +60,20 @@ export function formatTwoStageRoutes(arr: any) {
 if (!isRequestRoutes) initFrontEndControlRoutes();
 
 router.beforeEach(async (to, from, next) => {
+	Session.set('authorization', 'admin');
+	Session.set('refreshtoken', 'admin');
+	sessionStorage.setItem('clusterVip', 'true');
+	Cookies.set('userName', 'admin');
+	await initFrontEndControlRoutes();
 	NProgress.configure({ showSpinner: false });
 	if (to.meta.title) NProgress.start();
-	const token = Session.get('refreshtoken') && Session.get('authorization');
-
-	if (to.path === '/login' && !token) {
-		next();
-		NProgress.done();
-	} else {
-		if (!token) {
-			next('/login');
-			Session.clear();
-			NProgress.done();
-		} else if (token && to.path === '/login') {
-			if (true) {
-				// Cluster bound
-				next('/home');
-			} else {
-				// Cluster not bound
-			}
-			NProgress.done();
-		} else {
-			if (true) {
-				// Cluster bound
-				if (to.path === '/no-cluster') {
-					next('/home');
-				} else {
-					next();
-				}
-			} else {
-				// Cluster not bound
-			}
-		}
+		
+	if(to.path==='/'){
+		next('/home')
+	}else{
+		next()
 	}
+
 });
 
 router.afterEach(() => {
