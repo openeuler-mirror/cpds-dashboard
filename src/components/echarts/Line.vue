@@ -44,7 +44,7 @@ const initChart = () => {
 			formatter: (params: any) => {
 				//console.log(params[0]);
 				let str = `<div><p>${params[0].axisValue}</p>`;
-				for (let item of params) {
+				for (let item of params.slice(params.length - 1, params.length)) {
 					let value = null
 					let yUnit = props.yUnit
 					value = item.value
@@ -61,12 +61,14 @@ const initChart = () => {
 						}
 					}
 					str += `<p style="display:flex;justify-content:space-between;align-items:center;">
-							<span>
-								<span style="display:inline-block;width:10px;height:10px;border-radius:10px;background:${item.color};margin-right:5px;"></span>
-								<span>${item.seriesName}</span>
-							</span>
-							<span style="font-weight:bold;">${value} ${yUnit}</span>
-						</p>`
+										<div>
+											<span style="display:inline-block;max-width: 500px;word-break: break-all;white-space: normal;">
+												<span style="display:inline-block;width:10px;height:10px;border-radius:10px;background:${item.color};margin-right:5px;"></span>
+												${item.seriesName}
+												<span style="font-weight:bold;">${value} ${yUnit}</span>
+											</span>
+										</div>									
+									</p>`
 
 				}
 				str += '</div>'
@@ -123,6 +125,30 @@ const initChart = () => {
 		series: props.yUnit != '%' ? props.data.seriesData : props.data.seriesData.map(item => ({ ...item, data: item.data.map((value: any) => (value < 0.001 ? 0 : value)) }))
 
 	};
+	myChart.value.on('legendselectchanged', function (obj: any) {
+		let legendData = new Map(Object.entries(obj.selected));
+		const selectedObj = Object.keys(obj.selected).filter(item => obj.selected[item])
+		legendData.forEach((value, key) => {
+			if (obj.name === key) {
+				myChart.value.dispatchAction({
+					type: 'legendSelect',
+					name: obj.name,
+				})
+			}
+			else if (selectedObj.length === 0) {
+				myChart.value.dispatchAction({
+					type: 'legendSelect',
+					name: key,
+				})
+			}
+			else {
+				myChart.value.dispatchAction({
+					type: 'legendUnSelect',
+					name: key,
+				})
+			}
+		})
+	});
 	if (props.data.xData.length === 0) {
 		option.xAxis.type = 'time'
 		option.xAxis.min = 0;
