@@ -25,7 +25,7 @@ import { reactive, watch, ref, defineAsyncComponent, toRefs, computed } from 'vu
 import { ResultInterface } from '../../interface/index'
 import { formatDate } from '/@/utils/formatTime';
 import { useRuleApi } from '/@/api/rule-management/index';
-import { dayjs } from 'element-plus';
+import { ElMessage, dayjs } from 'element-plus';
 const Line = defineAsyncComponent(() => import('/@/components/echarts/Line.vue'))
 
 const state1 = reactive<{
@@ -163,6 +163,8 @@ const getRuleData = (loading: boolean = false, filter: string) => {
         ruleData.value = res.data.records[0]
         if (ruleData.value) {
             getRawData(ruleData.value.expression)
+        } else {
+            ElMessage.warning('对应规则被删除，无法查看')
         }
 
     }).finally(() => {
