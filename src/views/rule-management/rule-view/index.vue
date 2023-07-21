@@ -152,6 +152,11 @@ const deleteRule = (row: RulesInterface) => {
 				.then(() => {
 					ElMessage.success('删除规则信息成功');
 					getruleList(true);
+				}).catch(error => {
+					let req = error.response
+					if (req.data.code === 1004) {
+						ElMessage.warning('规则不存在')
+					}
 				});
 		})
 		.catch(() => { });
