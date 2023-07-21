@@ -95,6 +95,10 @@ const deleteResult = (id: number) => {
 				.then(() => {
 					ElMessage.success('删除诊断结果成功');
 					getResultList(true);
+				}).catch(error => {
+					let req = error.response
+					if (req.data.code === 2002)
+						ElMessage.warning('诊断结果不存在')
 				});
 		})
 		.catch(() => { });
