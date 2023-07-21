@@ -167,6 +167,11 @@ const getRuleData = (loading: boolean = false, filter: string) => {
             ElMessage.warning('对应规则被删除，无法查看')
         }
 
+    }).catch(error => {
+        let req = error.response
+        if (req.data.code === 4001) {
+            ElMessage.warning('该表达式查询结果为空')
+        }
     }).finally(() => {
         tableLoading.value = false;
     })
