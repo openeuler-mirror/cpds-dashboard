@@ -75,6 +75,9 @@ const initChart = () => {
 			}
 		},
 		legend: {
+			padding: 6,
+			itemGap: 6,
+			itemHeight: 14,
 			show: true,
 			top: 'top',
 		},
