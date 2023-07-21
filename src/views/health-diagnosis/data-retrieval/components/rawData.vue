@@ -24,7 +24,7 @@
 import { reactive, watch, ref, defineAsyncComponent, computed, inject } from 'vue';
 import { formatDate } from '/@/utils/formatTime';
 import { useDataRetrievalApi } from '/@/api/data-retrieval/index';
-import { dayjs } from 'element-plus';
+import { ElMessage, dayjs } from 'element-plus';
 import { Local } from '/@/utils/storage';
 const Line = defineAsyncComponent(() => import('/@/components/echarts/Line.vue'))
 
@@ -156,6 +156,11 @@ const getRawData = (query: string) => {
         Local.set('history', history)
         //Pass refresh history event to parent component
         emits('refreshHistory');
+    }).catch(error => {
+        let req = error.response
+        if (req.data.code === 4001) {
+            ElMessage.warning('该表达式查询结果为空')
+        }
     }).finally(() => {
 
     })
