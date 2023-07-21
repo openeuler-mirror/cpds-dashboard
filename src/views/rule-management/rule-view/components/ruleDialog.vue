@@ -117,6 +117,11 @@ const editRule = () => {
 				ElMessage.success('编辑规则任务成功');
 				emits('update:value', false);
 				emits('refreshList');
+			}).catch(error => {
+				let req = error.response
+				if (req.data.code === 1003) {
+					ElMessage.warning('规则内容没有改变')
+				}
 			});
 	});
 };
