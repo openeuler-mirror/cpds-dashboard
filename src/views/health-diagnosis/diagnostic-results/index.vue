@@ -117,6 +117,7 @@ const deleteResult = (id: number) => {
 					let req = error.response
 					if (req.data.code === 2002)
 						ElMessage.warning('诊断结果不存在')
+					getResultList(true);
 				});
 		})
 		.catch(() => { });
