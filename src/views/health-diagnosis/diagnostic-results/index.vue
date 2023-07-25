@@ -10,17 +10,19 @@
 				</div>
 			</div>
 			<el-table element-loading-text="数据加载中..." highlight-current-row height="calc(100vh - 455px)" ref="tableRef"
-				v-loading="tableLoading" :data="diagnosisinfo.data" border style="width: 100%">
-				<el-table-column prop="id" label="诊断id"></el-table-column>
+				v-loading="tableLoading" @sort-change="ruleSort" :data="diagnosisinfo.data" border style="width: 100%">
+				<el-table-column prop="id" label="诊断ID" sortable="custom"></el-table-column>
 				<el-table-column prop="rule_name" label="规则名称"></el-table-column>
-				<el-table-column prop="status" label="节点当前状态"><template #default="{ row }"><el-tag class="ml-2" :type="row.status === 'subhealth'
+				<el-table-column prop="status" label="当前状态"><template #default="{ row }"><el-tag class="ml-2" :type="row.status === 'subhealth'
 					? 'warning' : 'danger'">{{
 		row.status === 'subhealth'
 		? '亚健康' : '故障' }}</el-tag></template></el-table-column>
-				<el-table-column prop="create_time" label="触发时间"><template #default="{ row }">{{ formatDate(new
-					Date(row.create_time * 1000), 'YYYY-mm-dd HH:MM:SS') }} </template></el-table-column>
-				<el-table-column prop="update_time" label="更新时间"><template #default="{ row }">{{ formatDate(new
-					Date(row.update_time * 1000), 'YYYY-mm-dd HH:MM:SS') }} </template></el-table-column>
+				<el-table-column prop="create_time" label="触发时间" sortable="custom"><template #default="{ row }">{{
+					formatDate(new
+						Date(row.create_time * 1000), 'YYYY-mm-dd HH:MM:SS') }} </template></el-table-column>
+				<el-table-column prop="update_time" label="更新时间" sortable="custom"><template #default="{ row }">{{
+					formatDate(new
+						Date(row.update_time * 1000), 'YYYY-mm-dd HH:MM:SS') }} </template></el-table-column>
 				<el-table-column label="操作" style="text-align: center" width="180%"><template #default="{ row }"><el-button
 							link size="small" @click="lookRawData(row)" type="primary">查看原始数据</el-button>
 						<el-button link size="small" type="danger" @click="deleteResult(row.id)">删除
@@ -63,6 +65,8 @@ const state = reactive<HealthStateInterface>({
 			pageSize: 5,
 			pageNum: 1,
 			filter: '',
+			sort_field: '',
+			sort_order: '',
 		},
 		total: 0,
 	},
@@ -81,6 +85,20 @@ const lookRawData = (row: ResultInterface) => {
 	rawtitle.value = row.rule_name
 	dialogVisible.value = true
 }
+const ruleSort = (column: any) => {
+	diagnosisinfo.value.params.pageNum = 1;
+	if (column.order === 'descending') {
+		diagnosisinfo.value.params.sort_field = column.prop;
+		diagnosisinfo.value.params.sort_order = 'desc';
+	} else if (column.order === 'ascending') {
+		diagnosisinfo.value.params.sort_field = column.prop;
+		diagnosisinfo.value.params.sort_order = 'asc';
+	} else {
+		diagnosisinfo.value.params.sort_field = '';
+		diagnosisinfo.value.params.sort_order = '';
+	}
+	getResultList(true, true);
+};
 const deleteResult = (id: number) => {
 	ElMessageBox.confirm(`是否删除这条诊断结果 ?`, {
 		confirmButtonText: '确定',
@@ -109,11 +127,17 @@ const onHandleCurrentChange = () => {
 const onHandleSizeChange = () => {
 	getResultList(true);
 };
-const getResultList = (loading: boolean = false) => {
+const getResultList = (loading: boolean = false, order: boolean = false) => {
+	if (!order) {
+		diagnosisinfo.value.params.sort_field = '';
+		diagnosisinfo.value.params.sort_order = '';
+	}
 	tableLoading.value = loading;
 	useHealthApi()
 		.getResultList({
 			filter: diagnosisinfo.value.params.filter === '' ? undefined : diagnosisinfo.value.params.filter,
+			sort_field: diagnosisinfo.value.params.sort_field === '' ? undefined : diagnosisinfo.value.params.sort_field,
+			sort_order: diagnosisinfo.value.params.sort_order === '' ? undefined : diagnosisinfo.value.params.sort_order,
 			page_no: diagnosisinfo.value.params.pageNum,
 			page_size: diagnosisinfo.value.params.pageSize,
 		})

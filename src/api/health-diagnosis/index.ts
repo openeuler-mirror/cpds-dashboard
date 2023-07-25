@@ -2,7 +2,7 @@ import request from '/@/utils/request';
 
 export function useHealthApi() {
 	return {
-		getResultList: (data: { filter?: string; page_no: number; page_size: number }) => {
+		getResultList: (data: { filter?: string;sort_field?: string; sort_order?: string; page_no: number; page_size: number }) => {
 			return request({
 				url: '/api/v1/analysis/result',
 				method: 'get',

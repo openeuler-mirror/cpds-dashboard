@@ -5,6 +5,8 @@ export interface HealthStateInterface {
 			pageSize: number;
 			pageNum: number;
 			filter: string;
+			sort_field: string,
+			sort_order: string,
 		};
 
 		total: number;
