@@ -122,8 +122,10 @@ const editRule = () => {
 				if (req.data.code === 1003) {
 					if (req.data.message == "Failed to update rule: invalid expression") {
 						ElMessage.warning('表达式异常')
-					} else {
-						ElMessage.warning('规则内容没有改变')
+					} else if (req.data.message == "Failed to update rule: nothing changed") {
+						ElMessage.warning('规则内容没有变动')
+					} else if (req.data.message.includes("Failed to update rule: Error 1062 (23000): Duplicate entry")) {
+						ElMessage.warning('规则名称已存在')
 					}
 
 				}
@@ -152,7 +154,7 @@ const addRule = () => {
 				if (req.data.code === 1002) {
 					if (req.data.message == "Failed to create rule: invalid expression") {
 						ElMessage.warning('表达式异常')
-					} else {
+					} else if (req.data.message.includes("Failed to create rule: Error 1062 (23000): Duplicate entry")) {
 						ElMessage.warning('规则名称已存在')
 					}
 				}
