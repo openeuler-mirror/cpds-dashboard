@@ -156,6 +156,7 @@ const deleteRule = (row: RulesInterface) => {
 					let req = error.response
 					if (req.data.code === 1004) {
 						ElMessage.warning('规则不存在')
+						getruleList(true);
 					}
 				});
 		})
