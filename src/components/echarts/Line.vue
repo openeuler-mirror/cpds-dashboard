@@ -48,16 +48,19 @@ const initChart = () => {
 					let value = null
 					let yUnit = props.yUnit
 					value = item.value
+					if (value === undefined) return
 					if (props.yUnit === '%' && value <= 1) {
 						value = (value * 100).toFixed(2)
 					}
 					if (props.yUnit === 'KB/s') {
-						if (value >= 1024 * 1024) {
-							value = (value / 1024 / 1024).toFixed(2);
+						if (value >= 1024 * 1024 * 1024) {
+							value = (value / 1024 / 1024 / 1024).toFixed(2);
 							yUnit = 'GB/s'
-						} else if (value >= 1024) {
-							value = (value / 1024).toFixed(2);
+						} else if (value >= 1024 * 1024) {
+							value = (value / 1024 / 1024).toFixed(2);
 							yUnit = 'MB/s'
+						} else {
+							value = (value / 1024).toFixed(2)
 						}
 					}
 					str += `<p style="display:flex;justify-content:space-between;align-items:center;">
@@ -110,12 +113,14 @@ const initChart = () => {
 						value = (value * 100).toFixed(1)
 					}
 					if (props.yUnit === 'KB/s') {
-						if (value >= 1024 * 1024) {
-							value = (value / 1024 / 1024).toFixed(1);
+						if (value >= 1024 * 1024 * 1024) {
+							value = (value / 1024 / 1024 / 1024).toFixed(2);
 							yUnit = 'GB/s'
-						} else if (value >= 1024) {
-							value = (value / 1024).toFixed(1);
+						} else if (value >= 1024 * 1024) {
+							value = (value / 1024 / 1024).toFixed(2);
 							yUnit = 'MB/s'
+						} else {
+							value = (value / 1024).toFixed(2)
 						}
 					}
 					return value + yUnit
