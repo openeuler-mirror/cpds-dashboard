@@ -120,7 +120,12 @@ const editRule = () => {
 			}).catch(error => {
 				let req = error.response
 				if (req.data.code === 1003) {
-					ElMessage.warning('规则内容没有改变')
+					if (req.data.message == "Failed to update rule: invalid expression") {
+						ElMessage.warning('表达式异常')
+					} else {
+						ElMessage.warning('规则内容没有改变')
+					}
+
 				}
 			});
 	});
@@ -145,7 +150,11 @@ const addRule = () => {
 			}).catch(error => {
 				let req = error.response
 				if (req.data.code === 1002) {
-					ElMessage.warning('规则名称已存在')
+					if (req.data.message == "Failed to create rule: invalid expression") {
+						ElMessage.warning('表达式异常')
+					} else {
+						ElMessage.warning('规则名称已存在')
+					}
 				}
 			});
 	});
