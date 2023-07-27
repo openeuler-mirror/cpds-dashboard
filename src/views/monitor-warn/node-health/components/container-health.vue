@@ -140,27 +140,45 @@ const getContainerList = () => {
 			if (metric_name === 'node_container_status') {
 				for (let i = 0; i < data.result.length; i++) {
 					const container = <ContainerData>{}
+					const containerID = data.result[i].metric.container
 					res.data.forEach(({ metric_name, data }: any) => {
 						const resultArray = data.result
 						if (metric_name === 'node_container_memory_used') {
-							container.memoryUsage = resultArray[i].value[1]
+							resultArray.forEach(({ metric, value }: any) => {
+								if (metric.container === containerID) {
+									container.memoryUsage = value[1]
+								}
+							})
 						}
 						if (metric_name === 'node_container_outbound_traffic') {
-							if (!resultArray) {
+							resultArray.forEach(({ metric, value }: any) => {
+								if (metric.container === containerID) {
+									container.outbound = value[1]
+								}
+							})
+							if (!container.outbound) {
 								container.outbound = 0
-							} else {
-								container.outbound = resultArray[0].value[1]
 							}
 						}
 						if (metric_name === 'node_container_inbound_traffic') {
-							if (!resultArray) {
+							resultArray.forEach(({ metric, value }: any) => {
+								if (metric.container === containerID) {
+									container.inbound = value[1]
+								}
+							})
+							if (!container.inbound) {
 								container.inbound = 0
-							} else {
-								container.inbound = resultArray[0].value[1]
 							}
 						}
 						if (metric_name === 'node_container_cpu_usage') {
-							container.cpuUsage = resultArray[i].value[1]
+							resultArray.forEach(({ metric, value }: any) => {
+								if (metric.container === containerID) {
+									container.cpuUsage = value[1]
+								}
+							})
+							if (!container.cpuUsage) {
+								container.cpuUsage = 0
+							}
 						}
 						if (metric_name === 'node_container_status') {
 							container.status = resultArray[i].metric.state
@@ -181,20 +199,21 @@ const getContainerList = () => {
 const getUsed = computed(() => (type: string, used: any) => {
 	used = parseFloat(used)
 	if (type === 'cpu') {
-		return (used).toFixed(1) + ' cores'
+		return (used * 100).toFixed(2) + ' %'
 	}
 	if (type === 'memory') {
 		if (used > 1024 * 1024 * 1024) return (used / Math.pow(1024, 3)).toFixed(1) + ' GB';
-		return (used / Math.pow(1024, 2)).toFixed(1) + ' MB';
+		if (used > 1024 * 1024) return (used / Math.pow(1024, 2)).toFixed(1) + ' MB';
+		return (used / Math.pow(1024, 1)).toFixed(1) + ' KB';
 	}
 	if (type === 'inbound') {
-		if (used > 1024 * 1024) return (used / Math.pow(1024, 2)).toFixed(1) + ' MB';
-		if (used > 1024 * 1024 * 1024) return (used / Math.pow(1024, 3)).toFixed(1) + ' GB';
+		if (used > 1024 * 1024) return (used / Math.pow(1024, 2)).toFixed(1) + ' MB/s';
+		if (used > 1024 * 1024 * 1024) return (used / Math.pow(1024, 3)).toFixed(1) + ' GB/s';
 		return (used / Math.pow(1024, 1)).toFixed(1) + ' KB/s';
 	}
 	if (type === 'outbound') {
-		if (used > 1024 * 1024) return (used / Math.pow(1024, 2)).toFixed(1) + ' MB';
-		if (used > 1024 * 1024 * 1024) return (used / Math.pow(1024, 3)).toFixed(1) + ' GB';
+		if (used > 1024 * 1024) return (used / Math.pow(1024, 2)).toFixed(1) + ' MB/s';
+		if (used > 1024 * 1024 * 1024) return (used / Math.pow(1024, 3)).toFixed(1) + ' GB/s';
 		return (used / Math.pow(1024, 1)).toFixed(1) + ' KB/s';
 	}
 })
