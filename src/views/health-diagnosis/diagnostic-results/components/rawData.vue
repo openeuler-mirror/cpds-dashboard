@@ -98,9 +98,14 @@ defineExpose({
     close
 });
 
-const getRawData = (query: string) => {
+const getRawData = (query: string, condition: string) => {
     useHealthApi().getRawData({ query: encodeURIComponent(query), start_time: dayjs().subtract(10, 'minutes').unix(), end_time: dayjs().unix(), step: 10 }).then((res) => {
-        rawDataList.value = res.data.result.map((item: any) => {
+        const result = res.data.result.filter((item: any) => {
+            return item.values.some((pair: any) => {
+                return eval(`${pair}${condition}`)
+            })
+        })
+        rawDataList.value = result.map((item: any) => {
             const value = item.values[item.values.length - 1][1]
             const time = formatDate(new
                 Date(item.values[item.values.length - 1][0] * 1000), 'YYYY-mm-dd HH:MM:SS')
@@ -109,7 +114,7 @@ const getRawData = (query: string) => {
         })
         state.total = rawDataList.value.length
         state1.data.xData = Array.from(new Map(res.data.result[0].values).keys())
-        state1.data.seriesData = res.data.result.map((item: any, index: number) => {
+        state1.data.seriesData = result.map((item: any, index: number) => {
             let matches = rawDataList.value[index].name.match(regex)
             let name
             if (matches && matches.length > 0) {
@@ -162,7 +167,13 @@ const getRuleData = (loading: boolean = false, filter: string) => {
     useRuleApi().getRuleList({ filter: filter }).then((res) => {
         ruleData.value = res.data.records[0]
         if (ruleData.value) {
-            getRawData(ruleData.value.expression)
+            let condition
+            if (ruleData.value.fault_condition_type) {
+                condition = `${ruleData.value.fault_condition_type}${ruleData.value.fault_thresholds}`
+            } else {
+                condition = `${ruleData.value.subhealth_condition_type}${ruleData.value.subhealth_thresholds}`
+            }
+            getRawData(ruleData.value.expression, condition)
         } else {
             ElMessage.warning('对应规则被删除，无法查看')
         }
