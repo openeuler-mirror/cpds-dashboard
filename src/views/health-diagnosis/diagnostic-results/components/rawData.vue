@@ -14,7 +14,7 @@
             <!-- <div class="example-demonstration">分页</div> -->
             <el-pagination background layout="prev, pager, next ,total,sizes" :total="state.total"
                 @current-change="handleCurrentChange" @size-change="handleSizeChange" :page-sizes="[5, 10, 30, 50]"
-                :page-size="5" />
+                :page-size="state.limit" />
         </div>
     </div>
 </template>
