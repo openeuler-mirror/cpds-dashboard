@@ -208,6 +208,7 @@ const usageData = reactive<{
 			usage: number;
 			used_core: number;
 			total_core: number;
+			number_cores: number;
 		};
 		memory: {
 			usage: number;
@@ -226,7 +227,8 @@ const usageData = reactive<{
 		cpu: {
 			usage: 0,
 			used_core: 0,
-			total_core: 0
+			total_core: 0,
+			number_cores: 0
 		},
 		memory: {
 			usage: 0,
@@ -353,6 +355,16 @@ const cpuTotal = computed(() => {
 		return accumulator + currentValue.cpu.total_core
 	}, 0)
 })
+const cpuCores = computed(() => {
+	return nodeList.value.reduce((accumulator, currentValue) => {
+		return accumulator + currentValue.cpu.number_cores
+	}, 0)
+})
+const memoryUsage = computed(() => {
+	return nodeList.value.reduce((accumulator, currentValue) => {
+		return accumulator + currentValue.memory.usage
+	}, 0)
+})
 const memoryUsed = computed(() => {
 	return nodeList.value.reduce((accumulator, currentValue) => {
 		return accumulator + currentValue.memory.used_bytes
@@ -361,6 +373,11 @@ const memoryUsed = computed(() => {
 const memoryTotal = computed(() => {
 	return nodeList.value.reduce((accumulator, currentValue) => {
 		return accumulator + currentValue.memory.total_bytes
+	}, 0)
+})
+const diskUsage = computed(() => {
+	return nodeList.value.reduce((accumulator, currentValue) => {
+		return accumulator + currentValue.disk.usage
 	}, 0)
 })
 const diskUsed = computed(() => {
@@ -378,7 +395,8 @@ watch(nodeList.value, () => {
 	overViewInfo.value.cpu = {
 		usage: (cpuUsed.value / cpuTotal.value) || 0,
 		used_core: cpuUsed.value,
-		total_core: cpuTotal.value
+		total_core: cpuTotal.value,
+		number_cores: cpuCores.value
 	}
 	overViewInfo.value.memory = {
 		usage: (memoryUsed.value / memoryTotal.value || 0),
