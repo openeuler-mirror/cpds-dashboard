@@ -59,10 +59,10 @@ interface DataState {
 	diskUsageData: LineChartData;
 	diskNumData: LineChartData;
 	diskBytesData: LineChartData;
-	netIops: LineChartData
 	netDropRate: LineChartData;
 	netErrorRate: LineChartData
 	retransmRate: LineChartData
+	netIops: LineChartData
 }
 const state = reactive<DataState>({
 	memoryUsageData: {
@@ -93,10 +93,6 @@ const state = reactive<DataState>({
 		xData: [],
 		seriesData: [],
 	},
-	netIops: {
-		xData: [],
-		seriesData: [],
-	},
 	netDropRate: {
 		xData: [],
 		seriesData: [],
@@ -109,6 +105,10 @@ const state = reactive<DataState>({
 		xData: [],
 		seriesData: [],
 	},
+	netIops: {
+		xData: [],
+		seriesData: [],
+	}
 })
 const address = inject('address', ref());
 const activeName = inject('activeName', ref());
@@ -132,17 +132,30 @@ const dateChange = (val: any) => {
 	getNodeResource()
 }
 //Processing ECharts data
-const getData = (resource: any) => {
+const getData = (resource: any, params: any) => {
 	const LineData: LineChartData = {
 		xData: [],
 		seriesData: []
 	};
 	if (!resource.data.result) return LineData
-	LineData.xData = Array.from(new Map(resource.data.result[0].values).keys())
+	let start = params.start_time
+	let step = params.step
+	const getResult = ((item: any) => {
+		let result = []
+		let end = item.values[0][0] - step
+		for (let i = start; i <= end; i = i + step) {
+			result.push(i)
+		}
+		result = result.map((value: any) => {
+			return [value, null]
+		})
+		return [...result, ...resource.data.result[0].values]
+	})
+	LineData.xData = Array.from(new Map(getResult(resource.data.result[0])).keys())
 	LineData.seriesData = resource.data.result.map((item: any, index: number) => {
 		return {
 			name: getName(resource.metric_name),
-			data: Array.from(new Map(item.values).values()),
+			data: Array.from(new Map(getResult(item)).values()),
 			type: 'line',
 			smooth: true,
 			areaStyle: {
@@ -164,22 +177,22 @@ const getNodeResource = () => {
 	useMonitorApi().getNodeResource(params).then((res) => {
 		res.data.forEach((resource: any) => {
 			if (resource.metric_name === "node_memory_usage") {
-				state.memoryUsageData = getData(resource)
+				state.memoryUsageData = getData(resource, params)
 			}
 			if (resource.metric_name === "node_container_total") {
-				state.containerTotalData = getData(resource)
+				state.containerTotalData = getData(resource, params)
 			}
 			if (resource.metric_name === "node_container_running") {
-				state.containerRunningData = getData(resource)
+				state.containerRunningData = getData(resource, params)
 			}
 			if (resource.metric_name === "node_cpu_usage") {
-				state.cpuUsageData = getData(resource)
+				state.cpuUsageData = getData(resource, params)
 			}
 			if (resource.metric_name === "node_disk_usage") {
-				state.diskUsageData = getData(resource)
+				state.diskUsageData = getData(resource, params)
 			}
 			if (resource.metric_name === "node_disk_written_complete") {
-				const data = getData(resource)
+				const data = getData(resource, params)
 				if (state.diskNumData.seriesData.length != 1) {
 					state.diskNumData = data
 				} else {
@@ -188,7 +201,7 @@ const getNodeResource = () => {
 				}
 			}
 			if (resource.metric_name === "node_disk_read_bytes") {
-				const data = getData(resource)
+				const data = getData(resource, params)
 				if (state.diskBytesData.seriesData.length != 1) {
 					state.diskBytesData = data
 				} else {
@@ -197,7 +210,7 @@ const getNodeResource = () => {
 				}
 			}
 			if (resource.metric_name === "node_disk_written_bytes") {
-				const data = getData(resource)
+				const data = getData(resource, params)
 				if (state.diskBytesData.seriesData.length != 1) {
 					state.diskBytesData = data
 				} else {
@@ -206,7 +219,7 @@ const getNodeResource = () => {
 				}
 			}
 			if (resource.metric_name === "node_disk_read_complete") {
-				const data = getData(resource)
+				const data = getData(resource, params)
 				if (state.diskNumData.seriesData.length != 1) {
 					state.diskNumData = data
 				} else {
@@ -215,7 +228,7 @@ const getNodeResource = () => {
 				}
 			}
 			if (resource.metric_name === "node_network_recive_drop_rate") {
-				const data = getData(resource)
+				const data = getData(resource, params)
 				if (state.netDropRate.seriesData.length != 1) {
 					state.netDropRate = data
 				} else {
@@ -224,7 +237,7 @@ const getNodeResource = () => {
 				}
 			}
 			if (resource.metric_name === "node_network_transmit_drop_rate") {
-				const data = getData(resource)
+				const data = getData(resource, params)
 				if (state.netDropRate.seriesData.length != 1) {
 					state.netDropRate = data
 				} else {
@@ -233,7 +246,7 @@ const getNodeResource = () => {
 				}
 			}
 			if (resource.metric_name === "node_network_recive_error_rate") {
-				const data = getData(resource)
+				const data = getData(resource, params)
 				if (state.netErrorRate.seriesData.length != 1) {
 					state.netErrorRate = data
 				} else {
@@ -242,7 +255,7 @@ const getNodeResource = () => {
 				}
 			}
 			if (resource.metric_name === "node_network_transmit_error_rate") {
-				const data = getData(resource)
+				const data = getData(resource, params)
 				if (state.netErrorRate.seriesData.length != 1) {
 					state.netErrorRate = data
 				} else {
@@ -250,20 +263,36 @@ const getNodeResource = () => {
 					state.netErrorRate.xData = data.xData
 				}
 			}
-			if (resource.metric_name === "node_network_iops") {
-				state.netIops = getData(resource)
-			}
 			if (resource.metric_name === "node_retransm_rate") {
-				state.retransmRate = getData(resource)
+				state.retransmRate = getData(resource, params)
+			}
+			if (resource.metric_name === "node_network_recive_iops") {
+				const data = getData(resource, params)
+				if (state.netIops.seriesData.length != 1) {
+					state.netIops = data
+				} else {
+					state.netIops.seriesData.push(data.seriesData[0])
+					state.netIops.xData = data.xData
+				}
+			}
+			if (resource.metric_name === "node_network_transmit_iops") {
+				const data = getData(resource, params)
+				if (state.netIops.seriesData.length != 1) {
+					state.netIops = data
+				} else {
+					state.netIops.seriesData.push(data.seriesData[0])
+					state.netIops.xData = data.xData
+				}
 			}
 		})
 	})
 }
+//obtain the chinese characters corresponding to name
 const getName = (name: string) => {
 	if (name === 'node_disk_read_complete' || name === 'node_disk_read_bytes') return '读'
 	if (name === 'node_disk_written_complete' || name === 'node_disk_written_bytes') return '写'
-	if (name === 'node_network_recive_drop_rate' || name === 'node_network_recive_error_rate') return '接收'
-	if (name === 'node_network_transmit_drop_rate' || name === 'node_network_transmit_error_rate') return '发送'
+	if (name === 'node_network_recive_drop_rate' || name === 'node_network_recive_error_rate' || name === 'node_network_recive_iops') return '接收'
+	if (name === 'node_network_transmit_drop_rate' || name === 'node_network_transmit_error_rate' || name === 'node_network_transmit_iops') return '发送'
 	return ''
 }
 const handle = () => {
@@ -278,6 +307,7 @@ watch(activeName, () => {
 	handle()
 
 }, { immediate: true })
+//change the value of datetimRange
 watch(
 	datetimeRange,
 	val => {
@@ -296,17 +326,18 @@ watch(
 	margin-top: 15px;
 }
 
+.line-container {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between
+}
+
 .container {
 	position: relative;
 	margin-left: 10px;
 
 }
 
-.line-container {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-between
-}
 
 
 

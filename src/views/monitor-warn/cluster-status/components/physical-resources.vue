@@ -126,17 +126,30 @@ const dateChange = (val: any) => {
 	getClusterResource()
 }
 //Processing ECharts data
-const getData = (resource: any) => {
+const getData = (resource: any, params: any) => {
 	const LineData: LineChartData = {
 		xData: [],
 		seriesData: []
 	};
 	if (!resource.data.result) return LineData
-	LineData.xData = Array.from(new Map(resource.data.result[0].values).keys())
+	let start = params.start_time
+	let step = params.step
+	const getResult = ((item: any) => {
+		let result = []
+		let end = item.values[0][0] - step
+		for (let i = start; i <= end; i = i + step) {
+			result.push(i)
+		}
+		result = result.map((value: any) => {
+			return [value, null]
+		})
+		return [...result, ...resource.data.result[0].values]
+	})
+	LineData.xData = Array.from(new Map(getResult(resource.data.result[0])).keys())
 	LineData.seriesData = resource.data.result.map((item: any, index: number) => {
 		return {
 			name: getName(resource.metric_name),
-			data: Array.from(new Map(item.values).values()),
+			data: Array.from(new Map(getResult(item)).values()),
 			type: 'line',
 			smooth: true,
 			areaStyle: {
@@ -157,7 +170,7 @@ const getClusterResource = () => {
 	useMonitorApi().getClusterResource(params).then((res: any) => {
 		res.data.forEach(((resource: any) => {
 			if (resource.metric_name === "cluster_disk_read_bytes") {
-				const data = getData(resource)
+				const data = getData(resource, params)
 				if (state.diskBytesData.seriesData.length != 1) {
 					state.diskBytesData = data
 				} else {
@@ -166,13 +179,13 @@ const getClusterResource = () => {
 				}
 			}
 			if (resource.metric_name === "cluster_disk_usage") {
-				state.diskUsageData = getData(resource)
+				state.diskUsageData = getData(resource, params)
 			}
 			if (resource.metric_name === "cluster_cpu_usage") {
-				state.cpuUsageData = getData(resource)
+				state.cpuUsageData = getData(resource, params)
 			}
 			if (resource.metric_name === "cluster_disk_read_complete") {
-				const data = getData(resource)
+				const data = getData(resource, params)
 				if (state.diskNumData.seriesData.length != 1) {
 					state.diskNumData = data
 				} else {
@@ -181,7 +194,7 @@ const getClusterResource = () => {
 				}
 			}
 			if (resource.metric_name === "cluster_disk_written_complete") {
-				const data = getData(resource)
+				const data = getData(resource, params)
 				if (state.diskNumData.seriesData.length != 1) {
 					state.diskNumData = data
 				} else {
@@ -190,10 +203,10 @@ const getClusterResource = () => {
 				}
 			}
 			if (resource.metric_name === "cluster_memory_usage") {
-				state.memoryUsageData = getData(resource)
+				state.memoryUsageData = getData(resource, params)
 			}
 			if (resource.metric_name === "cluster_disk_written_bytes") {
-				const data = getData(resource)
+				const data = getData(resource, params)
 				if (state.diskBytesData.seriesData.length != 1) {
 					state.diskBytesData = data
 				} else {
@@ -202,7 +215,7 @@ const getClusterResource = () => {
 				}
 			}
 			if (resource.metric_name === "cluster_network_recive_drop_rate") {
-				const data = getData(resource)
+				const data = getData(resource, params)
 				if (state.netDropRate.seriesData.length != 1) {
 					state.netDropRate = data
 				} else {
@@ -211,7 +224,7 @@ const getClusterResource = () => {
 				}
 			}
 			if (resource.metric_name === "cluster_network_transmit_drop_rate") {
-				const data = getData(resource)
+				const data = getData(resource, params)
 				if (state.netDropRate.seriesData.length != 1) {
 					state.netDropRate = data
 				} else {
@@ -220,7 +233,7 @@ const getClusterResource = () => {
 				}
 			}
 			if (resource.metric_name === "cluster_network_recive_error_rate") {
-				const data = getData(resource)
+				const data = getData(resource, params)
 				if (state.netErrorRate.seriesData.length != 1) {
 					state.netErrorRate = data
 				} else {
@@ -229,7 +242,7 @@ const getClusterResource = () => {
 				}
 			}
 			if (resource.metric_name === "cluster_network_transmit_error_rate") {
-				const data = getData(resource)
+				const data = getData(resource, params)
 				if (state.netErrorRate.seriesData.length != 1) {
 					state.netErrorRate = data
 				} else {
@@ -238,10 +251,25 @@ const getClusterResource = () => {
 				}
 			}
 			if (resource.metric_name === "cluster_retransm_rate") {
-				state.retransmRate = getData(resource)
+				state.retransmRate = getData(resource, params)
 			}
-			if (resource.metric_name === "cluster_network_iops") {
-				state.netIops = getData(resource)
+			if (resource.metric_name === "cluster_network_receive_iops") {
+				const data = getData(resource, params)
+				if (state.netIops.seriesData.length != 1) {
+					state.netIops = data
+				} else {
+					state.netIops.seriesData.push(data.seriesData[0])
+					state.netIops.xData = data.xData
+				}
+			}
+			if (resource.metric_name === "cluster_network_transmit_iops") {
+				const data = getData(resource, params)
+				if (state.netIops.seriesData.length != 1) {
+					state.netIops = data
+				} else {
+					state.netIops.seriesData.push(data.seriesData[0])
+					state.netIops.xData = data.xData
+				}
 			}
 		}))
 	})
@@ -249,8 +277,8 @@ const getClusterResource = () => {
 const getName = (name: string) => {
 	if (name === 'cluster_disk_read_bytes' || name === 'cluster_disk_read_complete') return '读'
 	if (name === 'cluster_disk_written_bytes' || name === 'cluster_disk_written_complete') return '写'
-	if (name === 'cluster_network_recive_drop_rate' || name === 'cluster_network_recive_error_rate') return '接收'
-	if (name === 'cluster_network_transmit_drop_rate' || name === 'cluster_network_transmit_error_rate') return '发送'
+	if (name === 'cluster_network_recive_drop_rate' || name === 'cluster_network_recive_error_rate' || name === 'cluster_network_receive_iops') return '接收'
+	if (name === 'cluster_network_transmit_drop_rate' || name === 'cluster_network_transmit_error_rate' || name === 'cluster_network_transmit_iops') return '发送'
 	return ''
 }
 const handle = () => {
