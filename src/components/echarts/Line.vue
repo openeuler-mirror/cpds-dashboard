@@ -70,7 +70,8 @@ const initChart = () => {
 												${item.seriesName}
 												<span style="font-weight:bold;">${value} ${yUnit}</span>
 											</span>
-										</div>									
+										</div>
+										
 									</p>`
 
 				}
@@ -131,28 +132,23 @@ const initChart = () => {
 
 	};
 	myChart.value.on('legendselectchanged', function (obj: any) {
-		let legendData = new Map(Object.entries(obj.selected));
-		const selectedObj = Object.keys(obj.selected).filter(item => obj.selected[item])
-		legendData.forEach((value, key) => {
+		const legendData = Object.keys(obj.selected);
+		const selectedObj = legendData.filter(item => obj.selected[item]);
+		const updatedOption = {
+			legend: {
+				selected: <any>{},
+			},
+		};
+		legendData.forEach((key) => {
 			if (obj.name === key) {
-				myChart.value.dispatchAction({
-					type: 'legendSelect',
-					name: obj.name,
-				})
-			}
-			else if (selectedObj.length === 0) {
-				myChart.value.dispatchAction({
-					type: 'legendSelect',
-					name: key,
-				})
-			}
-			else {
-				myChart.value.dispatchAction({
-					type: 'legendUnSelect',
-					name: key,
-				})
+				updatedOption.legend.selected[obj.name] = true;
+			} else if (selectedObj.length === 0) {
+				updatedOption.legend.selected[key] = true;
+			} else {
+				updatedOption.legend.selected[key] = false;
 			}
 		})
+		myChart.value.setOption(updatedOption);
 	});
 	if (props.data.xData.length === 0) {
 		option.xAxis.type = 'time'
@@ -183,6 +179,7 @@ const resize = () => {
 	});
 };
 const resizeLoading = ref(false);
+
 onMounted(() => {
 	initChart();
 	window.addEventListener('resize', resize);
