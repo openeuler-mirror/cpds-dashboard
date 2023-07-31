@@ -8,13 +8,15 @@
             <table style="font-size: 20px;">
                 <tr>
                     <td>{{ usageNum.toFixed(0) }}%</td>
-                    <td>{{ usedNum }}</td>
-                    <td>{{ totalNum }}</td>
+                    <td v-if="props.name === 'CPU'">{{ usedNum }}</td>
+                    <td v-if="props.name != 'CPU'">{{ usedNum }}</td>
+                    <td v-if="props.name != 'CPU'">{{ totalNum }}</td>
                 </tr>
                 <tr>
                     <td>{{ props.name }}</td>
-                    <td>{{ props.name }}使用量</td>
-                    <td>{{ props.name }}总量</td>
+                    <td v-if="props.name === 'CPU'">集群CPU总核数</td>
+                    <td v-if="props.name != 'CPU'">{{ props.name }}使用量</td>
+                    <td v-if="props.name != 'CPU'">{{ props.name }}总量</td>
                 </tr>
             </table>
         </div>
@@ -34,7 +36,7 @@ const usageNum = computed(() => {
 //usage calculation
 const usedNum = computed(() => {
     if (props.name === 'CPU') {
-        return (props.data?.used_core).toFixed(1) + ' cores'
+        return (props.data?.number_cores) + ' cores'
     } else {
         if (props.data?.used_bytes > 1024 * 1024 * 1024 * 1024) return (props.data?.used_bytes / Math.pow(1024, 3)).toFixed(1) + ' TB'
         return (props.data?.used_bytes / Math.pow(1024, 3)).toFixed(1) + ' GB'

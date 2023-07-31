@@ -39,7 +39,8 @@
                             <div class="cell">
                                 <div>
                                     <div>{{ getPercent(row.cpu.usage) }}</div>
-                                    <div style="color: #bfbfbf;">{{ getUsed('cpu', row.cpu.used_core, row.cpu.total_core) }}
+                                    <div style="color: #bfbfbf;">{{ getUsed('cpu', row.cpu.used_core, row.cpu.number_cores)
+                                    }}
                                     </div>
                                 </div>
                             </div>
@@ -123,6 +124,7 @@ const usage = reactive<{
             usage: number;
             used_core: number;
             total_core: number;
+            number_cores: number;
         };
         memory: {
             usage: number;
@@ -141,7 +143,8 @@ const usage = reactive<{
         cpu: {
             usage: 0,
             used_core: 0,
-            total_core: 0
+            total_core: 0,
+            number_cores: 0
         },
         memory: {
             usage: 0,
@@ -168,7 +171,7 @@ const getPercent = computed(() => (usage: number) => {
 })
 const getUsed = computed(() => (type: string, used: number, total: number) => {
     if (type === 'cpu') {
-        return used.toFixed(1) + '/' + total.toFixed(1) + ' cores';
+        return total + ' cores';
     } else {
         if (total > 1024 * 1024 * 1024 * 1024) return (used / Math.pow(1024, 4)).toFixed(1) + '/' + (total / Math.pow(1024, 4)).toFixed(1) + ' TB';
         return (used / Math.pow(1024, 3)).toFixed(1) + '/' + (total / Math.pow(1024, 3)).toFixed(1) + ' GB';
@@ -256,6 +259,11 @@ const cpuUsed = computed(() => {
         return accumulator + currentValue.cpu.used_core
     }, 0)
 })
+const cpuCores = computed(() => {
+    return nodeList.value.reduce((accumulator, currentValue) => {
+        return accumulator + currentValue.cpu.number_cores
+    }, 0)
+})
 const cpuTotal = computed(() => {
     return nodeList.value.reduce((accumulator, currentValue) => {
         return accumulator + currentValue.cpu.total_core
@@ -294,17 +302,18 @@ const diskTotal = computed(() => {
 
 watch(nodeList.value, () => {
     overViewInfo.value.cpu = {
-        usage: cpuUsage.value,
+        usage: (cpuUsed.value / cpuTotal.value) || 0,
         used_core: cpuUsed.value,
-        total_core: cpuTotal.value
+        total_core: cpuTotal.value,
+        number_cores: cpuCores.value
     }
     overViewInfo.value.memory = {
-        usage: memoryUsage.value,
+        usage: (memoryUsed.value / memoryTotal.value) || 0,
         used_bytes: memoryUsed.value,
         total_bytes: memoryTotal.value
     }
     overViewInfo.value.disk = {
-        usage: diskUsage.value,
+        usage: (diskUsed.value / diskTotal.value) || 0,
         used_bytes: diskUsed.value,
         total_bytes: diskTotal.value
     }

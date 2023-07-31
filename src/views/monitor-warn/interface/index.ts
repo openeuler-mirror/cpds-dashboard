@@ -34,7 +34,7 @@ export interface NodeInterface {
 export interface InstanceInterface {
 	instance: string;
 	container: { running: number; total: number };
-	cpu: { usage: number; used_core: number; total_core: number };
+	cpu: { usage: number; used_core: number; total_core: number;number_cores:number };
 	memory: { usage: number; used_bytes: number; total_bytes: number };
 	disk: { usage: number; used_bytes: number; total_bytes: number };
 	status: string;

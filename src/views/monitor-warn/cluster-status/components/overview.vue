@@ -83,6 +83,7 @@ const state = reactive<{
 			usage: number;
 			used_core: number;
 			total_core: number;
+			number_cores: number;
 		};
 		memory: {
 			usage: number;
@@ -101,7 +102,8 @@ const state = reactive<{
 		cpu: {
 			usage: 0,
 			used_core: 0,
-			total_core: 0
+			total_core: 0,
+			number_cores: 0
 		},
 		memory: {
 			usage: 0,
