@@ -39,7 +39,7 @@
                             <div class="cell">
                                 <div>
                                     <div>{{ getPercent(row.cpu.usage) }}</div>
-                                    <div style="color: #bfbfbf;">{{ getUsed('cpu', row.cpu.used_core, row.cpu.number_cores)
+                                    <div style="color: #bfbfbf;">{{ getUsed('cpu', row.cpu.usage, row.cpu.number_cores)
                                     }}
                                     </div>
                                 </div>
@@ -171,7 +171,7 @@ const getPercent = computed(() => (usage: number) => {
 })
 const getUsed = computed(() => (type: string, used: number, total: number) => {
     if (type === 'cpu') {
-        return total + ' cores';
+        return (total * used).toFixed(2) + ' / ' + total;
     } else {
         if (total > 1024 * 1024 * 1024 * 1024) return (used / Math.pow(1024, 4)).toFixed(1) + '/' + (total / Math.pow(1024, 4)).toFixed(1) + ' TB';
         return (used / Math.pow(1024, 3)).toFixed(1) + '/' + (total / Math.pow(1024, 3)).toFixed(1) + ' GB';

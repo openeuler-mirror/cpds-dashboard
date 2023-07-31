@@ -14,7 +14,7 @@
                 </tr>
                 <tr>
                     <td>{{ props.name }}</td>
-                    <td v-if="props.name === 'CPU'">集群CPU总核数</td>
+                    <td v-if="props.name === 'CPU'">CPU core</td>
                     <td v-if="props.name != 'CPU'">{{ props.name }}使用量</td>
                     <td v-if="props.name != 'CPU'">{{ props.name }}总量</td>
                 </tr>
@@ -36,7 +36,7 @@ const usageNum = computed(() => {
 //usage calculation
 const usedNum = computed(() => {
     if (props.name === 'CPU') {
-        return (props.data?.number_cores) + ' cores'
+        return (props.data?.number_cores * props.data?.usage).toFixed(2) + ' / ' + props.data?.number_cores
     } else {
         if (props.data?.used_bytes > 1024 * 1024 * 1024 * 1024) return (props.data?.used_bytes / Math.pow(1024, 3)).toFixed(1) + ' TB'
         return (props.data?.used_bytes / Math.pow(1024, 3)).toFixed(1) + ' GB'
