@@ -139,7 +139,14 @@ const getContainerList = () => {
 		res.data.forEach(({ metric_name, data }: any) => {
 			if (metric_name === 'node_container_status') {
 				for (let i = 0; i < data.result.length; i++) {
-					const container = <ContainerData>{}
+					const container = <ContainerData>{
+						name: '',
+						status: '',
+						cpuUsage: 0,
+						memoryUsage: 0,
+						outbound: 0,
+						inbound: 0,
+					}
 					const containerID = data.result[i].metric.container
 					res.data.forEach(({ metric_name, data }: any) => {
 						const resultArray = data.result
@@ -150,7 +157,7 @@ const getContainerList = () => {
 								}
 							})
 						}
-						if (metric_name === 'node_container_outbound_traffic') {
+						if (resultArray && metric_name === 'node_container_outbound_traffic') {
 							resultArray.forEach(({ metric, value }: any) => {
 								if (metric.container === containerID) {
 									container.outbound = value[1]
@@ -160,7 +167,7 @@ const getContainerList = () => {
 								container.outbound = 0
 							}
 						}
-						if (metric_name === 'node_container_inbound_traffic') {
+						if (resultArray && metric_name === 'node_container_inbound_traffic') {
 							resultArray.forEach(({ metric, value }: any) => {
 								if (metric.container === containerID) {
 									container.inbound = value[1]
@@ -207,14 +214,14 @@ const getUsed = computed(() => (type: string, used: any) => {
 		return (used / Math.pow(1024, 1)).toFixed(1) + ' KB';
 	}
 	if (type === 'inbound') {
-		if (used > 1024 * 1024) return (used / Math.pow(1024, 2)).toFixed(1) + ' MB/s';
-		if (used > 1024 * 1024 * 1024) return (used / Math.pow(1024, 3)).toFixed(1) + ' GB/s';
-		return (used / Math.pow(1024, 1)).toFixed(1) + ' KB/s';
+		if (used > 1024 * 1024) return (used / Math.pow(1024, 2)).toFixed(1) + ' MB';
+		if (used > 1024 * 1024 * 1024) return (used / Math.pow(1024, 3)).toFixed(1) + ' GB';
+		return (used / Math.pow(1024, 1)).toFixed(1) + ' KB';
 	}
 	if (type === 'outbound') {
-		if (used > 1024 * 1024) return (used / Math.pow(1024, 2)).toFixed(1) + ' MB/s';
-		if (used > 1024 * 1024 * 1024) return (used / Math.pow(1024, 3)).toFixed(1) + ' GB/s';
-		return (used / Math.pow(1024, 1)).toFixed(1) + ' KB/s';
+		if (used > 1024 * 1024) return (used / Math.pow(1024, 2)).toFixed(1) + ' MB';
+		if (used > 1024 * 1024 * 1024) return (used / Math.pow(1024, 3)).toFixed(1) + ' GB';
+		return (used / Math.pow(1024, 1)).toFixed(1) + ' KB';
 	}
 })
 

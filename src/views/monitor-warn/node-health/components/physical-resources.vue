@@ -21,7 +21,7 @@
 			<Line :data="state.diskUsageData" yUnit="%" title="节点磁盘使用率"></Line>
 		</el-card>
 		<el-card class="echart">
-			<Line :data="state.netIops" yUnit="个/s" title="节点网络iops"></Line>
+			<Line :data="state.netIops" title="节点网络iops"></Line>
 		</el-card>
 		<el-card class="echart">
 			<Line :data="state.netDropRate" yUnit="%" title="节点网络丢包率"></Line>
