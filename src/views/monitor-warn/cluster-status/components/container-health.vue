@@ -17,25 +17,25 @@
 		</div>
 		<div style="display: flex; flex-wrap: wrap;justify-content:space-between">
 			<el-card class="echart">
-				<Line :data="state.runningData" title="运行容器 (个)"></Line>
+				<Line :data="state.runningData" title="运行容器"></Line>
 			</el-card>
 			<el-card class="echart">
-				<Line :data="state.notRunningData" title="停止容器 (个)"></Line>
+				<Line :data="state.notRunningData" title="停止容器"></Line>
 			</el-card>
 			<el-card class="echart">
-				<Line :data="state.diskUsageData" yUnit="%" title="容器磁盘使用率 (%)"></Line>
+				<Line :data="state.diskUsageData" yUnit="%" title="容器磁盘使用率"></Line>
 			</el-card>
 			<el-card class="echart">
-				<Line :data="state.containerBytesData" yUnit="KB/s" title="容器流量"></Line>
+				<Line :data="state.containerBytesData" yUnit="KB" title="容器流量"></Line>
 			</el-card>
 			<el-card class="echart">
-				<Line :data="state.memoryUsageData" yUnit="%" title="容器内存使用率 (%)"></Line>
+				<Line :data="state.memoryUsageData" yUnit="%" title="容器内存使用率"></Line>
 			</el-card>
 			<el-card class="echart">
-				<Line :data="state.netErrorRateData" yUnit="%" title="容器网络错误率 (%)"></Line>
+				<Line :data="state.netErrorRateData" yUnit="%" title="容器网络错误率"></Line>
 			</el-card>
-			<el-card class="echart">
-				<Line :data="state.netDropRateData" yUnit="%" title="容器网络丢包率 (%)"></Line>
+			<el-card class="echart" style="width: 100%;">
+				<Line :data="state.netDropRateData" yUnit="%" title="容器网络丢包率"></Line>
 			</el-card>
 		</div>
 	</div>
