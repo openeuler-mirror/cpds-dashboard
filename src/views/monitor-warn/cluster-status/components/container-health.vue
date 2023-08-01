@@ -17,16 +17,13 @@
 		</div>
 		<div style="display: flex; flex-wrap: wrap;justify-content:space-between">
 			<el-card class="echart">
-				<Line :data="state.cpuUsageData" yUnit="%" title="容器CPU使用率 (%)"></Line>
-			</el-card>
-			<el-card class="echart">
-				<Line :data="state.diskUsageData" yUnit="%" title="容器磁盘使用率 (%)"></Line>
-			</el-card>
-			<el-card class="echart">
 				<Line :data="state.runningData" title="运行容器 (个)"></Line>
 			</el-card>
 			<el-card class="echart">
 				<Line :data="state.notRunningData" title="停止容器 (个)"></Line>
+			</el-card>
+			<el-card class="echart">
+				<Line :data="state.diskUsageData" yUnit="%" title="容器磁盘使用率 (%)"></Line>
 			</el-card>
 			<el-card class="echart">
 				<Line :data="state.containerBytesData" yUnit="KB/s" title="容器流量"></Line>
