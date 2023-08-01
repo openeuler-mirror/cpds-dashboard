@@ -119,17 +119,30 @@ const dateChange = (val: any) => {
 	getClusterContainer()
 }
 //Processing ECharts data
-const getData = (resource: any) => {
+const getData = (resource: any, params: any) => {
 	const LineData: LineChartData = {
 		xData: [],
 		seriesData: []
 	};
 	if (!resource.data.result) return LineData
-	LineData.xData = Array.from(new Map(resource.data.result[0].values).keys())
+	let start = params.start_time
+	let step = params.step
+	const getResult = ((item: any) => {
+		let result = []
+		let end = item.values[0][0] - step
+		for (let i = start; i <= end; i = i + step) {
+			result.push(i)
+		}
+		result = result.map((value: any) => {
+			return [value, null]
+		})
+		return [...result, ...resource.data.result[0].values]
+	})
+	LineData.xData = Array.from(new Map(getResult(resource.data.result[0])).keys())
 	LineData.seriesData = resource.data.result.map((item: any, index: number) => {
 		return {
 			name: getName(resource.metric_name),
-			data: Array.from(new Map(item.values).values()),
+			data: Array.from(new Map(getResult(item)).values()),
 			type: 'line',
 			smooth: true,
 			areaStyle: {
@@ -150,7 +163,7 @@ const getClusterContainer = () => {
 	useMonitorApi().getClusterContainer(params).then((res: any) => {
 		res.data.forEach(((resource: any) => {
 			if (resource.metric_name === "cluster_container_network_transmit_drop_rate") {
-				const data = getData(resource)
+				const data = getData(resource, params)
 				if (state.netDropRateData.seriesData.length != 1) {
 					state.netDropRateData = data
 				} else {
@@ -159,13 +172,13 @@ const getClusterContainer = () => {
 				}
 			}
 			if (resource.metric_name === "cluster_container_running") {
-				state.runningData = getData(resource)
+				state.runningData = getData(resource, params)
 			}
 			if (resource.metric_name === "cluster_container_not_running") {
-				state.notRunningData = getData(resource)
+				state.notRunningData = getData(resource, params)
 			}
 			if (resource.metric_name === "cluster_container_recive_bytes") {
-				const data = getData(resource)
+				const data = getData(resource, params)
 				if (state.containerBytesData.seriesData.length != 1) {
 					state.containerBytesData = data
 				} else {
@@ -174,7 +187,7 @@ const getClusterContainer = () => {
 				}
 			}
 			if (resource.metric_name === "cluster_container_network_recive_error_rate") {
-				const data = getData(resource)
+				const data = getData(resource, params)
 				if (state.netErrorRateData.seriesData.length != 1) {
 					state.netErrorRateData = data
 				} else {
@@ -183,7 +196,7 @@ const getClusterContainer = () => {
 				}
 			}
 			if (resource.metric_name === "cluster_container_write_bytes") {
-				const data = getData(resource)
+				const data = getData(resource, params)
 				if (state.containerBytesData.seriesData.length != 1) {
 					state.containerBytesData = data
 				} else {
@@ -192,10 +205,10 @@ const getClusterContainer = () => {
 				}
 			}
 			if (resource.metric_name === "cluster_container_memory_usage") {
-				state.memoryUsageData = getData(resource)
+				state.memoryUsageData = getData(resource, params)
 			}
 			if (resource.metric_name === "cluster_container_network_recive_drop_rate") {
-				const data = getData(resource)
+				const data = getData(resource, params)
 				if (state.netDropRateData.seriesData.length != 1) {
 					state.netDropRateData = data
 				} else {
@@ -204,7 +217,7 @@ const getClusterContainer = () => {
 				}
 			}
 			if (resource.metric_name === "cluster_container_network_transmit_error_rate") {
-				const data = getData(resource)
+				const data = getData(resource, params)
 				if (state.netErrorRateData.seriesData.length != 1) {
 					state.netErrorRateData = data
 				} else {
@@ -213,10 +226,10 @@ const getClusterContainer = () => {
 				}
 			}
 			if (resource.metric_name === "cluster_container_cpu_usage") {
-				state.cpuUsageData = getData(resource)
+				state.cpuUsageData = getData(resource, params)
 			}
 			if (resource.metric_name === "cluster_container_disk_usage") {
-				state.diskUsageData = getData(resource)
+				state.diskUsageData = getData(resource, params)
 			}
 		}))
 	})

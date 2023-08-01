@@ -44,7 +44,7 @@ const initChart = () => {
 			formatter: (params: any) => {
 				//console.log(params[0]);
 				let str = `<div><p>${params[0].axisValue}</p>`;
-				for (let item of params.slice(params.length - 1, params.length)) {
+				for (let item of params) {
 					let value = null
 					let yUnit = props.yUnit
 					value = item.value

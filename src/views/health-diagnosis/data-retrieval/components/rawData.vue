@@ -26,7 +26,7 @@ import { formatDate } from '/@/utils/formatTime';
 import { useDataRetrievalApi } from '/@/api/data-retrieval/index';
 import { ElMessage, dayjs } from 'element-plus';
 import { Local } from '/@/utils/storage';
-const Line = defineAsyncComponent(() => import('/@/components/echarts/Line.vue'))
+const Line = defineAsyncComponent(() => import('/@/components/echarts/retrievalLine.vue'))
 
 const state1 = reactive<{
     data: {
@@ -35,6 +35,7 @@ const state1 = reactive<{
         yData: any[],
         subhealth_thresholds: number,
         fault_thresholds: number
+        flag: boolean
     }
 }>({
     data: {
@@ -42,7 +43,8 @@ const state1 = reactive<{
         seriesData: [],
         yData: [],
         subhealth_thresholds: 0,
-        fault_thresholds: 0
+        fault_thresholds: 0,
+        flag: false
     }
 })
 
@@ -111,8 +113,27 @@ const getRawData = (query: string) => {
             if (!item.metric) return { name: '{}', value: value, time: time }
             return { name: `${query}${JSON.stringify(item.metric)}`, value: value, time: time }
         })
+        let start = params.start_time
+        const getResult = ((item: any) => {
+            let result = []
+            let end = item.values[0][0] - step
+            for (let i = start; i <= end; i = i + step) {
+                result.push(i)
+            }
+            result = result.map((value: any) => {
+                return [value, null]
+            })
+            return [...result, ...res.data.result[0].values]
+        })
+        let maxLengthValues = res.data.result[0];
+        res.data.result.forEach((item: any) => {
+            if (item.values.length > maxLengthValues.values.length) {
+                maxLengthValues.values = item.values;
+            }
+        });
         state.total = rawDataList.value.length
-        state1.data.xData = Array.from(new Map(res.data.result[0].values).keys())
+        state1.data.flag = rawDataList.value.length > 0
+        state1.data.xData = Array.from(new Map(getResult(maxLengthValues)).keys())
         state1.data.seriesData = res.data.result.map((item: any, index: number) => {
             let matches = rawDataList.value[index].name.match(regex)
             let name
@@ -123,7 +144,7 @@ const getRawData = (query: string) => {
             }
             return {
                 name: name,
-                data: Array.from(new Map(item.values).values()),
+                data: Array.from(new Map(getResult(item))),
                 type: 'line',
                 smooth: true,
                 areaStyle: {
