@@ -190,14 +190,14 @@ const getRawData = (query: string, condition: string, thresholds: any) => {
 
     })
 }
-const getRuleData = (loading: boolean = false, filter: string) => {
+const getRuleData = (loading: boolean = false, filter: string, status: string) => {
     tableLoading.value = loading;
     useRuleApi().getRuleList({ filter: filter }).then((res) => {
         ruleData.value = res.data.records[0]
         if (ruleData.value) {
             let condition
             let thresholds
-            if (ruleData.value.fault_condition_type) {
+            if (status === "fault") {
                 condition = ruleData.value.fault_condition_type
                 thresholds = ruleData.value.fault_thresholds
             } else {
@@ -220,7 +220,7 @@ const getRuleData = (loading: boolean = false, filter: string) => {
 }
 
 watch(() => props.rawData, () => {
-    getRuleData(true, props.rawData.rule_name)
+    getRuleData(true, props.rawData.rule_name, props.rawData.status)
 }, { immediate: true })
 
 
