@@ -123,18 +123,18 @@ const getRawData = (query: string, condition: string, thresholds: any) => {
         })
         let start = dayjs().subtract(10, 'minutes').unix()
         const getResult = ((item: any) => {
-            let result = []
+            let resultData = []
             let end = item.values[0][0] - 10
             for (let i = start; i <= end; i = i + 10) {
-                result.push(i)
+                resultData.push(i)
             }
-            result = result.map((value: any) => {
+            resultData = resultData.map((value: any) => {
                 return [value, null]
             })
-            return [...result, ...res.data.result[0].values]
+            return [...resultData, ...result[0].values]
         })
-        let maxLengthValues = res.data.result[0];
-        res.data.result.forEach((item: any) => {
+        let maxLengthValues = result[0];
+        result.forEach((item: any) => {
             if (item.values.length > maxLengthValues.values.length) {
                 maxLengthValues.values = item.values;
             }
