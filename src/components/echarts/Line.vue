@@ -50,7 +50,7 @@ const initChart = () => {
 					value = item.value
 					if (value === undefined) return
 					if (props.yUnit === '%') {
-						value = (value * 100).toFixed(2)
+						value = (value * 100)
 					}
 					if (props.yUnit === 'KB/s') {
 						if (value >= 1024 * 1024 * 1024) {
@@ -121,8 +121,8 @@ const initChart = () => {
 			axisLabel: {
 				formatter: function (value: any) {
 					let yUnit = props.yUnit;
-					if (props.yUnit === '%') {
-						value = (value * 100).toFixed(1)
+					if (props.yUnit === '%' && value <= 1 && props.data.xData.length > 0) {
+						value = (value * 100).toFixed(2)
 					}
 					if (props.yUnit === 'KB/s') {
 						if (value >= 1024 * 1024 * 1024) {
@@ -150,7 +150,7 @@ const initChart = () => {
 				}
 			}
 		},
-		series: props.yUnit != '%' ? props.data.seriesData : props.data.seriesData.map(item => ({ ...item, data: item.data.map((value: any) => (value < 0.001 ? 0 : value)) }))
+		series: (props.yUnit != '%' || props.data.xData.length != 0) ? props.data.seriesData : props.data.seriesData.map(item => ({ ...item, data: item.data.map((value: any) => (value < 0.01 ? 0 : value)) }))
 
 	};
 	myChart.value.on('legendselectchanged', function (obj: any) {
