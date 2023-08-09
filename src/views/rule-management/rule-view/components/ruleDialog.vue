@@ -208,7 +208,7 @@ const validateSubhealthThresholds = (rule: any, value: any, callback: any) => {
 const validateFaultThresholds = (rule: any, value: any, callback: any) => {
 	const flag = newFrom.value.fault_condition_type;
 	if (flag && (value === undefined || value === '')) {
-		return callback(new Error('请输入亚健康阈值'));
+		return callback(new Error('请输入故障阈值'));
 	}
 	if (!reqNumber.test(value) && value) {
 		return callback(new Error('格式为数值类型'));
