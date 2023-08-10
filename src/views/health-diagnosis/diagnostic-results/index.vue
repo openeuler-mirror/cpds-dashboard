@@ -123,10 +123,10 @@ const deleteResult = (id: number) => {
 		.catch(() => { });
 };
 const onHandleCurrentChange = () => {
-	getResultList(true);
+	getResultList(true, true);
 };
 const onHandleSizeChange = () => {
-	getResultList(true);
+	getResultList(true, true);
 };
 const getResultList = (loading: boolean = false, order: boolean = false) => {
 	if (!order) {
