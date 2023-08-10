@@ -173,4 +173,10 @@ onMounted(() => {
 	display: flex;
 	margin-top: 50px;
 }
+
+::v-deep .el-dialog__header .el-dialog__title {
+	width: 97%;
+	display: block;
+	word-break: break-all;
+}
 </style>

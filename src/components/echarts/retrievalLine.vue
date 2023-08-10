@@ -101,6 +101,9 @@ const initChart = () => {
             },
             axisTick: {
                 alignWithLabel: true
+            },
+            splitLine: {
+                show: false
             }
 
         },
