@@ -101,11 +101,17 @@ defineExpose({
     close
 });
 
-const getRawData = (query: string, condition: string) => {
+const getCondition = (pair: string, condition: string, thresholds: string) => {
+    if (condition === "==") return pair == thresholds
+    if (condition === "!=") return pair != thresholds
+    if (condition === ">") return pair > thresholds
+    if (condition === "<") return pair < thresholds
+}
+const getRawData = (query: string, condition: string, thresholds: any) => {
     useHealthApi().getRawData({ query: encodeURIComponent(query), start_time: dayjs().subtract(10, 'minutes').unix(), end_time: dayjs().unix(), step: 10 }).then((res) => {
         const result = res.data.result.filter((item: any) => {
             return item.values.some((pair: any) => {
-                return eval(`${pair}${condition}`)
+                return getCondition(pair[1], condition, thresholds)
             })
         })
         rawDataList.value = result.map((item: any) => {
@@ -190,12 +196,15 @@ const getRuleData = (loading: boolean = false, filter: string) => {
         ruleData.value = res.data.records[0]
         if (ruleData.value) {
             let condition
+            let thresholds
             if (ruleData.value.fault_condition_type) {
-                condition = `${ruleData.value.fault_condition_type}${ruleData.value.fault_thresholds}`
+                condition = ruleData.value.fault_condition_type
+                thresholds = ruleData.value.fault_thresholds
             } else {
-                condition = `${ruleData.value.subhealth_condition_type}${ruleData.value.subhealth_thresholds}`
+                condition = ruleData.value.subhealth_condition_type
+                thresholds = ruleData.value.subhealth_thresholds
             }
-            getRawData(ruleData.value.expression, condition)
+            getRawData(ruleData.value.expression, condition, thresholds)
         } else {
             ElMessage.warning('对应规则被删除，无法查看')
         }

@@ -85,7 +85,7 @@ const validateName = (rule: any, value: any, callback: any) => {
 	if (!value) {
 		return callback(new Error('请输入表达式'));
 	}
-	var reg = /^[^`@#$%^&*?]+$/;
+	var reg = /^[^`@#$%&?]+$/;
 	if (!reg.test(value)) {
 		return callback(new Error('规则表达式中不可包含特殊字符'));
 	}
