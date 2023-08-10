@@ -31,7 +31,7 @@ export interface editRuleDataInterface {
 	severity: string;
 	duration: string;
 	subhealth_condition_type?: string;
-	subhealth_thresholds?: number;
+	subhealth_thresholds?: string;
 	fault_condition_type?: string;
-	fault_thresholds?: number;
+	fault_thresholds?: string;
 }

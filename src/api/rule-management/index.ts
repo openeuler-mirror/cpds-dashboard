@@ -15,9 +15,9 @@ export function useRuleApi() {
 			severity: string | null;
 			duration: string | null;
 			subhealth_condition_type?: string | null;
-			subhealth_thresholds?: number | null;
+			subhealth_thresholds?: string | null;
 			fault_condition_type?: string | null;
-			fault_thresholds?: number | null;
+			fault_thresholds?: string | null;
 		}) => {
 			return request({
 				url: '/api/v1/rules/create',
@@ -31,9 +31,9 @@ export function useRuleApi() {
 			severity: string | null;
 			duration: string | null;
 			subhealth_condition_type?: string | null;
-			subhealth_thresholds?: number | null;
+			subhealth_thresholds?: string | null;
 			fault_condition_type?: string | null;
-			fault_thresholds?: number | null;
+			fault_thresholds?: string | null;
 		}) => {
 			return request({
 				url: '/api/v1/rules/update',
