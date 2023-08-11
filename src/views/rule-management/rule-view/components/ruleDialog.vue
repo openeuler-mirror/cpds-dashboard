@@ -105,12 +105,6 @@ const editRule = () => {
 	if (!ruleDataRuleRef.value) return;
 	ruleDataRuleRef.value.validate((valid: any) => {
 		if (!valid) return;
-		if (newFrom.value.fault_thresholds) {
-			newFrom.value.fault_thresholds = parseFloat(newFrom.value.fault_thresholds as any);
-		}
-		if (newFrom.value.subhealth_thresholds) {
-			newFrom.value.subhealth_thresholds = parseFloat(newFrom.value.subhealth_thresholds as any);
-		}
 		useRuleApi()
 			.updateRule(newFrom.value)
 			.then(() => {
@@ -137,12 +131,6 @@ const addRule = () => {
 	if (!ruleDataRuleRef.value) return;
 	ruleDataRuleRef.value.validate((valid: any) => {
 		if (!valid) return;
-		if (newFrom.value.fault_thresholds) {
-			newFrom.value.fault_thresholds = parseFloat(newFrom.value.fault_thresholds as any);
-		}
-		if (newFrom.value.subhealth_thresholds) {
-			newFrom.value.subhealth_thresholds = parseFloat(newFrom.value.subhealth_thresholds as any);
-		}
 		useRuleApi()
 			.addRule(newFrom.value)
 			.then(() => {
