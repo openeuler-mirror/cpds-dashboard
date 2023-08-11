@@ -24,7 +24,13 @@
 			<Line :data="state.diskUsageData" yUnit="%" title="集群总磁盘使用率"></Line>
 		</el-card>
 		<el-card class="echart">
+			<Line :data="state.iowait" yUnit="%" title="集群iowait"></Line>
+		</el-card>
+		<el-card class="echart">
 			<Line :data="state.netIops" title="网络iops"></Line>
+		</el-card>
+		<el-card class="echart">
+			<Line :data="state.netRate" yUnit="KB/s" title="网络速率"></Line>
 		</el-card>
 		<el-card class="echart">
 			<Line :data="state.netDropRate" yUnit="%" title="网络丢包率"></Line>
@@ -65,6 +71,8 @@ interface DataState {
 	netErrorRate: LineChartData
 	retransmRate: LineChartData
 	netIops: LineChartData
+	netRate: LineChartData
+	iowait: LineChartData
 }
 const state = reactive<DataState>({
 	diskBytesData: {
@@ -100,6 +108,14 @@ const state = reactive<DataState>({
 		seriesData: [],
 	},
 	netIops: {
+		xData: [],
+		seriesData: [],
+	},
+	netRate: {
+		xData: [],
+		seriesData: [],
+	},
+	iowait: {
 		xData: [],
 		seriesData: [],
 	}
@@ -271,14 +287,35 @@ const getClusterResource = () => {
 					state.netIops.xData = data.xData
 				}
 			}
+			if (resource.metric_name === "cluster_network_recive_bytes") {
+				const data = getData(resource, params)
+				if (state.netRate.seriesData.length != 1) {
+					state.netRate = data
+				} else {
+					state.netRate.seriesData.push(data.seriesData[0])
+					state.netRate.xData = data.xData
+				}
+			}
+			if (resource.metric_name === "cluster_network_transmit_bytes") {
+				const data = getData(resource, params)
+				if (state.netRate.seriesData.length != 1) {
+					state.netRate = data
+				} else {
+					state.netRate.seriesData.push(data.seriesData[0])
+					state.netRate.xData = data.xData
+				}
+			}
+			if (resource.metric_name === "cluster_cpu_iowait") {
+				state.iowait = getData(resource, params)
+			}
 		}))
 	})
 }
 const getName = (name: string) => {
 	if (name === 'cluster_disk_read_bytes' || name === 'cluster_disk_read_complete') return '读'
 	if (name === 'cluster_disk_written_bytes' || name === 'cluster_disk_written_complete') return '写'
-	if (name === 'cluster_network_recive_drop_rate' || name === 'cluster_network_recive_error_rate' || name === 'cluster_network_receive_iops') return '接收'
-	if (name === 'cluster_network_transmit_drop_rate' || name === 'cluster_network_transmit_error_rate' || name === 'cluster_network_transmit_iops') return '发送'
+	if (name === 'cluster_network_recive_drop_rate' || name === 'cluster_network_recive_error_rate' || name === 'cluster_network_receive_iops' || name === 'cluster_network_recive_bytes') return '接收'
+	if (name === 'cluster_network_transmit_drop_rate' || name === 'cluster_network_transmit_error_rate' || name === 'cluster_network_transmit_iops' || name === 'cluster_network_transmit_bytes') return '发送'
 	return ''
 }
 const handle = () => {
