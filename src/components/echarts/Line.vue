@@ -22,10 +22,10 @@ const props = withDefaults(defineProps<{
 const myChart = shallowRef();
 const chartRef = ref<HTMLDivElement>();
 const containerHeight = computed(() => {
-	return 500 + props.data.seriesData.length * 20 + 'px'
+	return 500 + 20 + 'px'
 })
 const containerHeight1 = computed(() => {
-	return 40 + props.data.seriesData.length * 20 + 'px'
+	return 40 + 20 + 'px'
 })
 const initChart = () => {
 	myChart.value = echarts.init(chartRef.value as HTMLDivElement)
