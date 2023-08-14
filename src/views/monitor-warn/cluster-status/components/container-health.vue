@@ -17,10 +17,7 @@
 		</div>
 		<div style="display: flex; flex-wrap: wrap;justify-content:space-between">
 			<el-card class="echart">
-				<Line :data="state.runningData" title="运行容器"></Line>
-			</el-card>
-			<el-card class="echart">
-				<Line :data="state.notRunningData" title="停止容器"></Line>
+				<Line :data="state.cpuUsageData" yUnit="%" title="容器CPU使用率"></Line>
 			</el-card>
 			<el-card class="echart">
 				<Line :data="state.diskUsageData" yUnit="%" title="容器磁盘使用率"></Line>
@@ -30,12 +27,6 @@
 			</el-card>
 			<el-card class="echart">
 				<Line :data="state.memoryUsageData" yUnit="%" title="容器内存使用率"></Line>
-			</el-card>
-			<el-card class="echart">
-				<Line :data="state.netErrorRateData" yUnit="%" title="容器网络错误率"></Line>
-			</el-card>
-			<el-card class="echart" style="width: 100%;">
-				<Line :data="state.netDropRateData" yUnit="%" title="容器网络丢包率"></Line>
 			</el-card>
 		</div>
 	</div>
@@ -52,33 +43,14 @@ import { LineChartData } from '/@/types/index'
 dayjs.extend(relativeTime);
 
 interface DataState {
-	netDropRateData: LineChartData;
-	runningData: LineChartData;
-	notRunningData: LineChartData;
 	containerBytesData: LineChartData;
-	netErrorRateData: LineChartData;
 	memoryUsageData: LineChartData;
 	cpuUsageData: LineChartData;
 	diskUsageData: LineChartData
 }
 const state = reactive<DataState>({
-	netDropRateData: {
-		xData: [],
-		seriesData: [],
-	},
-	runningData: {
-		xData: [],
-		seriesData: [],
-	},
-	notRunningData: {
-		xData: [],
-		seriesData: [],
-	},
+
 	containerBytesData: {
-		xData: [],
-		seriesData: [],
-	},
-	netErrorRateData: {
 		xData: [],
 		seriesData: [],
 	},
@@ -159,21 +131,6 @@ const getClusterContainer = () => {
 	Object.assign(params, { step: step })
 	useMonitorApi().getClusterContainer(params).then((res: any) => {
 		res.data.forEach(((resource: any) => {
-			if (resource.metric_name === "cluster_container_network_transmit_drop_rate") {
-				const data = getData(resource, params)
-				if (state.netDropRateData.seriesData.length != 1) {
-					state.netDropRateData = data
-				} else {
-					state.netDropRateData.seriesData.push(data.seriesData[0])
-					state.netDropRateData.xData = data.xData
-				}
-			}
-			if (resource.metric_name === "cluster_container_running") {
-				state.runningData = getData(resource, params)
-			}
-			if (resource.metric_name === "cluster_container_not_running") {
-				state.notRunningData = getData(resource, params)
-			}
 			if (resource.metric_name === "cluster_container_recive_bytes") {
 				const data = getData(resource, params)
 				if (state.containerBytesData.seriesData.length != 1) {
@@ -181,15 +138,6 @@ const getClusterContainer = () => {
 				} else {
 					state.containerBytesData.seriesData.push(data.seriesData[0])
 					state.containerBytesData.xData = data.xData
-				}
-			}
-			if (resource.metric_name === "cluster_container_network_recive_error_rate") {
-				const data = getData(resource, params)
-				if (state.netErrorRateData.seriesData.length != 1) {
-					state.netErrorRateData = data
-				} else {
-					state.netErrorRateData.seriesData.push(data.seriesData[0])
-					state.netErrorRateData.xData = data.xData
 				}
 			}
 			if (resource.metric_name === "cluster_container_write_bytes") {
@@ -203,24 +151,6 @@ const getClusterContainer = () => {
 			}
 			if (resource.metric_name === "cluster_container_memory_usage") {
 				state.memoryUsageData = getData(resource, params)
-			}
-			if (resource.metric_name === "cluster_container_network_recive_drop_rate") {
-				const data = getData(resource, params)
-				if (state.netDropRateData.seriesData.length != 1) {
-					state.netDropRateData = data
-				} else {
-					state.netDropRateData.seriesData.push(data.seriesData[0])
-					state.netDropRateData.xData = data.xData
-				}
-			}
-			if (resource.metric_name === "cluster_container_network_transmit_error_rate") {
-				const data = getData(resource, params)
-				if (state.netErrorRateData.seriesData.length != 1) {
-					state.netErrorRateData = data
-				} else {
-					state.netErrorRateData.seriesData.push(data.seriesData[0])
-					state.netErrorRateData.xData = data.xData
-				}
 			}
 			if (resource.metric_name === "cluster_container_cpu_usage") {
 				state.cpuUsageData = getData(resource, params)

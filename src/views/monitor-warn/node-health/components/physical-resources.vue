@@ -21,7 +21,13 @@
 			<Line :data="state.diskUsageData" yUnit="%" title="节点磁盘使用率"></Line>
 		</el-card>
 		<el-card class="echart">
+			<Line :data="state.nodeIowait" yUnit="%" title="节点iowait"></Line>
+		</el-card>
+		<el-card class="echart">
 			<Line :data="state.netIops" title="节点网络iops"></Line>
+		</el-card>
+		<el-card class="echart">
+			<Line :data="state.netRate" yUnit="KB/s" title="节点网络速率"></Line>
 		</el-card>
 		<el-card class="echart">
 			<Line :data="state.netDropRate" yUnit="%" title="节点网络丢包率"></Line>
@@ -63,6 +69,8 @@ interface DataState {
 	netErrorRate: LineChartData
 	retransmRate: LineChartData
 	netIops: LineChartData
+	netRate: LineChartData
+	nodeIowait: LineChartData
 }
 const state = reactive<DataState>({
 	memoryUsageData: {
@@ -108,7 +116,15 @@ const state = reactive<DataState>({
 	netIops: {
 		xData: [],
 		seriesData: [],
-	}
+	},
+	netRate: {
+		xData: [],
+		seriesData: [],
+	},
+	nodeIowait: {
+		xData: [],
+		seriesData: [],
+	},
 })
 const address = inject('address', ref());
 const activeName = inject('activeName', ref());
@@ -284,6 +300,27 @@ const getNodeResource = () => {
 					state.netIops.xData = data.xData
 				}
 			}
+			if (resource.metric_name === "node_network_recive_bytes") {
+				const data = getData(resource, params)
+				if (state.netRate.seriesData.length != 1) {
+					state.netRate = data
+				} else {
+					state.netRate.seriesData.push(data.seriesData[0])
+					state.netRate.xData = data.xData
+				}
+			}
+			if (resource.metric_name === "node_network_transmit_bytes") {
+				const data = getData(resource, params)
+				if (state.netRate.seriesData.length != 1) {
+					state.netRate = data
+				} else {
+					state.netRate.seriesData.push(data.seriesData[0])
+					state.netRate.xData = data.xData
+				}
+			}
+			if (resource.metric_name === "node_cpu_iowait") {
+				state.nodeIowait = getData(resource, params)
+			}
 		})
 	})
 }
@@ -291,8 +328,8 @@ const getNodeResource = () => {
 const getName = (name: string) => {
 	if (name === 'node_disk_read_complete' || name === 'node_disk_read_bytes') return '读'
 	if (name === 'node_disk_written_complete' || name === 'node_disk_written_bytes') return '写'
-	if (name === 'node_network_recive_drop_rate' || name === 'node_network_recive_error_rate' || name === 'node_network_recive_iops') return '接收'
-	if (name === 'node_network_transmit_drop_rate' || name === 'node_network_transmit_error_rate' || name === 'node_network_transmit_iops') return '发送'
+	if (name === 'node_network_recive_drop_rate' || name === 'node_network_recive_error_rate' || name === 'node_network_recive_iops' || name === 'node_network_recive_bytes') return '接收'
+	if (name === 'node_network_transmit_drop_rate' || name === 'node_network_transmit_error_rate' || name === 'node_network_transmit_iops' || name === 'node_network_transmit_bytes') return '发送'
 	return ''
 }
 const handle = () => {
