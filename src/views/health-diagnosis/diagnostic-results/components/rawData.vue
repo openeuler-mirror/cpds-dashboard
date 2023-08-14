@@ -131,7 +131,7 @@ const getRawData = (query: string, condition: string, thresholds: any) => {
             resultData = resultData.map((value: any) => {
                 return [value, null]
             })
-            return [...resultData, ...result[0].values]
+            return [...resultData, ...item.values]
         })
         let maxLengthValues = result[0];
         result.forEach((item: any) => {

@@ -149,7 +149,7 @@ const getData = (resource: any, params: any) => {
 		result = result.map((value: any) => {
 			return [value, null]
 		})
-		return [...result, ...resource.data.result[0].values]
+		return [...result, ...item.values]
 	})
 	LineData.xData = Array.from(new Map(getResult(resource.data.result[0])).keys())
 	LineData.seriesData = resource.data.result.map((item: any, index: number) => {

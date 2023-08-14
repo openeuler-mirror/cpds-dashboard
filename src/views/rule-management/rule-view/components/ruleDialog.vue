@@ -173,7 +173,7 @@ const validateExpression = (rule: any, value: any, callback: any) => {
 	if (value === '' || value === null) {
 		return callback(new Error('请输入规则表达式'));
 	}
-	var reg = /^[^`@#$%&?]+$/;
+	var reg = /^[^`@#%&?]+$/;
 	if (!reg.test(value)) {
 		return callback(new Error('规则表达式中不可包含特殊字符'));
 	}

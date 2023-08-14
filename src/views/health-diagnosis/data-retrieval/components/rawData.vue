@@ -123,7 +123,7 @@ const getRawData = (query: string) => {
             result = result.map((value: any) => {
                 return [value, null]
             })
-            return [...result, ...res.data.result[0].values]
+            return [...result, ...item.values]
         })
         let maxLengthValues = res.data.result[0];
         res.data.result.forEach((item: any) => {
