@@ -13,6 +13,9 @@ const props = defineProps<{
     }
 }>()
 const initChart = () => {
+    if (myChart.value != null && myChart.value != "" && myChart.value != undefined) {
+        echarts.dispose(chartRef.value as HTMLDivElement);
+    }
     myChart.value = echarts.init(chartRef.value as HTMLDivElement)
     const option = {
 

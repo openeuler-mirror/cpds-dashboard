@@ -29,6 +29,9 @@ const containerHeight1 = computed(() => {
     return 40 + props.data.seriesData.length * 20 + 'px'
 })
 const initChart = () => {
+    if (myChart.value != null && myChart.value != "" && myChart.value != undefined) {
+        echarts.dispose(chartRef.value as HTMLDivElement);
+    }
     myChart.value = echarts.init(chartRef.value as HTMLDivElement)
     const option = {
         title: {
