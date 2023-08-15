@@ -11,11 +11,11 @@
 				<div>
 					<span>
 						<el-button @click="addRule" type="primary">添加规则</el-button>
-						<el-button @click="getruleList(true)" type="primary">刷新</el-button>
+						<el-button @click="getruleList(true, true)" type="primary">刷新</el-button>
 					</span>
 				</div>
 			</div>
-			<el-table element-loading-text="数据加载中..." highlight-current-row height="calc(100vh - 455px)" ref="tableRef"
+			<el-table element-loading-text="数据加载中..." highlight-current-row height="calc(100vh - 400px)" ref="tableRef"
 				v-loading="tableLoading" @sort-change="ruleSort" :data="rulesionfo.data" border style="width: 100%">
 				<el-table-column prop="name" label="规则名称" sortable="custom" width="110%" />
 				<el-table-column prop="expression" label="表达式" min-width="100%" />
@@ -52,7 +52,7 @@
 		</el-card>
 		<el-dialog :title="title" v-model="dialogVisible" :destroy-on-close="true" width="600px">
 			<RuleDialog ref="dialogRuleRef" v-model:value="dialogVisible" :ruleFromdata="editRuleData"
-				@refreshList="getruleList(true)"></RuleDialog>
+				@refreshList="getruleList(true, true)"></RuleDialog>
 			<template #footer>
 				<el-button @click="dialogVisible = false">取消</el-button>
 				<el-button type="primary" @click="handleDialogRule">确定</el-button>
@@ -96,7 +96,7 @@ const dialogRuleRef = ref();
 
 const search = () => {
 	state.rulesionfo.params.pageNum = 1;
-	getruleList(true);
+	getruleList(true, true);
 };
 
 const ruleSort = (column: any) => {
@@ -151,12 +151,12 @@ const deleteRule = (row: RulesInterface) => {
 				.deleteRule({ id: row.id })
 				.then(() => {
 					ElMessage.success('删除规则信息成功');
-					getruleList(true);
+					getruleList(true, true);
 				}).catch(error => {
 					let req = error.response
 					if (req.data.code === 1004) {
 						ElMessage.warning('规则不存在')
-						getruleList(true);
+						getruleList(true, true);
 					}
 				});
 		})

@@ -105,10 +105,10 @@ const state = reactive<ContainerState>({
 })
 const address = inject('address', ref());
 const activeName = inject('activeName', ref());
-const ascClick = ref('confirm')
-const descClick = ref('')
-const sort_field = ref('name')
-const order = ref('asc')
+const ascClick = ref('')
+const descClick = ref('confirm')
+const sort_field = ref('status')
+const order = ref('desc')
 //Change sorting status
 const sort = (value: string) => {
 	order.value = value
@@ -200,6 +200,7 @@ const getContainerList = () => {
 
 	}).finally(() => {
 		state.containerTable.loading = false
+		sort("desc")
 	})
 }
 
@@ -267,12 +268,12 @@ watch(activeName, () => {
 }, { immediate: true })
 const moduleOptions: SelectOptionType[] = [
 	{
-		label: '容器名称',
-		value: 'name',
-	},
-	{
 		label: '容器状态',
 		value: 'status',
+	},
+	{
+		label: '容器名称',
+		value: 'name',
 	},
 ];
 

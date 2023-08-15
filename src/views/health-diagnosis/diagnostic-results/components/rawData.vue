@@ -96,7 +96,7 @@ const emits = defineEmits(['update:value']);
 const close = () => {
     emits('update:value', false);
 }
-const props = defineProps<{ rawData: ResultInterface }>()
+const props = defineProps<{ rawData: ResultInterface, allData: boolean }>()
 defineExpose({
     close
 });
@@ -109,11 +109,16 @@ const getCondition = (pair: string, condition: string, thresholds: string) => {
 }
 const getRawData = (query: string, condition: string, thresholds: any) => {
     useHealthApi().getRawData({ query: encodeURIComponent(query), start_time: dayjs().subtract(10, 'minutes').unix(), end_time: dayjs().unix(), step: 10 }).then((res) => {
-        const result = res.data.result.filter((item: any) => {
-            return item.values.some((pair: any) => {
-                return getCondition(pair[1], condition, thresholds)
+        let result
+        if (props.allData) {
+            result = res.data.result.filter((item: any) => {
+                return item.values.some((pair: any) => {
+                    return getCondition(pair[1], condition, thresholds)
+                })
             })
-        })
+        } else {
+            result = res.data.result
+        }
         if (result.length === 0) return
         rawDataList.value = result.map((item: any) => {
             const value = item.values[item.values.length - 1][1]
