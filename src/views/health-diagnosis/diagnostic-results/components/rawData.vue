@@ -119,6 +119,7 @@ const getRawData = (query: string, condition: string, thresholds: any) => {
         } else {
             result = res.data.result
         }
+
         if (result.length === 0) return
         rawDataList.value = result.map((item: any) => {
             const value = item.values[item.values.length - 1][1]
@@ -128,26 +129,14 @@ const getRawData = (query: string, condition: string, thresholds: any) => {
             return { name: `${query}${JSON.stringify(item.metric)}`, value: value, time: time }
         })
         let start = dayjs().subtract(10, 'minutes').unix()
-        const getResult = ((item: any) => {
-            let resultData = []
-            let end = item.values[0][0] - 10
-            for (let i = start; i <= end; i = i + 10) {
-                resultData.push(i)
-            }
-            resultData = resultData.map((value: any) => {
-                return [value, null]
-            })
-            return [...resultData, ...item.values]
-        })
-        let maxLengthValues = result[0];
-        result.forEach((item: any) => {
-            if (item.values.length > maxLengthValues.values.length) {
-                maxLengthValues.values = item.values;
-            }
-        });
+        let end = dayjs().unix()
+        let timeArray = []
+        for (let i = start; i <= end; i = i + 10) {
+            timeArray.push(i)
+        }
         state.total = rawDataList.value.length
         state1.data.flag = result.length > 0
-        state1.data.xData = Array.from(new Map(getResult(maxLengthValues)).keys())
+        state1.data.xData = timeArray
         state1.data.seriesData = result.map((item: any, index: number) => {
             let matches = rawDataList.value[index].name.match(regex)
             let name
@@ -158,7 +147,7 @@ const getRawData = (query: string, condition: string, thresholds: any) => {
             }
             return {
                 name: name,
-                data: Array.from(new Map(getResult(item))),
+                data: Array.from(new Map(item.values)),
                 type: 'line',
                 smooth: true,
                 areaStyle: {

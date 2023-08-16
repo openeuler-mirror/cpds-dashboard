@@ -114,26 +114,14 @@ const getRawData = (query: string) => {
             return { name: `${JSON.stringify(item.metric)}`, value: value, time: time }
         })
         let start = params.start_time
-        const getResult = ((item: any) => {
-            let result = []
-            let end = item.values[0][0] - step
-            for (let i = start; i <= end; i = i + step) {
-                result.push(i)
-            }
-            result = result.map((value: any) => {
-                return [value, null]
-            })
-            return [...result, ...item.values]
-        })
-        let maxLengthValues = res.data.result[0];
-        res.data.result.forEach((item: any) => {
-            if (item.values.length > maxLengthValues.values.length) {
-                maxLengthValues.values = item.values;
-            }
-        });
+        let end = params.end_time
+        let timeArray = []
+        for (let i = start; i <= end; i = i + step) {
+            timeArray.push(i)
+        }
         state.total = rawDataList.value.length
         state1.data.flag = rawDataList.value.length > 0
-        state1.data.xData = Array.from(new Map(getResult(maxLengthValues)).keys())
+        state1.data.xData = timeArray
         state1.data.seriesData = res.data.result.map((item: any, index: number) => {
             let matches = rawDataList.value[index].name.match(regex)
             let name
@@ -144,7 +132,7 @@ const getRawData = (query: string) => {
             }
             return {
                 name: name,
-                data: Array.from(new Map(getResult(item))),
+                data: Array.from(new Map(item.values)),
                 type: 'line',
                 smooth: true,
                 areaStyle: {
