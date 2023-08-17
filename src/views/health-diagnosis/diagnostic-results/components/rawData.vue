@@ -110,7 +110,7 @@ const getCondition = (pair: string, condition: string, thresholds: string) => {
     if (condition === "<") return pairNum < thresholdsNum
 }
 const getRawData = (query: string, condition: string, thresholds: any) => {
-    useHealthApi().getRawData({ query: encodeURIComponent(query), start_time: dayjs().subtract(10, 'minutes').unix(), end_time: dayjs().unix(), step: 24 }).then((res) => {
+    useHealthApi().getRawData({ query: encodeURIComponent(query), start_time: dayjs().subtract(10, 'minutes').unix(), end_time: dayjs().unix(), step: 2 }).then((res) => {
         let result
         if (props.allData) {
             result = res.data.result.filter((item: any) => {
@@ -133,7 +133,7 @@ const getRawData = (query: string, condition: string, thresholds: any) => {
         let start = dayjs().subtract(10, 'minutes').unix()
         let end = dayjs().unix()
         let timeArray = []
-        for (let i = start; i <= end; i = i + 24) {
+        for (let i = start; i <= end; i = i + 2) {
             timeArray.push(i)
         }
         state.total = rawDataList.value.length
@@ -152,6 +152,7 @@ const getRawData = (query: string, condition: string, thresholds: any) => {
                 data: Array.from(new Map(item.values)),
                 type: 'line',
                 smooth: true,
+                symbol: 'none',
                 areaStyle: {
                     opacity: 0.4
                 },
@@ -184,7 +185,6 @@ const getRawData = (query: string, condition: string, thresholds: any) => {
             }
         })
     }).catch(error => {
-        console.log(error);
         let req = error.response
         if (req.data.code === 4001) {
             ElMessage.warning('该表达式查询结果为空')

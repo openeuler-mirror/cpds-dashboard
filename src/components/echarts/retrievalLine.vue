@@ -42,8 +42,16 @@ const initChart = () => {
             axisPointer: {
                 type: 'cross',
                 label: {
-                    backgroundColor: '#6a7985'
-                }
+                    backgroundColor: '#6a7985',
+                    formatter: (params: any) => {
+                        let value = params.value
+                        if (params.axisDimension === 'x') {
+                            value = formatDate(new Date(value * 1000), 'mm-dd HH:MM:SS')
+                        }
+                        return value
+                    }
+                },
+
             },
             formatter: (params: any) => {
                 if (params.componentType === "series") {
