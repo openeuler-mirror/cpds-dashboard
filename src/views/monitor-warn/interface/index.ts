@@ -41,4 +41,5 @@ export interface InstanceInterface {
 }
 export interface InstanceListInterface {
 	nodeList: Array<InstanceInterface>;
+	nodeArrary: Array<InstanceInterface>;
 }

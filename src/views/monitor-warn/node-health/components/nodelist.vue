@@ -3,7 +3,7 @@
         <div class="node-health" v-show="!visiable">
             <h2>节点状态</h2>
             <el-card class="table-wrap" shadow="never" style="margin-top: 20px;">
-                <el-table :data="nodeList" style="width: 100% ;"
+                <el-table :data="nodeArrary" style="width: 100% ;"
                     :row-style="{ height: '50px', background: '#f8f8f8', padding: '0' }">
                     <el-table-column label="节点" width="180">
                         <template #default="{ row }">
@@ -115,9 +115,10 @@ const handleClick = (tab: 'TabsPaneContext', event: Event) => { };
 const address = ref()
 const endIndex = ref(5)
 const state = reactive<InstanceListInterface>({
-    nodeList: []
+    nodeList: [],
+    nodeArrary: []
 })
-const { nodeList } = toRefs(state)
+const { nodeList, nodeArrary } = toRefs(state)
 const usage = reactive<{
     overViewInfo: {
         cpu: {
@@ -187,32 +188,32 @@ const getTargets = async () => {
         targets.value = res.data.targets.map((item: any) => {
             return { instance: item.instance.split(':')[0], status: item.status }
         })
+        await getTableData(targets.value)
         if (targets.value.length > 5) {
-            getTableData(targets.value.slice(0, 5))
+            nodeArrary.value = nodeList.value.slice(0, 5)
         } else {
-            getTableData(targets.value.slice(0, targets.value.length))
+            nodeArrary.value = nodeList.value.slice(0, targets.value.length)
         }
     })
 }
 //load more nodes
 const loadMore = () => {
-    let startIndex = nodeList.value.length
-    endIndex.value = nodeList.value.length + 5
+    endIndex.value = nodeArrary.value.length + 5
     if (endIndex.value > targets.value.length) {
         endIndex.value = targets.value.length
     }
-    getTableData(targets.value.slice(startIndex, endIndex.value))
+    nodeArrary.value = nodeList.value.slice(0, endIndex.value)
 }
 //Obtain node list data
-const getTableData = async (ids: any) => {
+const getTableData = async (ids: any, first: boolean = false) => {
     await Promise.all(ids.map((obj: any) => useMonitorApi().getNodeList({ instance: obj.instance }))).then(res => {
-        res.map(item => {
+        nodeList.value = res.map(item => {
             ids.map((obj: any) => {
                 if (item.data[0].instance.includes(obj.instance)) {
                     Object.assign(item.data[0], { status: obj.status })
                 }
             })
-            nodeList.value.push(item.data[0])
+            return item.data[0]
         })
     })
 }
@@ -300,7 +301,7 @@ const diskTotal = computed(() => {
     }, 0)
 })
 
-watch(nodeList.value, () => {
+watch(() => nodeList.value, () => {
     overViewInfo.value.cpu = {
         usage: (cpuUsed.value / cpuTotal.value) || 0,
         used_core: cpuUsed.value,
