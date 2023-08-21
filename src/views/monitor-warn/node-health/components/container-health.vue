@@ -217,12 +217,12 @@ const getUsed = computed(() => (type: string, used: any) => {
 	if (type === 'inbound') {
 		if (used > 1024 * 1024 * 1024) return (used / Math.pow(1000, 3)).toFixed(1) + ' GB';
 		if (used > 1024 * 1024) return (used / Math.pow(1000, 2)).toFixed(1) + ' MB';
-		return (used / Math.pow(1024, 1)).toFixed(1) + ' KB';
+		return (used / Math.pow(1000, 1)).toFixed(1) + ' KB';
 	}
 	if (type === 'outbound') {
 		if (used > 1024 * 1024 * 1024) return (used / Math.pow(1000, 3)).toFixed(1) + ' GB';
 		if (used > 1024 * 1024) return (used / Math.pow(1000, 2)).toFixed(1) + ' MB';
-		return (used / Math.pow(1024, 1)).toFixed(1) + ' KB';
+		return (used / Math.pow(1000, 1)).toFixed(1) + ' KB';
 	}
 })
 

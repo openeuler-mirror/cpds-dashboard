@@ -102,13 +102,15 @@ defineExpose({
 });
 
 const getCondition = (pair: string, condition: string, thresholds: string) => {
-    if (condition === "==") return pair == thresholds
-    if (condition === "!=") return pair != thresholds
-    if (condition === ">") return pair > thresholds
-    if (condition === "<") return pair < thresholds
+    let pairNum = parseFloat(pair)
+    let thresholdsNum = parseFloat(thresholds)
+    if (condition === "==") return pairNum == thresholdsNum
+    if (condition === "!=") return pairNum != thresholdsNum
+    if (condition === ">") return pairNum > thresholdsNum
+    if (condition === "<") return pairNum < thresholdsNum
 }
 const getRawData = (query: string, condition: string, thresholds: any) => {
-    useHealthApi().getRawData({ query: encodeURIComponent(query), start_time: dayjs().subtract(10, 'minutes').unix(), end_time: dayjs().unix(), step: 10 }).then((res) => {
+    useHealthApi().getRawData({ query: encodeURIComponent(query), start_time: dayjs().subtract(10, 'minutes').unix(), end_time: dayjs().unix(), step: 24 }).then((res) => {
         let result
         if (props.allData) {
             result = res.data.result.filter((item: any) => {
@@ -131,7 +133,7 @@ const getRawData = (query: string, condition: string, thresholds: any) => {
         let start = dayjs().subtract(10, 'minutes').unix()
         let end = dayjs().unix()
         let timeArray = []
-        for (let i = start; i <= end; i = i + 10) {
+        for (let i = start; i <= end; i = i + 24) {
             timeArray.push(i)
         }
         state.total = rawDataList.value.length

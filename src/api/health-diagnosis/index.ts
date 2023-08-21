@@ -16,7 +16,7 @@ export function useHealthApi() {
 				data,
 			});
 		},
-		getRawData: (data: { query: string; start_time: any; end_time: any; step: 10 }) => {
+		getRawData: (data: { query: string; start_time: any; end_time: any; step: 24 }) => {
 			return request({
 				url: '/api/v1/prometheus/query_range',
 				method: 'get',
