@@ -38,7 +38,7 @@
 		</el-card>
 		<div>
 			<el-dialog :title="rawtitle" v-model="dialogVisible" :destroy-on-close="true" width="80%">
-				<RawData ref="rawRuleRef" v-model:value="dialogVisible" :rawData="rawData"></RawData>
+				<RawData ref="rawRuleRef" v-model:value="dialogVisible" :rawData="rawData" :allData="allData"></RawData>
 				<template #footer>
 					<el-button @click="dialogVisible = false">关闭</el-button>
 				</template>
@@ -76,14 +76,26 @@ const tableLoading = ref(false);
 const rawtitle = ref('');
 const dialogVisible = ref(false);
 const rawData = ref()
+const allData = ref(false)
 const search = () => {
 	state.diagnosisinfo.params.pageNum = 1;
-	getResultList(true);
+	getResultList(true, true);
 };
 const lookRawData = (row: ResultInterface) => {
-	rawData.value = row
-	rawtitle.value = row.rule_name
-	dialogVisible.value = true
+	allData.value = false
+	ElMessageBox.confirm(`是否只查看10分钟内的异常数据 ?`, {
+		title: '提示：',
+		confirmButtonText: '查看异常数据',
+		cancelButtonText: '查看所有数据',
+		customClass: 'center-message-box',
+	}).then(() => {
+		allData.value = true
+	}).catch(() => { }).finally(() => {
+		rawData.value = row
+		rawtitle.value = row.rule_name
+		dialogVisible.value = true
+	})
+
 }
 const ruleSort = (column: any) => {
 	diagnosisinfo.value.params.pageNum = 1;
@@ -112,12 +124,12 @@ const deleteResult = (id: number) => {
 				.deleteResult({ id: id })
 				.then(() => {
 					ElMessage.success('删除诊断结果成功');
-					getResultList(true);
+					getResultList(true, true);
 				}).catch(error => {
 					let req = error.response
 					if (req.data.code === 2002)
 						ElMessage.warning('诊断结果不存在')
-					getResultList(true);
+					getResultList(true, true);
 				});
 		})
 		.catch(() => { });

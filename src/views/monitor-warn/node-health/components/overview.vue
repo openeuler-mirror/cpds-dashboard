@@ -20,7 +20,7 @@
 					<td>{{ overViewInfo.nodeInfo[0].kernal_version }}</td>
 				</tr>
 				<tr>
-					<td>cpds-agent版本:</td>
+					<td>架构信息:</td>
 					<td>{{ overViewInfo.nodeInfo[0].arch }}</td>
 				</tr>
 			</table>
@@ -125,11 +125,25 @@ const getData = (resource: any) => {
 		xData: [],
 		seriesData: []
 	};
-	LineData.xData = Array.from(new Map(resource.data.result[0].values).keys())
+	if (!resource.data.result) return LineData
+	let start = dayjs().subtract(10, 'minutes').unix()
+	const getResult = ((item: any) => {
+		let resultData = []
+		let end = item.values[0][0] - 10
+		for (let i = start; i <= end; i = i + 10) {
+			resultData.push(i)
+		}
+		resultData = resultData.map((value: any) => {
+			return [value, null]
+		})
+		return [...resultData, ...item.values]
+	})
+
+	LineData.xData = Array.from(new Map(getResult(resource.data.result[0])).keys())
 	LineData.seriesData = resource.data.result.map((item: any, index: number) => {
 		return {
 			name: '',
-			data: Array.from(new Map(item.values).values()),
+			data: Array.from(new Map(getResult(item)).values()),
 			type: 'line',
 			smooth: true,
 			areaStyle: {
@@ -142,7 +156,8 @@ const getData = (resource: any) => {
 //Obtain detailed information
 const getNodeInfo = async (address: string) => {
 	useMonitorApi().getNodeInfo({ instance: address }).then((res: any) => {
-		overViewInfo.value.nodeInfo = res.data
+		if (res.data)
+			overViewInfo.value.nodeInfo = res.data
 	})
 }
 //Obtain node containers and node usage
@@ -170,6 +185,7 @@ const getNodeResource = (address: string) => {
 		}))
 	})
 }
+//interface call when controlling tab switching to
 const handle = async () => {
 	if (activeName.value === '概览') {
 		if (address.value) {
