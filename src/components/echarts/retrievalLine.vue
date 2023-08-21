@@ -43,27 +43,27 @@ const initChart = () => {
                 }
             },
             formatter: (params: any) => {
-                //console.log(params[0]);
-                let str = `<div><p>${formatDate(new Date(params.value[0] * 1000), 'mm-dd HH:MM:SS')}</p>`;
-                let value = null
-                let yUnit = props.yUnit
-                value = params.value[1]
-                if (value === undefined) return
-                if (props.yUnit === '%') {
-                    value = (value * 100).toFixed(2)
-                }
-                if (props.yUnit === 'KB/s') {
-                    if (value >= 1024 * 1024 * 1024) {
-                        value = (value / 1024 / 1024 / 1024).toFixed(2);
-                        yUnit = 'GB/s'
-                    } else if (value >= 1024 * 1024) {
-                        value = (value / 1024 / 1024).toFixed(2);
-                        yUnit = 'MB/s'
-                    } else {
-                        value = (value / 1024).toFixed(2)
+                if (params.componentType === "series") {
+                    let str = `<div><p>${formatDate(new Date(params.value[0] * 1000), 'mm-dd HH:MM:SS')}</p>`;
+                    let value = null
+                    let yUnit = props.yUnit
+                    value = params.value[1]
+                    if (value === undefined) return
+                    if (props.yUnit === '%') {
+                        value = (value * 100).toFixed(2)
                     }
-                }
-                str += `<p style="display:flex;justify-content:space-between;align-items:center;">
+                    if (props.yUnit === 'KB/s') {
+                        if (value >= 1024 * 1024 * 1024) {
+                            value = (value / 1024 / 1024 / 1024).toFixed(2);
+                            yUnit = 'GB/s'
+                        } else if (value >= 1024 * 1024) {
+                            value = (value / 1024 / 1024).toFixed(2);
+                            yUnit = 'MB/s'
+                        } else {
+                            value = (value / 1024).toFixed(2)
+                        }
+                    }
+                    str += `<p style="display:flex;justify-content:space-between;align-items:center;">
 										<div>
 											<span style="display:inline-block;max-width: 500px;word-break: break-all;white-space: normal;">
 												<span style="display:inline-block;width:10px;height:10px;border-radius:10px;background:${params.color};margin-right:5px;"></span>
@@ -75,9 +75,9 @@ const initChart = () => {
 									</p>`
 
 
-                str += '</div>'
-                return str
-
+                    str += '</div>'
+                    return str
+                }
             }
         },
         legend: {

@@ -111,7 +111,7 @@ const getRawData = (query: string) => {
             const time = formatDate(new
                 Date(item.values[item.values.length - 1][0] * 1000), 'YYYY-mm-dd HH:MM:SS')
             if (!item.metric) return { name: '{}', value: value, time: time }
-            return { name: `${query}${JSON.stringify(item.metric)}`, value: value, time: time }
+            return { name: `${JSON.stringify(item.metric)}`, value: value, time: time }
         })
         let start = params.start_time
         const getResult = ((item: any) => {

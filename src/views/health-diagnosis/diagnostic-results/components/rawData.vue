@@ -114,6 +114,7 @@ const getRawData = (query: string, condition: string, thresholds: any) => {
                 return getCondition(pair[1], condition, thresholds)
             })
         })
+        if (result.length === 0) return
         rawDataList.value = result.map((item: any) => {
             const value = item.values[item.values.length - 1][1]
             const time = formatDate(new
@@ -186,6 +187,12 @@ const getRawData = (query: string, condition: string, thresholds: any) => {
                 },
             }
         })
+    }).catch(error => {
+        console.log(error);
+        let req = error.response
+        if (req.data.code === 4001) {
+            ElMessage.warning('该表达式查询结果为空')
+        }
     }).finally(() => {
 
     })
