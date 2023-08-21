@@ -243,23 +243,8 @@ const getNodeResource = () => {
 					state.diskNumData.xData = data.xData
 				}
 			}
-			if (resource.metric_name === "node_network_recive_drop_rate") {
-				const data = getData(resource, params)
-				if (state.netDropRate.seriesData.length != 1) {
-					state.netDropRate = data
-				} else {
-					state.netDropRate.seriesData.push(data.seriesData[0])
-					state.netDropRate.xData = data.xData
-				}
-			}
-			if (resource.metric_name === "node_network_transmit_drop_rate") {
-				const data = getData(resource, params)
-				if (state.netDropRate.seriesData.length != 1) {
-					state.netDropRate = data
-				} else {
-					state.netDropRate.seriesData.push(data.seriesData[0])
-					state.netDropRate.xData = data.xData
-				}
+			if (resource.metric_name === "node_network_drop_rate") {
+				state.netDropRate = getData(resource, params)
 			}
 			if (resource.metric_name === "node_network_recive_error_rate") {
 				const data = getData(resource, params)
@@ -328,8 +313,8 @@ const getNodeResource = () => {
 const getName = (name: string) => {
 	if (name === 'node_disk_read_complete' || name === 'node_disk_read_bytes') return '读'
 	if (name === 'node_disk_written_complete' || name === 'node_disk_written_bytes') return '写'
-	if (name === 'node_network_recive_drop_rate' || name === 'node_network_recive_error_rate' || name === 'node_network_recive_iops' || name === 'node_network_recive_bytes') return '接收'
-	if (name === 'node_network_transmit_drop_rate' || name === 'node_network_transmit_error_rate' || name === 'node_network_transmit_iops' || name === 'node_network_transmit_bytes') return '发送'
+	if (name === 'node_network_recive_error_rate' || name === 'node_network_recive_iops' || name === 'node_network_recive_bytes') return '接收'
+	if (name === 'node_network_transmit_error_rate' || name === 'node_network_transmit_iops' || name === 'node_network_transmit_bytes') return '发送'
 	return ''
 }
 const handle = () => {

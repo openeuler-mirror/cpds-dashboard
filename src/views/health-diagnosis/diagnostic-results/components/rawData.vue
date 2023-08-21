@@ -152,7 +152,7 @@ const getRawData = (query: string, condition: string, thresholds: any) => {
                 data: Array.from(new Map(item.values)),
                 type: 'line',
                 smooth: true,
-                symbol: 'none',
+                symbolSize: 1,
                 areaStyle: {
                     opacity: 0.4
                 },
