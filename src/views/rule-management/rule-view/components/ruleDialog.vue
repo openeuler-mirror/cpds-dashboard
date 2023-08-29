@@ -159,10 +159,10 @@ const validateName = (rule: any, value: any, callback: any) => {
 	if (value === '' || value === null) {
 		return callback(new Error('请输入规则名称'));
 	}
-	var reg = /^[A-Za-z0-9_]{1,40}$/;
+	var reg = /^[A-Za-z0-9_]{1,64}$/;
 	if (!reg.test(value)) {
 		if (value.length > 40) {
-			return callback(new Error('规则名称长度不可超过40'));
+			return callback(new Error('规则名称长度不可超过64'));
 		}
 		return callback(new Error('规则名称格式不正确'));
 	}
