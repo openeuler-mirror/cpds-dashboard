@@ -23,10 +23,10 @@ const props = withDefaults(defineProps<{
 const myChart = shallowRef();
 const chartRef = ref<HTMLDivElement>();
 const containerHeight = computed(() => {
-    return 500 + props.data.seriesData.length * 20 + 'px'
+    return 500 + props.data.seriesData.length * 19.9 + 'px'
 })
 const containerHeight1 = computed(() => {
-    return 40 + props.data.seriesData.length * 20 + 'px'
+    return 40 + props.data.seriesData.length * 19.9 + 'px'
 })
 const initChart = () => {
     if (myChart.value != null && myChart.value != "" && myChart.value != undefined) {
@@ -92,10 +92,11 @@ const initChart = () => {
             }
         },
         legend: {
-            padding: 6,
             itemGap: 6,
+            padding: 0,
             itemHeight: 14,
             show: true,
+            orient: 'vertical',
             top: 'top',
         },
         grid: {
