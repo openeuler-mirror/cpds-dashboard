@@ -1,7 +1,7 @@
 <template>
 	<div style="display: flex;">
 		<div style="flex:0.9">
-			<h4>集群物理资源监控</h4>
+			<h4>节点物理资源监控</h4>
 		</div>
 		<div class="container">
 			<el-date-picker ref="dateRef" style="margin-left: 5px;" class="mr10" v-model="datetimeRange"

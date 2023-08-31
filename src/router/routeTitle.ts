@@ -15,7 +15,7 @@
  */
 
 export const nameToTitle: Record<string, any> = {
-	monitorWarn: { title: '监控警告', icon: 'jiankong' },
+	monitorWarn: { title: '监控告警', icon: 'jiankong' },
 	clusterStatus: { title: '集群状态', icon: 'jiqun' },
 	nodeHealth: { title: '节点健康', icon: 'jiedian' },
 	healthDiagnosis: { title: '健康诊断', icon: 'jiankangzhenduan' },

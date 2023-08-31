@@ -10,7 +10,7 @@
 			<el-table :data="state.containerTable.data" style="width: 100% ;" element-loading-text="数据加载中..."
 				v-loading="state.containerTable.loading"
 				:row-style="{ height: '50px', background: '#f8f8f8', padding: '0' }">
-				<el-table-column label="容器名">
+				<el-table-column label="容器名称">
 					<template #default="{ row }">
 						<div class="cell" style="height: 150px;">
 							<span class="iconfont icon-rongqi" style="font-size: 30px;"></span>
