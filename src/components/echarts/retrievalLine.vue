@@ -29,6 +29,7 @@ const containerHeight1 = computed(() => {
     return 40 + props.data.seriesData.length * 19.9 + 'px'
 })
 const initChart = () => {
+    let isNaNdata = <any>[]
     if (myChart.value != null && myChart.value != "" && myChart.value != undefined) {
         echarts.dispose(chartRef.value as HTMLDivElement);
     }
@@ -157,8 +158,16 @@ const initChart = () => {
             legend: {
                 selected: <any>{},
             },
+            yAxis: {
+                min: props.data.seriesData.length != isNaNdata.length ? null as any : 0,
+                max: props.data.seriesData.length != isNaNdata.length ? null as any : 100,
+            }
         };
         legendData.forEach((key) => {
+            if (isNaNdata.includes(obj.name) && selectedObj.length != 0) {
+                updatedOption.yAxis.min = 0
+                updatedOption.yAxis.max = 100
+            }
             if (obj.name === key) {
                 updatedOption.legend.selected[obj.name] = true;
             } else if (selectedObj.length === 0) {
@@ -183,6 +192,15 @@ const initChart = () => {
             }
         }
         option.xAxis.max = new Date().getTime();
+        option.yAxis.min = 0;
+        option.yAxis.max = 100;
+    }
+    props.data.seriesData.map(item => {
+        if (item.data === undefined) {
+            isNaNdata.push(item.name)
+        }
+    })
+    if (isNaNdata.length === props.data.seriesData.length) {
         option.yAxis.min = 0;
         option.yAxis.max = 100;
     }

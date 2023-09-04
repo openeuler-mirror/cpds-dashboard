@@ -149,7 +149,7 @@ const getRawData = (query: string, condition: string, thresholds: any) => {
             }
             return {
                 name: name,
-                data: Array.from(new Map(item.values)),
+                data: item.values.every((item: any) => isNaN(item[1])) ? undefined : Array.from(new Map(item.values)),
                 type: 'line',
                 smooth: true,
                 symbolSize: 1,
