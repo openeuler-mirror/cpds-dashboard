@@ -89,7 +89,6 @@ const handleCurrentChange = (e: any) => {
 //Change page limit
 const handleSizeChange = (e: any) => {
     state.limit = e;
-    state.page = 1
 }
 
 const emits = defineEmits(['update:value']);
