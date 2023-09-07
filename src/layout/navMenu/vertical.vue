@@ -1,12 +1,6 @@
 <template>
-	<el-menu
-		router
-		:default-active="defaultActive"
-		background-color="transparent"
-		:collapse="isCollapse"
-		:unique-opened="getThemeConfig.isUniqueOpened"
-		:collapse-transition="false"
-	>
+	<el-menu router :default-active="defaultActive" background-color="transparent" :collapse="isCollapse"
+		:unique-opened="getThemeConfig.isUniqueOpened" :collapse-transition="false">
 		<template v-for="val in menuLists">
 			<el-sub-menu :index="val.path" v-if="val.children && val.children.length > 0" :key="val.path">
 				<template #title>
@@ -78,11 +72,12 @@ export default defineComponent({
 		onMounted(() => {
 			state.defaultActive = setParentHighlight(route);
 		});
-		onBeforeRouteUpdate((to) => {
-			state.defaultActive = setParentHighlight(to);
+		watch(route, () => {
+			state.defaultActive = setParentHighlight(route);
 			const clientWidth = document.body.clientWidth;
 			if (clientWidth < 1000) themeConfig.value.isCollapse = false;
-		});
+
+		})
 		return {
 			menuLists,
 			getThemeConfig,
